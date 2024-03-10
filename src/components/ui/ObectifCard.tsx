@@ -114,7 +114,7 @@ export default ({ objectifs }: List) => {
     transition.value = withTiming(1, { duration: 3000 });
   }, []);
   return (
-    <View style={{ alignItems: "center", paddingVertical: 20, columnGap: 30 }}>
+    <View style={{ alignItems: "center", paddingVertical: 10, columnGap: 30 }}>
       {objectifs.map((el, index) => (
         <ObjectifCard
           key={index}
