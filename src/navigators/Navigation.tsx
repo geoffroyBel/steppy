@@ -51,10 +51,10 @@ export default function Navigation() {
           token
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   });
   return (
