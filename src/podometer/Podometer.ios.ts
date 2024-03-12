@@ -52,7 +52,7 @@ export default () => {
       endDate: new Date().toISOString(),
     };
     getAllSteps();
-    updateStep();
+    // updateStep();
     appleHealthKit.getStepCount(
       options,
       (err: Object, results: HealthValue) => {
