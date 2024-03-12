@@ -28,10 +28,15 @@ import Animated, {
 import Button from "../../components/ui/Button";
 import AuthContent from "./AuthContent";
 import { AuthNavigationProps } from "../../navigators/Navigation";
-import { createuser, signin } from "../../api/auth";
+import { createuser, signin } from "../../store/actions/auth";
 import LoadingOverlay from "./ui/LoadingOverlay";
 import { AuthContext, IAuthContext } from "../../Providers/AuthProvider";
+import { Credentials } from "../../types";
 
+const mockCredentials = {
+  code: "123456789",
+  password: "password",
+};
 const { width } = Dimensions.get("screen");
 const height = 210;
 
@@ -65,10 +70,11 @@ export default ({ navigation }: AuthNavigationProps<"Login">) => {
     return Skia.Path.MakeFromSVGString(str)!;
   }, []);
 
-  const signinHandler = async () => {
+  const signinHandler = async ({ code, password }: Credentials) => {
     setIsAuthenticated(true);
+
     try {
-      const token = await signin("g@g.com", "password");
+      const token = await signin(mockCredentials);
       authenticate(token);
     } catch (error) {
       Alert.alert(

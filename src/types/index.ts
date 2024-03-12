@@ -8,3 +8,13 @@ export interface Steps {
   month: DataPoint[];
   year: DataPoint[];
 }
+
+export interface Credentials {
+  code: string;
+  password: string;
+}
+
+export interface DailySteps {
+  stepCount: number;
+  day: string;
+}

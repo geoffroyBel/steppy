@@ -6,46 +6,40 @@ import AuthForm from "./AuthForm";
 import { Colors } from "../../constants/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigationProps } from "../../navigators/Navigation";
-
-function AuthContent({ isLogin, onAuthenticate }) {
+import { Credentials } from "../../types";
+interface IProps {
+  isLogin: boolean;
+  onAuthenticate: (credentials: Credentials) => void;
+}
+function AuthContent({ isLogin, onAuthenticate }: IProps) {
   const navigation = useNavigation<AuthNavigationProps<"Onboarding">>();
   const [credentialsInvalid, setCredentialsInvalid] = useState({
-    email: false,
+    code: false,
     password: false,
-    confirmEmail: false,
-    confirmPassword: false,
   });
 
   function switchAuthModeHandler() {
     navigation.replace("Onboarding");
   }
 
-  function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+  function submitHandler(credentials: Credentials) {
+    let { password, code } = credentials;
 
-    email = email.trim();
+    code = code.trim();
     password = password.trim();
 
-    const emailIsValid = email.includes("@");
+    const codeIsValid = code.length > 3;
     const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
-    const passwordsAreEqual = password === confirmPassword;
 
-    if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-    ) {
+    if (!codeIsValid || !passwordIsValid) {
       Alert.alert("Invalid input", "Please check your entered credentials.");
       setCredentialsInvalid({
-        email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
+        code: !codeIsValid,
         password: !passwordIsValid,
-        confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
       return;
     }
-    onAuthenticate({ email, password });
+    onAuthenticate({ code, password });
   }
 
   return (
