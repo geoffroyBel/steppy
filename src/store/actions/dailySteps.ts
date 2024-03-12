@@ -28,6 +28,9 @@ export async function getLastDailySteps() {
 }
 
 export const updateMissingDailySteps = (from: Date, to: Date) => {
+  console.log(from.toISOString());
+  console.log(to.toISOString());
+
   const { max, lastUpdatedate } = getMaxLastUpdateDate(
     "2024-03-01",
     to.toISOString()
