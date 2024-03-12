@@ -20,6 +20,8 @@ import {
   getLastDailySteps,
 } from "../store/actions/dailySteps";
 import dayjs from "dayjs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LAST_DAILY_STEP_TIMESTAMP } from "../config";
 
 const permissions: HealthKitPermissions = {
   permissions: {
@@ -107,6 +109,7 @@ export default () => {
       "2024/03/01",
       new Date().toDateString()
     );
+    //fffawait AsyncStorage.setItem("lastUpdateTime", `${new Date().getTime()}`);
     const newSteps = await getStepsByDates(datesToUpdate);
     newSteps.reduce(
       async (promise: Promise<any>, step: { date: string; value: number }) => {
@@ -122,12 +125,15 @@ export default () => {
       },
       Promise.resolve([])
     );
+    await AsyncStorage.setItem(
+      LAST_DAILY_STEP_TIMESTAMP,
+      `${new Date().getTime()}`
+    );
 
-    // const c = createDailySteps({})
     console.log(newSteps);
   };
 
-  return { steps };
+  return { steps, getAllSteps };
 };
 
 // const getStepsByRange = (start: string, end: string) => {

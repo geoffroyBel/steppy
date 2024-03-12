@@ -9,7 +9,6 @@ export async function createDailySteps(dailySteps: DailySteps) {
     const response = await api.post(`/daily-steps`, dailySteps, {
       withCredentials: true,
     });
-    console.log(response.data);
   } catch (error: unknown) {
     throw new Error("Fail create User");
   }
@@ -19,7 +18,7 @@ export async function getLastDailySteps() {
   try {
     const {
       data: { day, stepCount },
-    } = await api.get(`/daily-steps/user/last`, {
+    } = await api.get(`/users/daily-steps/last`, {
       withCredentials: true,
     });
 
@@ -45,14 +44,4 @@ export const updateMissingDailySteps = (from: Date, to: Date) => {
   const dates = new Array(max)
     .fill(0)
     .map((_, i) => lastUpdatedate.subtract(i, "day").format());
-
-  // dates.reduce(async (p, el) => {
-  //   await p
-  //   return
-  // }, [Promise.resolve()])
-
-  // const start = day
-  // new Array(maxDays).fill(1).reduce(() => {
-
-  // }, [Promise.resolve([])])
 };

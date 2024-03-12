@@ -18,3 +18,7 @@ export interface DailySteps {
   stepCount: number;
   day: string;
 }
+
+export interface IStepContext {
+  isLoading: boolean;
+}
