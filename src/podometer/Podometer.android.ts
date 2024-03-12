@@ -20,7 +20,11 @@ export default () => {
     // initialize the client
     const isInitialized = await initialize();
 
-    // request permissions
+    console.log(isInitialized, 'init')
+
+
+    // console.log('test');
+    // request permissions;
     const grantedPermissions = await requestPermission([
       { accessType: "read", recordType: "Steps" },
     ]);
@@ -38,27 +42,31 @@ export default () => {
   const initIalize = async () => {
     try {
       const isInitialized = await initialize();
+      console.log(isInitialized, 'init')
+
       // request permissions
+      console.log('test');
       const grantedPermissions = await requestPermission([
         { accessType: "read", recordType: "Steps" },
       ]);
+      console.log(grantedPermissions,'grantedPermissions');
     } catch (error) {
       throw new Error("probleme de permissions");
     }
   };
   useEffect(() => {
-    try {
-      initIalize();
-      setHasPermissions(true);
-    } catch (error) {
-      setHasPermissions(false);
-    }
+    // try {
+    //   initIalize();
+    //   setHasPermissions(true);
+    // } catch (error) {
+    //   setHasPermissions(false);
+    // }
   }, []);
   useEffect(() => {
     if (!hasPermissions) {
       return;
     }
-    getAllSteps();
+    // getAllSteps();
   }, [hasPermissions]);
 
   const getStepsByDates = (dates: Date[]) => {
