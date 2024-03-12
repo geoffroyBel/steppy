@@ -52,7 +52,7 @@ export default ({ steps, messages }: IChallenge) => {
     scroll.current?.scrollTo(index * width);
   };
   const handleScrollEnd = (index: number) => {
-    console.log(index);
+    // console.log(index);
     setCurrent(index);
     // if (data[index].progress > 0.5) {
     //   confetti.current?.play();

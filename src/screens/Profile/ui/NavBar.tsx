@@ -11,6 +11,7 @@ export default () => {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        // backgroundColor:"red"
       }}
     >
       <View>

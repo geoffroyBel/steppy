@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
-import { View, StyleSheet, Dimensions, Text, Image } from "react-native";
+import { useCallback, useState } from "react";
+import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedProps,
@@ -9,7 +9,9 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Defs, Rect, LinearGradient, Stop, Path } from "react-native-svg";
 import NavBar from "./ui/NavBar";
+import { Avatar } from "../../components/ui/Avatar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const { height, width } = Dimensions.get("screen");
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const HEADER_HEIGHT = 0.4 * height;
@@ -23,6 +25,51 @@ export default () => {
   const radius = useSharedValue(HEADER_HEIGHT);
   const scale = useSharedValue(0);
   const insets = useSafeAreaInsets();
+  const [avatars, setAvatars] = useState([
+    { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
+    { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatarBad.png") },
+    { id: 3,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
+    { id: 4,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
+    { id: 5,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
+    { id: 6,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
+    { id: 7,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
+    { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
+    { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
+  ]);
+
+  const handleChangeAvatar = () => {
+    const selectedIndex = avatars.findIndex((avatar) => avatar.isSelected);
+    if (selectedIndex !== -1) {
+      const selectedAvatarId = avatars[selectedIndex].id;
+      console.log("ID de l'avatar sélectionné :", selectedAvatarId);
+      
+      setAvatars((prevAvatars) =>
+        prevAvatars.map((avatar, index) => ({
+          ...avatar,
+          userSelect: index === selectedIndex ? true : false,
+        }))
+      );
+    }
+  };
+  
+
+  const handleAvatarPress = (index: number, progress: number) => {
+    setAvatars((prevAvatars) => {
+      const newAvatars = [...prevAvatars];
+      if (progress == 1){
+        newAvatars.forEach((avatar, i) => {
+          if (i === index) {
+            avatar.isSelected = true;
+          } else {
+            avatar.isSelected = false;
+          }
+        });
+      }
+      return newAvatars;
+    });
+  };
+  
+
   useFocusEffect(
     useCallback(() => {
       radius.value = p1.y;
@@ -32,7 +79,6 @@ export default () => {
     }, [])
   );
   const animatedProps = useAnimatedProps(() => {
-    // draw a circle
     console.log(insets.top);
 
     const gap = 0;
@@ -67,10 +113,35 @@ export default () => {
         <NavBar />
 
         <Animated.View style={[styles.avatar, styleScale]}>
-          <Image source={require("../../../assets/avatar.png")} />
+          {avatars.map((avatar, index) => {
+            if (avatar.userSelect) {
+              return <Image key={index} source={avatar.image} />;
+            }
+          })}
         </Animated.View>
+        
       </View>
-      <View style={styles.main}></View>
+      <View style={styles.main}>
+        <View style={styles.avatarContainer}>
+          {avatars.map((avatar, index) => (
+              <Avatar
+                key={index}
+                progress={avatar.progress}
+                isSelected={avatar.isSelected}
+                image={avatar.image}
+                onPress={() => handleAvatarPress(index, avatar.progress)}
+              />
+          ))}
+        </View>
+      </View>
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={styles.changeAvatarButton}
+          onPress={handleChangeAvatar}
+        >
+          <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -84,6 +155,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
+    marginTop: -40,
   },
   headerTitle: {
     fontFamily: "Montserrat",
@@ -97,4 +169,25 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: 100,
   },
+  avatarContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    // justifyContent: 'center',
+  },
+  footer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  changeAvatarButton: {
+    backgroundColor: '#005FAB',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  changeAvatarButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  }
 });

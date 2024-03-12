@@ -37,7 +37,7 @@ export default () => {
   });
   const input = new Array(7).fill(0).map((l, i) => i * width);
   useEffect(() => {
-    console.log("kkkkkkkkalloc");
+    // console.log("kkkkkkkkalloc");
 
     transition.value = 0;
     transition.value = withTiming(1, { duration: 2000 });
