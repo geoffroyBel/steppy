@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 const getDay = (date: Date) => {
   const day = date.getDay();
   return day === 0 ? 1 : day - 5;
@@ -113,6 +114,22 @@ function spliceByDateRange<T extends { date: string }>(
     return itemDate >= start && itemDate <= end;
   });
 }
+const getDatesbyRange = (start: string, end: string) => {
+  const startDate = dayjs(start);
+  const endDate = dayjs(end);
+  const diff = endDate.diff(startDate, "day");
+  const dates = [];
+  for (let i = 0; i <= diff; i++) {
+    let day;
+    if (i < diff) {
+      day = startDate.add(i, "day").add(23, "hours").toDate();
+    } else {
+      day = dayjs().toDate();
+    }
+    dates.push(day);
+  }
+  return dates;
+};
 export {
   getWeekDates,
   formatedDate,
@@ -121,4 +138,5 @@ export {
   getCurrenWeekDates,
   getCurrentMontDates,
   getCurrentYearDates,
+  getDatesbyRange,
 };

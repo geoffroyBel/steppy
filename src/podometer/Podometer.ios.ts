@@ -10,10 +10,16 @@ import {
   getCurrenWeekDates,
   getCurrentMontDates,
   getCurrentYearDates,
+  getDatesbyRange,
   getMondayOfCurrentWeek,
 } from "../utils/dateUtils";
 import { DataPoint } from "../utils/data";
-import { Steps } from "../types";
+import { DailySteps, Steps } from "../types";
+import {
+  createDailySteps,
+  getLastDailySteps,
+} from "../store/actions/dailySteps";
+import dayjs from "dayjs";
 
 const permissions: HealthKitPermissions = {
   permissions: {
@@ -44,6 +50,7 @@ export default () => {
       endDate: new Date().toISOString(),
     };
     getAllSteps();
+    updateStep();
     appleHealthKit.getStepCount(
       options,
       (err: Object, results: HealthValue) => {
@@ -94,5 +101,40 @@ export default () => {
     setSteps(steps);
   };
 
+  const updateStep = async () => {
+    const { day, stepCount } = await getLastDailySteps();
+    const datesToUpdate = getDatesbyRange(
+      "2024/03/01",
+      new Date().toDateString()
+    );
+    const newSteps = await getStepsByDates(datesToUpdate);
+    newSteps.reduce(
+      async (promise: Promise<any>, step: { date: string; value: number }) => {
+        const data = await promise;
+        const dailyStep = {
+          day: dayjs(step.date).format("YYYY-MM-DD"),
+          stepCount: step.value,
+        };
+        await createDailySteps(dailyStep);
+        console.log("succesfull insert");
+
+        return data;
+      },
+      Promise.resolve([])
+    );
+
+    // const c = createDailySteps({})
+    console.log(newSteps);
+  };
+
   return { steps };
 };
+
+// const getStepsByRange = (start: string, end: string) => {
+
+//   return dates.reduce(async (a: Promise<any>, el) => {
+//     const data = await a;
+//     const result = await getStepCountPromise({ date: el.toISOString() });
+//     return [...data, { date: el.toISOString(), value: result }];
+//   }, Promise.resolve([]));
+// };

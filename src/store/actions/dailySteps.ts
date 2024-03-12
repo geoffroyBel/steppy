@@ -1,13 +1,15 @@
 //{{baseUrl}}/api/daily-steps
 import api from "../../api";
 import { DailySteps } from "../../types";
-import { getMaxDayToUpdate, getMaxLastUpdateDate } from "../../utils/stepUtils";
+import { getDatesbyRange } from "../../utils/dateUtils";
+import { getMaxLastUpdateDate } from "../../utils/stepUtils";
 
 export async function createDailySteps(dailySteps: DailySteps) {
   try {
     const response = await api.post(`/daily-steps`, dailySteps, {
       withCredentials: true,
     });
+    console.log(response.data);
   } catch (error: unknown) {
     throw new Error("Fail create User");
   }
@@ -20,9 +22,13 @@ export async function getLastDailySteps() {
     } = await api.get(`/daily-steps/user/last`, {
       withCredentials: true,
     });
-    updateMissingDailySteps(new Date(day), new Date());
+
+    // const steps =
+    // updateMissingDailySteps(new Date(day), new Date());
     return { day, stepCount };
   } catch (error: unknown) {
+    console.log("faillllllllllll");
+
     throw new Error("Fail create User");
   }
 }

@@ -32,7 +32,6 @@ function Root() {
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
-        getLastDailySteps();
         authenticate(storedToken);
         // await SplashScreen.hideAsync();
       }
