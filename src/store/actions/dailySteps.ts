@@ -1,7 +1,7 @@
 //{{baseUrl}}/api/daily-steps
 import api from "../../api";
 import { DailySteps } from "../../types";
-import { getMaxDayToUpdate, getMaxLastUpdateDate } from "../../utils/stepUtils";
+import { getMaxLastUpdateDate } from "../../utils/stepUtils";
 
 export async function createDailySteps(dailySteps: DailySteps) {
   try {

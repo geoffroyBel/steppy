@@ -123,6 +123,7 @@ export default () => {
         
       </View>
       <View style={styles.main}>
+      <Animated.View style={[styleScale]}>
         <View style={styles.avatarContainer}>
           {avatars.map((avatar, index) => (
               <Avatar
@@ -134,6 +135,7 @@ export default () => {
               />
           ))}
         </View>
+      </Animated.View>
       </View>
       <View style={styles.footer}>
         <TouchableOpacity

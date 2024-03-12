@@ -20,7 +20,7 @@ export default () => {
     // initialize the client
     const isInitialized = await initialize();
 
-    console.log(isInitialized, 'init')
+    // console.log(isInitialized, 'init')
 
 
     // console.log('test');
@@ -42,14 +42,14 @@ export default () => {
   const initIalize = async () => {
     try {
       const isInitialized = await initialize();
-      console.log(isInitialized, 'init')
+      // console.log(isInitialized, 'init')
 
       // request permissions
-      console.log('test');
+      // console.log('test');
       const grantedPermissions = await requestPermission([
         { accessType: "read", recordType: "Steps" },
       ]);
-      console.log(grantedPermissions,'grantedPermissions');
+      // console.log(grantedPermissions,'grantedPermissions');
     } catch (error) {
       throw new Error("probleme de permissions");
     }
@@ -116,7 +116,7 @@ export default () => {
     try {
       const isElaspsed = await isTimeElasped();
       if (isElaspsed) {
-        console.log("elapsed");
+        // console.log("elapsed");
 
         await AsyncStorage.setItem("lastUpdateTime", `${new Date().getTime()}`);
         // call axios vers endpoint back

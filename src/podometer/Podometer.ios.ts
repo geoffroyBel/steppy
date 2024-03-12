@@ -28,7 +28,7 @@ export default () => {
   useEffect(() => {
     appleHealthKit.initHealthKit(permissions, (err) => {
       if (err) {
-        console.log("error getting permissions");
+        // console.log("error getting permissions");
         return;
       }
       setHasPermissions(true);
@@ -51,9 +51,9 @@ export default () => {
           return;
         }
 
-        console.log(options);
+        // console.log(options);
 
-        console.log(results);
+        // console.log(results);
       }
     );
   }, [hasPermissions]);

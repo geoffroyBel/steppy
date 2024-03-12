@@ -2,43 +2,45 @@ import React, { useRef } from 'react';
 import { View, TouchableOpacity, Text, Animated, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Canvas, Fill, LinearGradient, vec } from '@shopify/react-native-skia';
 
 const styles = StyleSheet.create({
-    image: {
-        height: 24,
-        width: 24,
+    tabBar: {
+        flexDirection: 'row',
+        backgroundColor: '#007AFF',
+        paddingBottom: 10,
+        paddingTop: 10,
+        borderRadius: 50,
+        justifyContent: 'space-around'
     },
-    blackOverlay: {
-        position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+    image: {
+        height: 48,
+        width: 48,
+    },
+    tabContent: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: "row",
+        width: 130,
+        height: 55,
     },
 });
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
     const focusedOptions = descriptors[state.routes[state.index].key].options;
     const { navigate } = useNavigation();
-    const linePosition = useRef(new Animated.Value(0)).current;
+    const insets = useSafeAreaInsets();
 
     if (focusedOptions.tabBarVisible === false) {
         return null;
     }
 
-    const totalTabs = state.routes.length;
-    const tabWidth = 100; // Adjust as needed
-
-    const translateX = linePosition.interpolate({
-        inputRange: [0, totalTabs - 1],
-        outputRange: [0, (totalTabs - 1) * tabWidth],
-    });
-
     return (
-        <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+        <View style={[styles.tabBar, { paddingBottom: insets.bottom + 10 }]}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
+                const isFocused = state.index === index;
 
                 const label =
                     options.tabBarLabel !== undefined
@@ -46,8 +48,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                         : options.title !== undefined
                         ? options.title
                         : route.name;
-
-                const isFocused = state.index === index;
 
                 const onPress = () => {
                     const event = navigation.emit({
@@ -69,6 +69,18 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 };
 
                 return (
+                    <>
+                    <View style={[StyleSheet.absoluteFillObject, {zIndex: 0}]}>
+                    <Canvas style={{ flex: 1 }}>
+                      <Fill>
+                        <LinearGradient
+                          start={vec(0, 0)}
+                          end={vec(390, 0)}
+                          colors={["rgba(57, 143, 199, 1)", "rgba(1, 96, 172, 1)"]}
+                        />
+                      </Fill>
+                    </Canvas>
+                  </View>
                     <TouchableOpacity
                         accessibilityRole="button"
                         accessibilityState={isFocused ? { selected: true } : {}}
@@ -76,26 +88,32 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                         testID={options.tabBarTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', zIndex: 20 }}
                         key={route.name}
                     >
-                        {options.tabBarIcon ? (
-                            <Ionicons
-                                name={options.tabBarIcon}
-                                size={24}
-                                color={isFocused ? '#007AFF' : '#ccc'}
-                            />
-                        ) : (
-                            <Image
-                                source={options.image}
-                                style={[styles.image]}
-                            />
-                        )}
+                        <View style={[styles.tabContent, isFocused && { backgroundColor: "#FFFFFF", borderRadius: 50 }]}>
+                            {options.tabBarIcon ? (
+                                <Ionicons
+                                    name={options.tabBarIcon}
+                                    size={48}
+                                    color={isFocused ? '#007AFF' : '#FFFFFF'}
+                                />
+                            ) : (
+                                <Image
+                                    source={options.image}
+                                    style={styles.image}
+                                />
+                            )}
 
-                        <Text style={{ color: isFocused ? '#007AFF' : '#ccc' }}>
-                            {label}
-                        </Text>
+                            {isFocused && (
+                                <Text style={{ color: '#007AFF', marginLeft: 5 }}>
+                                    {label}
+                                </Text>
+                            )}
+                        </View>
                     </TouchableOpacity>
+
+                    </>
                 );
             })}
         </View>
