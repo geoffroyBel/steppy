@@ -20,19 +20,21 @@ import Navigation from "./src/navigators/Navigation";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
-import { TOKEN } from "./src/api/auth";
+import { TOKEN } from "./src/store/actions/auth";
+import { getLastDailySteps } from "./src/store/actions/dailySteps";
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
-  const { authenticate } = useContext(AuthContext) as IAuthContext;
+  const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
   useEffect(() => {
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
+        getLastDailySteps();
         authenticate(storedToken);
-        await SplashScreen.hideAsync();
+        // await SplashScreen.hideAsync();
       }
       setIsTryingLogin(false);
     };

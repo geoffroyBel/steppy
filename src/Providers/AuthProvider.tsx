@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, FC, useEffect, useMemo, useState } from "react";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
-import { TOKEN } from "../api/auth";
+import { TOKEN } from "../store/actions/auth";
 
 export type IAuthContext = {
   token: string | undefined;

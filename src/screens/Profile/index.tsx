@@ -72,6 +72,7 @@ export default () => {
 
   useFocusEffect(
     useCallback(() => {
+      scale.value = 0;
       radius.value = p1.y;
       radius.value = withTiming(HEADER_HEIGHT, { duration: 1000 }, () => {
         scale.value = withTiming(1);
