@@ -81,14 +81,27 @@ export default () => {
       );
     });
   };
-  const getStepsByDates = (dates: Date[]) => {
+  const getStepsByDates = (dates: Date[]): Promise<DataPoint[]> => {
     return dates.reduce(async (a: Promise<any>, el) => {
       const data = await a;
       const result = await getStepCountPromise({ date: el.toISOString() });
       return [...data, { date: el.toISOString(), value: result }];
     }, Promise.resolve([]));
   };
+  const getSteps = async ({
+    from,
+    to,
+  }: {
+    from: string;
+    to: string;
+  }): Promise<DataPoint[]> => {
+    const datesToUpdate = getDatesbyRange(from, to);
+    const newSteps = await getStepsByDates(datesToUpdate);
+    console.log("allllllo------------");
+    console.log(newSteps);
 
+    return newSteps;
+  };
   const getAllSteps = async () => {
     const currentWeekDates = getCurrenWeekDates();
     const currentMonthDates = getCurrentMontDates();
@@ -133,7 +146,7 @@ export default () => {
     console.log(newSteps);
   };
 
-  return { steps, getAllSteps };
+  return { steps, getAllSteps, getSteps };
 };
 
 // const getStepsByRange = (start: string, end: string) => {
