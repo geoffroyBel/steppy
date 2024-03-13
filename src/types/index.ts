@@ -20,8 +20,10 @@ export interface DailySteps {
 }
 
 export interface IStepContext {
+  totalSteps: number;
   isLoading: boolean;
   handleUpdateDaily?: () => Promise<any>;
+  handleFetchTotals?: () => Promise<IChallenge>;
   handleFetchDaily?: (range: {
     from: string;
     to: string;
@@ -34,3 +36,13 @@ export type GetPodemeterStep = (range: {
 }) => Promise<DataPoint[]>;
 
 export type Range = { from: string; to: string };
+
+export interface IChallenge {
+  totalSteps: 0;
+  totalWeekSteps: 0;
+  totalMonthSteps: 0;
+
+  challengeSteps: Array<Partial<DailySteps & { id: number }>>;
+  weekSteps: Array<Partial<DailySteps & { id: number }>>;
+  monthSteps: Array<Partial<DailySteps & { id: number }>>;
+}

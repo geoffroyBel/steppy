@@ -23,14 +23,23 @@ import * as SplashScreen from "expo-splash-screen";
 import { TOKEN } from "./src/store/actions/auth";
 import { getLastDailySteps } from "./src/store/actions/dailySteps";
 import Providers from "./src/Providers";
+import { StepContext } from "./src/Providers/StepProvider";
+import { IStepContext } from "./src/types";
+import { isTimeToUpdate } from "./src/utils/dateUtils";
+import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
 
 // SplashScreen.preventAutoHideAsync();
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
+  const { handleFetchDaily, handleUpdateDaily, handleFetchTotals } = useContext(
+    StepContext
+  ) as IStepContext;
   useEffect(() => {
     //logout();
+    //si l utilisateur fait son pre
+
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
@@ -41,6 +50,40 @@ function Root() {
     };
     fetchToken();
   }, []);
+
+  useEffect(() => {
+    const fetchDailySteps = async () => {
+      if (!handleFetchDaily) return;
+
+      const steps = await handleFetchDaily({
+        from: "2024-02-15",
+        to: "2024-03-13",
+      });
+    };
+    fetchDailySteps();
+  }, [handleFetchDaily]);
+
+  useEffect(() => {
+    const saveDailySteps = async () => {
+      if (!handleUpdateDaily || !handleFetchDaily) return;
+      const lastDailyUpdateTime = await AsyncStorage.getItem(
+        LAST_DAILY_STEP_TIMESTAMP
+      );
+      const isTimeElapsed = lastDailyUpdateTime
+        ? isTimeToUpdate(lastDailyUpdateTime)
+        : true;
+
+      if (isTimeElapsed) {
+        await handleUpdateDaily();
+      }
+      await handleFetchDaily({
+        from: new Date().toISOString(),
+        to: new Date().toISOString(),
+      });
+      await handleFetchTotals?.();
+    };
+    saveDailySteps();
+  }, [handleUpdateDaily, handleFetchDaily]);
   return <Navigation />;
 }
 export default function App() {

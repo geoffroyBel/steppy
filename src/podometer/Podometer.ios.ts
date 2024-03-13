@@ -97,8 +97,6 @@ export default () => {
   }): Promise<DataPoint[]> => {
     const datesToUpdate = getDatesbyRange(from, to);
     const newSteps = await getStepsByDates(datesToUpdate);
-    console.log("allllllo------------");
-    console.log(newSteps);
 
     return newSteps;
   };
