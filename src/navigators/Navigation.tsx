@@ -42,23 +42,10 @@ export type HomeRoutes = {
 export default function Navigation() {
   const { isAuthenticated, token } = useContext(AuthContext) as IAuthContext;
   const [message, setMessage] = useState("");
-  useEffect(() => {
-    try {
-    } catch (error) {}
-    axios
-      .get(
-        "https://strappie-default-rtdb.europe-west1.firebasedatabase.app/message.json?auth=" +
-          token
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  });
+
   return (
     <NavigationContainer>
+      {/* <ChallengeTabBar /> */}
       {isAuthenticated ? <ChallengeTabBar /> : <OnboardingStack />}
     </NavigationContainer>
   );

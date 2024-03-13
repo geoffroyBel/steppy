@@ -21,4 +21,16 @@ export interface DailySteps {
 
 export interface IStepContext {
   isLoading: boolean;
+  handleUpdateDaily?: () => Promise<any>;
+  handleFetchDaily?: (range: {
+    from: string;
+    to: string;
+  }) => Promise<DataPoint[]>;
 }
+
+export type GetPodemeterStep = (range: {
+  from: string;
+  to: string;
+}) => Promise<DataPoint[]>;
+
+export type Range = { from: string; to: string };

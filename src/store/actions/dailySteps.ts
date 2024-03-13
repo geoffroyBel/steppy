@@ -35,7 +35,7 @@ export async function getLastDailySteps() {
   }
 }
 
-const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
+export const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
   const { day } = await getLastDailySteps();
   const newSteps = await getPodometerSteps({
     from: day,

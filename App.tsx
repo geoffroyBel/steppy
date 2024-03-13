@@ -22,6 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 import { TOKEN } from "./src/store/actions/auth";
 import { getLastDailySteps } from "./src/store/actions/dailySteps";
+import Providers from "./src/Providers";
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -29,6 +30,7 @@ function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
   useEffect(() => {
+    //logout();
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
@@ -45,13 +47,9 @@ export default function App() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaProvider>
-        <AuthProvider>
+        <Providers>
           <Root />
-          {/* <NavigationContainer>
-            <OnboardingStack />
-             <ChallengeTabBar /> 
-          </NavigationContainer> */}
-        </AuthProvider>
+        </Providers>
       </SafeAreaProvider>
     </GestureHandlerRootView>
 
