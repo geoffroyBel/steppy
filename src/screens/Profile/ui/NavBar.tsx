@@ -1,8 +1,10 @@
 import { View, StyleSheet, Text } from "react-native";
 import IconButton from "./IconButton";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 export default () => {
-
+const {logout} = useContext(AuthContext)
   return (
     <View
       style={{
@@ -19,7 +21,7 @@ export default () => {
       </View>
       <Text style={styles.title}>{"Choisir un avatar"}</Text>
       <View>
-        <IconButton icon="log-out" color={"white"} size={45} />
+        <IconButton icon="log-out" color={"white"} size={45} onPress={logout} />
       </View>
     </View>
   );

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },  
   labelPlaceholder: {
     fontStyle: "italic",
-    color: "black",
+    color: blue,
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
