@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Canvas, Fill, LinearGradient, vec } from '@shopify/react-native-skia';
+import { style } from 'd3';
 
 const styles = StyleSheet.create({
     tabBar: {
         flexDirection: 'row',
-        backgroundColor: '#007AFF',
         paddingBottom: 10,
         paddingTop: 10,
         borderRadius: 50,
@@ -24,7 +24,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: 130,
         height: 55,
-    },
+    }, 
+    tabBarIn: {
+        flexDirection: 'row',
+        paddingBottom: 10,
+        paddingTop: 10,
+        borderRadius: 50,
+        justifyContent: 'space-around',
+        backgroundColor: 'red',
+        height: 50,
+        
+    },  
 });
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -37,7 +47,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     }
 
     return (
-        <View style={[styles.tabBar, { paddingBottom: insets.bottom + 10 }]}>
+        <View style={[styles.tabBar, { paddingBottom: insets.bottom + 10 }, {zIndex: 20}]}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
@@ -67,51 +77,52 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                         target: route.key,
                     });
                 };
-
                 return (
                     <>
-                    <View style={[StyleSheet.absoluteFillObject, {zIndex: 0}]}>
-                    <Canvas style={{ flex: 1 }}>
-                      <Fill>
-                        <LinearGradient
-                          start={vec(0, 0)}
-                          end={vec(390, 0)}
-                          colors={["rgba(57, 143, 199, 1)", "rgba(1, 96, 172, 1)"]}
-                        />
-                      </Fill>
-                    </Canvas>
-                  </View>
-                    <TouchableOpacity
-                        accessibilityRole="button"
-                        accessibilityState={isFocused ? { selected: true } : {}}
-                        accessibilityLabel={options.tabBarAccessibilityLabel}
-                        testID={options.tabBarTestID}
-                        onPress={onPress}
-                        onLongPress={onLongPress}
-                        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', zIndex: 20 }}
-                        key={route.name}
-                    >
-                        <View style={[styles.tabContent, isFocused && { backgroundColor: "#FFFFFF", borderRadius: 50 }]}>
-                            {options.tabBarIcon ? (
-                                <Ionicons
-                                    name={options.tabBarIcon}
-                                    size={48}
-                                    color={isFocused ? '#007AFF' : '#FFFFFF'}
-                                />
-                            ) : (
-                                <Image
-                                    source={options.image}
-                                    style={styles.image}
-                                />
-                            )}
+                    {/* <View style={[StyleSheet.absoluteFillObject, {zIndex: 0}]}>
+                        <Canvas style={{ flex: 1 }}>
+                        <Fill>
+                            <LinearGradient
+                            start={vec(0, 0)}
+                            end={vec(390, 0)}
+                            colors={["rgba(57, 143, 199, 1)", "rgba(1, 96, 172, 1)"]}
+                            />
+                        </Fill>
+                        </Canvas>
+                    </View>  */}
+                    <View style={[styles.tabBarIn, {zIndex: 20}]}>
+                        <TouchableOpacity
+                            accessibilityRole="button"
+                            accessibilityState={isFocused ? { selected: true } : {}}
+                            accessibilityLabel={options.tabBarAccessibilityLabel}
+                            testID={options.tabBarTestID}
+                            onPress={onPress}
+                            onLongPress={onLongPress}
+                            style={{ flex: 1, alignItems: 'center', justifyContent: 'center', zIndex: 20 }}
+                            key={route.name}
+                        >
+                            <View style={[styles.tabContent, isFocused && { backgroundColor: "#FFFFFF", borderRadius: 50 }]}>
+                                {options.tabBarIcon ? (
+                                    <Ionicons
+                                        name={options.tabBarIcon}
+                                        size={48}
+                                        color={isFocused ? '#007AFF' : '#FFFFFF'}
+                                    />
+                                ) : (
+                                    <Image
+                                        source={options.image}
+                                        style={styles.image}
+                                    />
+                                )}
 
-                            {isFocused && (
-                                <Text style={{ color: '#007AFF', marginLeft: 5 }}>
-                                    {label}
-                                </Text>
-                            )}
-                        </View>
-                    </TouchableOpacity>
+                                {isFocused && (
+                                    <Text style={{ color: '#007AFF', marginLeft: 5 }}>
+                                        {label}
+                                    </Text>
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    </View>
 
                     </>
                 );

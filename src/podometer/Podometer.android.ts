@@ -55,18 +55,18 @@ export default () => {
     }
   };
   useEffect(() => {
-    // try {
-    //   initIalize();
-    //   setHasPermissions(true);
-    // } catch (error) {
-    //   setHasPermissions(false);
-    // }
+    try {
+      initIalize();
+      setHasPermissions(true);
+    } catch (error) {
+      setHasPermissions(false);
+    }
   }, []);
   useEffect(() => {
     if (!hasPermissions) {
       return;
     }
-    // getAllSteps();
+     getAllSteps();
   }, [hasPermissions]);
 
   const getStepsByDates = (dates: Date[]) => {

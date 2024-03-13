@@ -17,6 +17,7 @@ class MainActivity : ReactActivity() {
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
     super.onCreate(null)
+    HealthConnectPermissionDelegate.setPermissionDelegate(this);
   }
 
   /**
@@ -57,5 +58,6 @@ class MainActivity : ReactActivity() {
       // Use the default back button implementation on Android S
       // because it's doing more than [Activity.moveTaskToBack] in fact.
       super.invokeDefaultOnBackPressed()
+
   }
 }
