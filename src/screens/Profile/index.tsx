@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useEffect,  useRef } from "react";
 import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
@@ -12,6 +12,8 @@ import NavBar from "./ui/NavBar";
 import { Avatar } from "../../components/ui/Avatar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconButton from "./ui/IconButton";
+import { getProfilBadge } from "../../store/actions/profilData";
+import { Badge } from "../../components/ui/Badge";
 
 
 const { height, width, scale } = Dimensions.get("screen");
@@ -29,6 +31,26 @@ export default () => {
   const scale = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const [showAvatarDetails, setShowAvatarDetails] = useState(false);
+  const [profilAvatarData, setProfilAvatarData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProfilBadge();
+        setProfilAvatarData(data);
+      } catch (error) {
+        console.error("Failed to fetch profile avatar data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Console log the profile avatar data
+  useEffect(() => {
+    console.log("Profile Avatar Data:", profilAvatarData);
+  }, [profilAvatarData]);
+  
   const [avatars, setAvatars] = useState([
     { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar1.png") },
     { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatar2.png") },
@@ -40,6 +62,67 @@ export default () => {
     { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar8.png") },
     { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar9.png") },
   ]);
+
+  const [stepPersonal, setstapPersonal] = useState(10000);
+  const [stepGlobal, setstapGlobal] = useState(100000);
+
+  const [badge, setbadge] = useState([
+    {
+        "id": 1,
+        "image": "placeholder.png",
+        "name": "Dr. Cathryn Schaefer",
+        "description": "Commodi autem modi iusto et.",
+        "isStreak": false,
+        "quantity": 23034,
+        "isGlobal": false,
+        "created_at": "2024-03-13T09:31:05.000000Z",
+        "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+        "id": 2,
+        "image": "placeholder.png",
+        "name": "Tess Effertz PhD",
+        "description": "Labore dolor molestias est harum nisi rem quo.",
+        "isStreak": false,
+        "quantity": 12615,
+        "isGlobal": false,
+        "created_at": "2024-03-13T09:31:05.000000Z",
+        "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+        "id": 3,
+        "image": "placeholder.png",
+        "name": "Katlynn Bogan",
+        "description": "Facere nihil beatae ut tenetur similique mollitia.",
+        "isStreak": false,
+        "quantity": 19897,
+        "isGlobal": false,
+        "created_at": "2024-03-13T09:31:05.000000Z",
+        "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+        "id": 4,
+        "image": "placeholder.png",
+        "name": "Ashlynn Goyette",
+        "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+        "isStreak": true,
+        "quantity": 25,
+        "isGlobal": false,
+        "created_at": "2024-03-13T09:31:05.000000Z",
+        "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+        "id": 5,
+        "image": "placeholder.png",
+        "name": "Halle Anderson PhD",
+        "description": "Facilis libero voluptas maxime labore.",
+        "isStreak": false,
+        "quantity": 23056,
+        "isGlobal": false,
+        "created_at": "2024-03-13T09:31:05.000000Z",
+        "updated_at": "2024-03-13T09:31:05.000000Z"
+    }
+]);
   
   const handleAvatarNav = (boolean: boolean) => {
     setShowAvatarDetails(boolean);
@@ -131,31 +214,48 @@ export default () => {
       </TouchableOpacity>
         
       </View>
-      {showAvatarDetails ==true && (
+      {showAvatarDetails ? (
         <View style={styles.main}>
-            <Animated.View style={[styleScale]}>
-              <View style={styles.avatarContainer}>
-                {avatars.map((avatar, index) => (
-                    <Avatar
-                      key={index}
-                      progress={avatar.progress}
-                      isSelected={avatar.isSelected}
-                      image={avatar.image}
-                      onPress={() => handleAvatarPress(index, avatar.progress)}
-                    />
-                ))}
-              </View>
-              <View style={styles.footer}>
-                <TouchableOpacity
-                    style={styles.changeAvatarButton}
-                  onPress={handleChangeAvatar}
-                  >
-                  <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
-                </TouchableOpacity>
-              </View>
-            </Animated.View>
-          </View>
+          <Animated.View style={[styleScale]}>
+            <View style={styles.avatarContainer}>
+              {avatars.map((avatar, index) => (
+                <Avatar
+                  key={index}
+                  progress={avatar.progress}
+                  isSelected={avatar.isSelected}
+                  image={avatar.image}
+                  onPress={() => handleAvatarPress(index, avatar.progress)}
+                />
+              ))}
+            </View>
+            <View style={styles.footer}>
+              <TouchableOpacity
+                style={styles.changeAvatarButton}
+                onPress={handleChangeAvatar}
+              >
+                <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </View>
+      ) : (
+        <View style={styles.main}>
+          {badge.map((badgeItem) => (
+            badgeItem.isStreak ? (
+              <Badge
+                key={badgeItem.id}
+                progress={badgeItem.quantity}
+                image={badgeItem.image}
+                title={badgeItem.name}
+                description={badgeItem.description}
+                isStreak={badgeItem.isStreak}
+              />
+            ) : null
+          ))}
+        </View>
+
       )}
+
 
       </View>
   );

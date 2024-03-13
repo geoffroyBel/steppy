@@ -75,6 +75,7 @@ export default ({ navigation }: AuthNavigationProps<"Login">) => {
 
     try {
       const token = await signin(mockCredentials);
+      // console.log(token);
       authenticate(token);
     } catch (error) {
       Alert.alert(

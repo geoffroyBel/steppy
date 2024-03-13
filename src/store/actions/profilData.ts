@@ -4,7 +4,7 @@ import { DailySteps } from "../../types";
 import { getMaxLastUpdateDate } from "../../utils/stepUtils";
 import { API_URL } from "../../config";
 
-export async function getProfilAvatar() {
+export async function getProfilBadge() {
     try {
       const { data } = await axios.post(`${API_URL}/api/users/badges`);
       return { data };

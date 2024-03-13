@@ -23,7 +23,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [token, setToken] = useState<string>();
 
   const authenticate = (token: string) => {
-    // console.log("set token:", token);
+    console.log("set token:", token);
 
     setToken(token);
     AsyncStorage.setItem(TOKEN, token);
