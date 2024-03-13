@@ -2,6 +2,7 @@ import { View, StyleSheet, Text } from "react-native";
 import IconButton from "./IconButton";
 
 export default () => {
+
   return (
     <View
       style={{

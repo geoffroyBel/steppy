@@ -49,11 +49,6 @@ function AuthContent({ isLogin, onAuthenticate }: IProps) {
         onSubmit={submitHandler}
         credentialsInvalid={credentialsInvalid}
       />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? "Create a new user" : "Log in instead"}
-        </FlatButton>
-      </View>
     </View>
   );
 }

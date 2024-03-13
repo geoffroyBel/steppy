@@ -1,18 +1,29 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Graphs from "../components/ui/Graphs";
 import Podometer from "../podometer/Podometer";
-import { useEffect, useMemo } from "react";
-import { Steps } from "../types";
+import { useContext, useEffect, useMemo } from "react";
+import { IStepContext, Steps } from "../types";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import ChallengeCard from "../components/ui/ChallengeCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
 import ObjectifCard from "../components/ui/ObectifCard";
+import { StepContext } from "../Providers/StepProvider";
 
 export default () => {
+  const { handleFetchDaily } = useContext<IStepContext>(StepContext);
   const transition = useSharedValue(0);
   const podometer = Podometer();
 
+  useEffect(() => {
+    console.log("hhhh");
+    const fetchDaily = async () => {
+      if (!handleFetchDaily) return;
+      await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
+    };
+    fetchDaily();
+    //getPodometerStep?.({ from: "2023-03-05", to: "2023-03-08" });
+  });
   // const steps: Steps = podometer.steps;
   const currentWeekSteps = useMemo(() => {
     return podometer && podometer.steps && podometer.steps.week

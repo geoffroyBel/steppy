@@ -1,6 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-
+import { useFonts } from 'expo-font';
 import { Colors } from "../../constants/styles";
+import { rgb } from "d3";
 
 function Input({
   label,
@@ -10,19 +11,22 @@ function Input({
   value,
   isInvalid,
 }) {
+  useFonts({
+    "Montserrat": require("../../../assets/font/Montserrat-Regular.otf"),
+    "Montserrat-SemiBold": require("../../../assets/font/Montserrat-SemiBold.otf"),
+    "Montserrat-Thin": require("../../../assets/font/Montserrat-Thin.otf"),
+  })
   return (
     <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
-        {label}
-      </Text>
       <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        style={[styles.input, isInvalid && styles.inputInvalid, value === ""? styles.labelPlaceholder : styles.null]}
         autoCapitalize={false}
         autoCapitalize="none"
         keyboardType={keyboardType}
         secureTextEntry={secure}
         onChangeText={onUpdateValue}
         value={value}
+        placeholder={label}
       />
     </View>
   );
@@ -30,23 +34,31 @@ function Input({
 
 export default Input;
 
+const blue = "#005FAB"
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 8,
   },
   label: {
-    color: "white",
+    color: blue,
     marginBottom: 4,
   },
   labelInvalid: {
     color: Colors.error500,
   },
   input: {
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    backgroundColor: Colors.primary100,
-    borderRadius: 4,
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 12,
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: blue,
+    fontFamily: "Montserrat",
+    color: blue,
+  },  
+  labelPlaceholder: {
+    fontStyle: "italic",
+    color: "black",
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
