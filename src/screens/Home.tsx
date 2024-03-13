@@ -12,6 +12,7 @@ import { StepContext } from "../Providers/StepProvider";
 
 import { PermissionsAndroid } from 'react-native';
 import HomeCard from "../components/Home/HomeCard";
+import { getGrantedPermissions, openHealthConnectDataManagement, requestPermission } from "react-native-health-connect";
 
 export default () => {
   const { handleFetchDaily } = useContext<IStepContext>(StepContext);
@@ -86,37 +87,27 @@ export default () => {
 
     }
     )();
-    console.log(a, "a2")
-
-    if (!checkPermission()) {
-      const requestPermission = async () => {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-            {
-              title: 'Health Data Access',
-              message: 'App needs access to your steps data.',
-              buttonNeutral: 'Ask Me Later',
-              buttonNegative: 'Cancel',
-              buttonPositive: 'OK',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can access the steps data');
-          } else {
-            console.log('Permission denied');
-          }
-        } catch (err) {
-          console.warn(err);
-        }
-      }
-      requestPermission();
-    }
-    const fetchDaily = async () => {
-      if (!handleFetchDaily) return;
-      await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
-    };
-    fetchDaily();
+    (async () => {
+      console.log(a, "a2");
+      const requestPermissions = () => {
+        requestPermission([
+          {
+            accessType: 'read',
+            recordType: 'Steps',
+          },
+        ]).then((permissions) => {
+          console.log('Granted permissions ', { permissions });
+        });
+      };
+      requestPermissions();
+      console.log(await getGrantedPermissions(), "getGrantedPermissions()");
+      openHealthConnectDataManagement();
+      const fetchDaily = async () => {
+        if (!handleFetchDaily) return;
+        await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
+      };
+      fetchDaily();
+    })();
     //getPodometerStep?.({ from: "2023-03-05", to: "2023-03-08" });
   });
   // const steps: Steps = podometer.steps;

@@ -6,19 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ecee04a0-b608-4112-9ff9-0800d1bb8d64" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Login/AuthContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login/AuthContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Login/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login/AuthForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Login/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login/Input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Login/ui/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login/ui/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Profile/ui/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Profile/ui/NavBar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
