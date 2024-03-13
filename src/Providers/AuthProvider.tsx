@@ -1,13 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, FC, useEffect, useMemo, useState } from "react";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
-import { TOKEN } from "../store/actions/auth";
+import { getUser, TOKEN } from "../store/actions/auth";
+import { User } from "../types";
 
 export type IAuthContext = {
   token: string | undefined;
   isAuthenticated: boolean;
   authenticate: (token: string) => void;
   logout: () => void;
+  user?: User;
+  error?: string;
 };
 
 export const AuthContext = createContext<IAuthContext>({
@@ -15,18 +18,32 @@ export const AuthContext = createContext<IAuthContext>({
   isAuthenticated: false,
   authenticate: () => undefined,
   logout: () => undefined,
+  user: undefined,
+  error: undefined,
 });
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [token, setToken] = useState<string>();
+  const [user, setUser] = useState<User | undefined>();
+  const [error, setError] = useState<string | undefined>();
 
-  const authenticate = (token: string) => {
-    console.log("set token:", token);
-
+  const authenticate = async (token: string) => {
     setToken(token);
-    AsyncStorage.setItem(TOKEN, token);
+    await AsyncStorage.setItem(TOKEN, token);
+    try {
+      const _user = await getUser();
+      setUser(_user);
+      console.log("USER IS OK");
+      console.log(_user);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Impossible de recuperer le profil");
+      }
+    }
   };
 
   const logout = () => {
@@ -40,8 +57,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       isAuthenticated: !!token,
       authenticate,
       logout,
+      user,
     }),
-    [token]
+    [token, user, error]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
