@@ -15,7 +15,8 @@ export default function HomeCard({ title, value, icon }: { title: string; value:
 const styles = {
     container: {
         backgroundColor: "#005FAB",
-        padding: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 25,
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: {
@@ -32,11 +33,13 @@ const styles = {
         fontSize: 16,
         color: "white",
         fontFamily: "MontserratSemiBold",
+        textAlign: "center",
     },
     value: {
         fontSize: 15,
         color: "white",
         fontFamily: "MontserratSemiBold",
+        textAlign: "center",
     },
     icon: {
         width: 40,

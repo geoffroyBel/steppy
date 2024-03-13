@@ -78,7 +78,6 @@ export default () => {
             },
             {
               text: "Ok",
-              onPress: () => console.log("Cancel Pressed"),
               style: "cancel",
             },
           ]
@@ -87,27 +86,6 @@ export default () => {
 
     }
     )();
-    (async () => {
-      console.log(a, "a2");
-      const requestPermissions = () => {
-        requestPermission([
-          {
-            accessType: 'read',
-            recordType: 'Steps',
-          },
-        ]).then((permissions) => {
-          console.log('Granted permissions ', { permissions });
-        });
-      };
-      requestPermissions();
-      console.log(await getGrantedPermissions(), "getGrantedPermissions()");
-      openHealthConnectDataManagement();
-      const fetchDaily = async () => {
-        if (!handleFetchDaily) return;
-        await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
-      };
-      fetchDaily();
-    })();
     //getPodometerStep?.({ from: "2023-03-05", to: "2023-03-08" });
   });
   // const steps: Steps = podometer.steps;
@@ -173,13 +151,13 @@ export default () => {
             value={"1145000"} icon={require("../../assets/steps.png")} />
           <HomeCard
             title="Ton classement actuel"
-            value={"37e"} icon={require("../../assets/ranking.png")} />
+            value={"1er !"} icon={require("../../assets/ranking.png")} />
           <HomeCard
             title="Moyenne de tes pas cette semaine"
             value={"10000"} icon={require("../../assets/average.png")} />
           <HomeCard
             title="Jours consécutifs à plus de 10 000 pas"
-            value={"3"} icon={require("../../assets/flame.png")} />
+            value={"1"} icon={require("../../assets/flame.png")} />
         </View>
 
       </ScrollView>

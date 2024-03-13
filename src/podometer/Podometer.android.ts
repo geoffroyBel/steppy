@@ -16,26 +16,6 @@ import {
 export default () => {
   const [hasPermissions, setHasPermissions] = useState(false);
   const [steps, setSteps] = useState<Steps>();
-
-  const readSampleData = async () => {
-    // // initialize the client
-    // const isInitialized = await initialize();
-
-    // // request permissions
-    // const grantedPermissions = await requestPermission([
-    //   { accessType: "read", recordType: "Steps" },
-    // ]);
-
-    // // check if granted
-
-    // const result = await readRecords("Steps", {
-    //   timeRangeFilter: {
-    //     operator: "between",
-    //     startTime: "2024-03-04T08:00:00.405Z",
-    //     endTime: "2024-03-09T23:53:15.405Z",
-    //   },
-    // });
-  };
   const initIalize = async () => {
         // initialize the client
         const isInitialized = await initialize();
@@ -44,18 +24,10 @@ export default () => {
         const grantedPermissions = await requestPermission([
           { accessType: "read", recordType: "Steps" },
         ]);
-        try {
-      const isInitialized = await initialize();
-      // request permissions
-      const grantedPermissions = await requestPermission([
-        { accessType: "read", recordType: "Steps" },
-      ]);
-    } catch (error) {
-      throw new Error("probleme de permissions");
-    }
+        console.log(grantedPermissions, "grantedPermissions2");
   };
   useEffect(() => {
-    initIalize().then(() => {
+    initIalize().then((e) => {
       setHasPermissions(true);
     }).catch((error) => {
       console.error("Initialization error:", error);
