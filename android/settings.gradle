@@ -1,4 +1,4 @@
-rootProject.name = 'strappi'
+rootProject.name = 'Steppy'
 
 dependencyResolutionManagement {
   versionCatalogs {

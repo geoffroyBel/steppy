@@ -100,8 +100,15 @@ export default ({ navigation }: AuthNavigationProps<"Login">) => {
             </Path>
           </Canvas>
         </View>
+        <View style={styles.authLogoContainer}> 
+          <Text style={styles.title}>Bienvenue !</Text>
+          <Text style={styles.content}>
+            Connectes-toi pour pouvoir accèder à Steppy
+          </Text>
+        <Image style={styles.authLogo} source={require("../../../assets/turtle.png")} />
+        </View>
         {isAuthenticating ? (
-          <LoadingOverlay message={"Chargement du profile"} />
+          <LoadingOverlay message={"Chargement du profil"} />
         ) : (
           <AuthContent isLogin={true} onAuthenticate={signinHandler} />
         )}
@@ -126,5 +133,13 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: "background: rgba(0, 95, 171, 1)",
     textAlign: "center",
+  },
+  authLogoContainer: {
+    marginTop: -32,
+    alignItems: "center",
+  },
+  authLogo: {
+    width: 100,
+    height: 100,
   },
 });

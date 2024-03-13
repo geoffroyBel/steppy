@@ -24,7 +24,7 @@ import { TOKEN } from "./src/store/actions/auth";
 import { getLastDailySteps } from "./src/store/actions/dailySteps";
 import Providers from "./src/Providers";
 
-// SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
@@ -35,9 +35,9 @@ function Root() {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
         authenticate(storedToken);
-        // await SplashScreen.hideAsync();
       }
       setIsTryingLogin(false);
+      await SplashScreen.hideAsync();
     };
     fetchToken();
   }, []);

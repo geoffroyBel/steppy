@@ -12,31 +12,39 @@ import {
   getCurrentYearDates,
 } from "../utils/dateUtils";
 
+
 export default () => {
   const [hasPermissions, setHasPermissions] = useState(false);
   const [steps, setSteps] = useState<Steps>();
 
   const readSampleData = async () => {
-    // initialize the client
-    const isInitialized = await initialize();
+    // // initialize the client
+    // const isInitialized = await initialize();
 
-    // request permissions
-    const grantedPermissions = await requestPermission([
-      { accessType: "read", recordType: "Steps" },
-    ]);
+    // // request permissions
+    // const grantedPermissions = await requestPermission([
+    //   { accessType: "read", recordType: "Steps" },
+    // ]);
 
-    // check if granted
+    // // check if granted
 
-    const result = await readRecords("Steps", {
-      timeRangeFilter: {
-        operator: "between",
-        startTime: "2024-03-04T08:00:00.405Z",
-        endTime: "2024-03-09T23:53:15.405Z",
-      },
-    });
+    // const result = await readRecords("Steps", {
+    //   timeRangeFilter: {
+    //     operator: "between",
+    //     startTime: "2024-03-04T08:00:00.405Z",
+    //     endTime: "2024-03-09T23:53:15.405Z",
+    //   },
+    // });
   };
   const initIalize = async () => {
-    try {
+        // initialize the client
+        const isInitialized = await initialize();
+
+        // request permissions
+        const grantedPermissions = await requestPermission([
+          { accessType: "read", recordType: "Steps" },
+        ]);
+        try {
       const isInitialized = await initialize();
       // request permissions
       const grantedPermissions = await requestPermission([
@@ -47,13 +55,14 @@ export default () => {
     }
   };
   useEffect(() => {
-    try {
-      initIalize();
+    initIalize().then(() => {
       setHasPermissions(true);
-    } catch (error) {
+    }).catch((error) => {
+      console.error("Initialization error:", error);
       setHasPermissions(false);
-    }
+    });
   }, []);
+  
   useEffect(() => {
     if (!hasPermissions) {
       return;
