@@ -1,5 +1,6 @@
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import { View, StyleSheet, Image, Pressable, Dimensions } from "react-native";
 import { useEffect, useMemo, useState } from "react";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface IAvatar {
     progress: number;
@@ -12,26 +13,26 @@ interface IAvatars {
     avatars: Array<{ progress: number; isSelected: boolean; image: string; }>;
 
 }
-
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     root: {
-      height: 130,
-      width: 130,
+      height: height * 0.14,
+      width: height * 0.14,
       margin: 9,
   
       justifyContent: "space-between",
     },
     header: {
-      height: 130,
-      width: 130,
+      height: height * 0.14,
+      width: height * 0.14,
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 80,
       overflow: "hidden",
     },
     main: {
-      height: 30,
-      width: 30,
+      height: height * 0.1,
+      width: height * 0.1,
     },
     footer: {
       height: 15,
@@ -41,8 +42,8 @@ const styles = StyleSheet.create({
       justifyContent: "flex-start",
     },
     avatar: {
-      height: 120,
-      width: 120,
+      height: height * 0.13,
+      width: height * 0.13,
     }
 });
 
@@ -52,7 +53,7 @@ export const Avatar = ({
   image,
   onPress,
 }: IAvatar) => {
-
+  
   const getBackgroundColor = () => {
       let backgroundColor;
 

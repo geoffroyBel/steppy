@@ -7,6 +7,7 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import dev.matinzd.healthconnect.permissions.HealthConnectPermissionDelegate
 
 import expo.modules.ReactActivityDelegateWrapper
 
@@ -16,7 +17,7 @@ class MainActivity : ReactActivity() {
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
-      super.onCreate(savedInstanceState)
+    super.onCreate(savedInstanceState)
    // In order to handle permission contract results, we need to set the permission delegate.
    HealthConnectPermissionDelegate.setPermissionDelegate(this)
 
@@ -60,6 +61,5 @@ class MainActivity : ReactActivity() {
       // Use the default back button implementation on Android S
       // because it's doing more than [Activity.moveTaskToBack] in fact.
       super.invokeDefaultOnBackPressed()
-
   }
 }

@@ -60,6 +60,8 @@ export default () => {
   };
   useEffect(() => {
     initIalize().then(() => {
+      console.log('initialisation correcyt ppodo');
+      
       setHasPermissions(true);
     }).catch((error) => {
       console.error("Initialization error:", error);

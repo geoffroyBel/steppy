@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
@@ -11,8 +11,11 @@ import Svg, { Defs, Rect, LinearGradient, Stop, Path } from "react-native-svg";
 import NavBar from "./ui/NavBar";
 import { Avatar } from "../../components/ui/Avatar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import IconButton from "./ui/IconButton";
 
-const { height, width } = Dimensions.get("screen");
+
+const { height, width, scale } = Dimensions.get("screen");
+console.log("scale : ",scale);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const HEADER_HEIGHT = 0.4 * height;
 const p1 = { x: 0 - 50, y: 0.3 * HEADER_HEIGHT };
@@ -25,17 +28,22 @@ export default () => {
   const radius = useSharedValue(HEADER_HEIGHT);
   const scale = useSharedValue(0);
   const insets = useSafeAreaInsets();
+  const [showAvatarDetails, setShowAvatarDetails] = useState(false);
   const [avatars, setAvatars] = useState([
-    { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
-    { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatarBad.png") },
-    { id: 3,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
-    { id: 4,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
-    { id: 5,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
-    { id: 6,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
-    { id: 7,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar.png") },
-    { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
-    { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatarBad.png") },
+    { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar1.png") },
+    { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatar2.png") },
+    { id: 3,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar3.png") },
+    { id: 4,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar4.png") },
+    { id: 5,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar5.png") },
+    { id: 6,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar6.png") },
+    { id: 7,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar7.png") },
+    { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar8.png") },
+    { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar9.png") },
   ]);
+  
+  const handleAvatarNav = (boolean: boolean) => {
+    setShowAvatarDetails(boolean);
+  };
 
   const handleChangeAvatar = () => {
     const selectedIndex = avatars.findIndex((avatar) => avatar.isSelected);
@@ -111,41 +119,45 @@ export default () => {
           <AnimatedPath animatedProps={animatedProps} fill="url(#grad)" />
         </Svg>
         <View style={{ marginTop: insets.top }} />
-        <NavBar />
-
-        <Animated.View style={[styles.avatar, styleScale]}>
-          {avatars.map((avatar, index) => {
-            if (avatar.userSelect) {
-              return <Image key={index} source={avatar.image} />;
-            }
-          })}
-        </Animated.View>
+        <NavBar  titre={"Votre titre"} setShowAvatarDetails={setShowAvatarDetails} showAvatarDetails={showAvatarDetails} />
+        <TouchableOpacity onPress={() => handleAvatarNav(true)}>
+          <Animated.View style={[styles.avatar, styleScale]} >
+            {avatars.map((avatar, index) => {
+              if (avatar.userSelect) {
+                return <Image key={index} style={styles.image} source={avatar.image} />;
+              }
+            })}
+          </Animated.View>
+      </TouchableOpacity>
         
       </View>
-      <View style={styles.main}>
-      <Animated.View style={[styleScale]}>
-        <View style={styles.avatarContainer}>
-          {avatars.map((avatar, index) => (
-              <Avatar
-                key={index}
-                progress={avatar.progress}
-                isSelected={avatar.isSelected}
-                image={avatar.image}
-                onPress={() => handleAvatarPress(index, avatar.progress)}
-              />
-          ))}
-        </View>
-      </Animated.View>
+      {showAvatarDetails ==true && (
+        <View style={styles.main}>
+            <Animated.View style={[styleScale]}>
+              <View style={styles.avatarContainer}>
+                {avatars.map((avatar, index) => (
+                    <Avatar
+                      key={index}
+                      progress={avatar.progress}
+                      isSelected={avatar.isSelected}
+                      image={avatar.image}
+                      onPress={() => handleAvatarPress(index, avatar.progress)}
+                    />
+                ))}
+              </View>
+              <View style={styles.footer}>
+                <TouchableOpacity
+                    style={styles.changeAvatarButton}
+                  onPress={handleChangeAvatar}
+                  >
+                  <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
+          </View>
+      )}
+
       </View>
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.changeAvatarButton}
-          onPress={handleChangeAvatar}
-        >
-          <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
   );
 };
 
@@ -158,7 +170,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginTop: -40,
+    marginTop: scale * -30,
   },
   headerTitle: {
     fontFamily: "Montserrat",
@@ -178,12 +190,20 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   footer: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center', 
     paddingVertical: 20,
+
   },
   changeAvatarButton: {
     backgroundColor: '#005FAB',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  changeAvatarButtonBack: {
+    backgroundColor: 'red',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -192,5 +212,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  image:{
+    height: height * 0.13,
+    width: height * 0.13,
   }
 });
