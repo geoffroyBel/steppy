@@ -23,7 +23,7 @@ export interface IStepContext {
   totalSteps: number;
   isLoading: boolean;
   handleUpdateDaily?: () => Promise<any>;
-  handleFetchTotals?: () => Promise<IChallenge>;
+  handleFetchStats: () => Promise<void>;
   handleFetchDaily?: (range: {
     from: string;
     to: string;
@@ -46,3 +46,11 @@ export interface IChallenge {
   weekSteps: Array<Partial<DailySteps & { id: number }>>;
   monthSteps: Array<Partial<DailySteps & { id: number }>>;
 }
+
+export type User = {
+  id: string;
+  avartId: number;
+  code: string;
+  challenges: Array<any>;
+  daily_steps: Array<any>;
+};
