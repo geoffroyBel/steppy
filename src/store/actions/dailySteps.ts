@@ -12,7 +12,6 @@ export async function createDailySteps(dailySteps: DailySteps) {
     const response = await api.post(`/daily-steps`, dailySteps, {
       withCredentials: true,
     });
-    console.log(response.data);
   } catch (error: unknown) {
     throw new Error("Fail create User");
   }
@@ -27,8 +26,6 @@ export async function getLastDailySteps() {
     });
     return { day, stepCount };
   } catch (error: unknown) {
-    console.log("faillllllllllll");
-
     throw new Error("Fail create User");
   }
 }
@@ -48,6 +45,7 @@ export const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
         stepCount: step.value,
       });
       console.log("ohllllllll");
+      console.log("leplus important");
 
       console.log(result.data);
       return data;
@@ -60,9 +58,6 @@ export const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
   );
 };
 export const updateMissingDailySteps = (from: Date, to: Date) => {
-  console.log(from.toISOString());
-  console.log(to.toISOString());
-
   const { max, lastUpdatedate } = getMaxLastUpdateDate(
     "2024-03-01",
     to.toISOString()

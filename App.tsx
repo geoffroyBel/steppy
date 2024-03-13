@@ -33,13 +33,11 @@ import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
-  const { handleFetchDaily, handleUpdateDaily, handleFetchTotals } = useContext(
+  const { handleFetchDaily, handleUpdateDaily } = useContext(
     StepContext
   ) as IStepContext;
   useEffect(() => {
     //logout();
-    //si l utilisateur fait son pre
-
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
@@ -80,7 +78,6 @@ function Root() {
         from: new Date().toISOString(),
         to: new Date().toISOString(),
       });
-      await handleFetchTotals?.();
     };
     saveDailySteps();
   }, [handleUpdateDaily, handleFetchDaily]);

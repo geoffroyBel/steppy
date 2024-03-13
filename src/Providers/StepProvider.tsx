@@ -9,15 +9,16 @@ export const StepContext = createContext<IStepContext>({
   isLoading: true,
   handleUpdateDaily: undefined,
   handleFetchDaily: undefined,
-  handleFetchTotals: undefined,
+  handleFetchStats: () => Promise.resolve(),
 });
 
 const StepProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const podometer = Podometer();
-  const [lastUpdateTime, setLastUpdateTime] = useState();
+  const [stats, setStats] = useState<IChallenge>();
   const [isLoading, setIsloading] = useState(false);
+  const [error, setError] = useState<string>();
   const [totalSteps, setTotalSteps] = useState(0);
 
   const getPodometerStep: GetPodemeterStep = useMemo(
@@ -38,18 +39,28 @@ const StepProvider: React.FC<{ children: React.ReactNode }> = ({
     [getPodometerStep]
   );
 
-  const handleFetchTotals = async (): Promise<IChallenge> => {
-    const data = await getStats();
-
-    setTotalSteps(data.totalSteps);
+  const handleFetchStats = async (): Promise<void> => {
+    try {
+      const data = await getStats();
+      setStats(data);
+      setTotalSteps(data.totalSteps);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Nous avons nous aussi encore des etapes a franchir");
+        // Gérer d'autres types d'erreurs ici si nécessaire
+      }
+    }
   };
   const value = useMemo(
     () => ({
+      stats,
       totalSteps,
       isLoading,
       handleUpdateDaily,
       handleFetchDaily,
-      handleFetchTotals,
+      handleFetchStats,
     }),
     [isLoading, handleUpdateDaily, handleFetchDaily, totalSteps]
   );
