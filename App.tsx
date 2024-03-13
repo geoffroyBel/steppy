@@ -23,6 +23,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { TOKEN } from "./src/store/actions/auth";
 import { getLastDailySteps } from "./src/store/actions/dailySteps";
 import Providers from "./src/Providers";
+import { useFonts } from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,6 +45,13 @@ function Root() {
   return <Navigation />;
 }
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    MontserratRegular: require("./assets/font/Montserrat-Regular.otf"),
+    MontserratSemiBold: require("./assets/font/Montserrat-SemiBold.otf"),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaProvider>

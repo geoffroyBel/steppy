@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import IconButton from "./IconButton";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
-export default ({ titre, setShowAvatarDetails, showAvatarDetails }) => {
-
-  // const [showAvatarDetails, setShowAvatarDetails] = useState(false);
-  // const handleAvatarNav = (boolean: boolean) => {
-  //   setShowAvatarDetails(boolean);
-  // };
+export default () => {
+const {logout} = useContext(AuthContext)
   return (
     <View style={styles.container}>
 
@@ -22,8 +20,9 @@ export default ({ titre, setShowAvatarDetails, showAvatarDetails }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{titre}</Text>
       </View>
-      <View style={styles.iconContainer}>
-        <IconButton icon="log-out" color={"white"} size={45} />
+      <Text style={styles.title}>{"Choisir un avatar"}</Text>
+      <View>
+        <IconButton icon="log-out" color={"white"} size={45} onPress={logout} />
       </View>
     </View>
   );

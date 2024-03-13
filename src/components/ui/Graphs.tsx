@@ -197,7 +197,7 @@ export default ({ steps }: { steps: Steps }) => {
 
   useEffect(() => {
     if (!steps || !steps.week || !steps.month || !steps.year) return;
-    // console.log(steps.month);
+    console.log(steps.month, "steps.month");
 
     state.value = {
       ...state.value,

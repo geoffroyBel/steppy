@@ -22,11 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "steppie.cesi",
-      "permissions": [
-        "android.permission.health.READ_STEPS",
-        "android.permission.health.WRITE_STEPS",
-        "android.permission.health.READ_ACTIVE_CALORIES_BURNED"
-      ]
+      "permissions": ["android.permission.health.READ_STEPS", "android.permission.ACTIVITY_RECOGNITION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
