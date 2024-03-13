@@ -4,8 +4,12 @@ import IconButton from "./IconButton";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 
-export default () => {
-const {logout} = useContext(AuthContext)
+export default ({ titre, setShowAvatarDetails, showAvatarDetails }) => {
+
+  // const [showAvatarDetails, setShowAvatarDetails] = useState(false);
+  // const handleAvatarNav = (boolean: boolean) => {
+  //   setShowAvatarDetails(boolean);
+  // };
   return (
     <View style={styles.container}>
 
@@ -20,9 +24,8 @@ const {logout} = useContext(AuthContext)
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{titre}</Text>
       </View>
-      <Text style={styles.title}>{"Choisir un avatar"}</Text>
-      <View>
-        <IconButton icon="log-out" color={"white"} size={45} onPress={logout} />
+      <View style={styles.iconContainer}>
+        <IconButton icon="log-out" color={"white"} size={45} />
       </View>
     </View>
   );

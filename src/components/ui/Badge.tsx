@@ -1,5 +1,7 @@
-import { View, StyleSheet, Image, Pressable, Dimensions, Text } from "react-native";
+import React from 'react';
 import { useEffect, useMemo, useState } from "react";
+import HorizontalLoader from "./HorizontalLoader";
+import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface IBadge {
@@ -14,10 +16,33 @@ const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     root: {
-        height: height * 0.14,
-        width: height * 0.14,
+        width: width - 20, 
+        padding: 10,
+        flexDirection: 'row',
     },
-})
+    image: {
+        width: 100, 
+        height: 100, 
+        marginRight: 10, 
+    },
+    content: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 20, 
+        fontWeight: 'bold', 
+        marginBottom: 5, 
+    },
+    description: {
+        fontSize: 16, 
+    },
+    loader:{
+        width: width * 0.7,
+        height: height * 0.7,
+    },
+});
+
 
 export const Badge = ({
     progress,
@@ -26,9 +51,9 @@ export const Badge = ({
     description,
     isStreak,
 }: IBadge) => {
-    const [stepPersonal, setStepPersonal] = useState(10000);
+    const [stepPersonal, setStepPersonal] = useState(10);
     const [stepGlobal, setStepGlobal] = useState(100000);
-
+    const [transition, setTransition] = useState(1);
     let displayProgress = progress;
 
     if (isStreak == true) {
@@ -37,12 +62,23 @@ export const Badge = ({
         displayProgress = percentage.toFixed(2);
     }
 
+    
     return (
-        <View>
-            <Text>{image}</Text>
-            <Text>{displayProgress}</Text>
-            <Text>{title}</Text>
-            <Text>{description}</Text>
+        <View style={styles.root}>
+            <Image
+                      source={require("../../../assets/badgePerso/badgePerso1.png")}
+                      style={styles.image}
+            /> 
+            <View style={styles.content}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.description}>{description}</Text>
+                <HorizontalLoader
+                    width={width * 0.50}
+                    height={10}
+                    progress={displayProgress}
+                    // transition={transition} 
+                />
+            </View>
         </View>
     )
 }
