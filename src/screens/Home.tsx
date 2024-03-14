@@ -101,7 +101,7 @@ export default () => {
   // const steps: Steps = podometer.steps;
   const currentWeekSteps = useMemo(() => {
     return podometer && podometer.steps && podometer.steps.week
-      ? podometer.steps.week.map((el) => {
+      ? podometer.steps.week.map((el, i) => {
         return {
           ...el,
           date: new Date(el.date),
@@ -151,12 +151,12 @@ export default () => {
 
         {podometer && podometer.steps && <Graphs steps={podometer.steps} />}
 
-        <ObjectifCard
+        {/* <ObjectifCard
           objectifs={[
             { id: 1, progress: 0.6 },
             { id: 1, progress: 0.8 },
           ]}
-        />
+        /> */}
 
         <View style={styles.homeCardContainer}>
           <HomeCard

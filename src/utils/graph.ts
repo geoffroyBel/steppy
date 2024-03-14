@@ -25,8 +25,8 @@ export const makeGraph = (
 ): GraphData => {
   const { width, height } = dimensions;
   const data = populateMissingSteps(steps);
-  const min = Math.min(...data.map((v) => v.value));
-  const max = Math.max(...data.map((v) => v.value));
+  const min = Math.min(...data.map((v, i) => v.value));
+  const max = Math.max(...data.map((v, i) => v.value));
 
   const start = new Date(steps[0].date);
   const end = new Date(steps[steps.length - 1].date);
@@ -58,8 +58,8 @@ export const makeGraph2 = (
 ): GraphData => {
   const { width, height } = dimensions;
   const data = populateMissingSteps(steps);
-  const min = Math.min(...data.map((v) => v.value / 13000));
-  const max = Math.max(...data.map((v) => v.value / 13000));
+  const min = Math.min(...data.map((v, i) => v.value / 13000));
+  const max = Math.max(...data.map((v, i) => v.value / 13000));
 
   const start = new Date(steps[0].date);
   const end = new Date(steps[steps.length - 1].date);
