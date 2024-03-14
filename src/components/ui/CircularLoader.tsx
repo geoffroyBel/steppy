@@ -64,7 +64,7 @@ export default ({
   radius,
   progress,
   caption = "Pas réalises",
-  steps = 10000,
+  steps = 8000,
 }: IProps) => {
   const t = useSharedValue(0.5);
   const w = radius * 2;
@@ -143,7 +143,7 @@ export default ({
   }, [clip]);
 
   return (
-    <View style={{ width: w }}>
+    <View style={{ width: w, paddingBottom: 18}}>
       <Canvas
         style={{
           width: w,
