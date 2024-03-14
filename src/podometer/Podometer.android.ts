@@ -56,33 +56,31 @@ export default () => {
 
     return newSteps;
   };
-  const getStepsByDates = (dates: Date[]) => {
-    return dates.reduce(async (a: Promise<any>, el) => {
-      var end = new Date(el.toISOString());
-      end.setHours(23, 55);
-      var start = new Date(el.toISOString());
-      start.setHours(1);
-
-      const data = await a;
-      const result: Partial<Array<{ count: number; startTime: string }>> =
-        await readRecords("Steps", {
-          timeRangeFilter: {
-            operator: "between",
-            startTime: start.toISOString(),
-            endTime: end.toISOString(),
-          },
-        });
-      // console.log("--------week");
-      // console.log(result);
-
-      return [
-        ...data,
-        {
-          date: el.toISOString(),
-          value: result.reduce((value, step) => value + (step?.count || 0), 0),
+  const getStepsByDates = async (dates: Date[]) => {
+    var start = new Date(dates[0].toISOString());
+    start.setHours(1);
+    var end = new Date(dates[dates.length - 1].toISOString());
+    end.setHours(23, 55);
+  
+    const result: Partial<Array<{ count: number; startTime: string }>> =
+      await readRecords("Steps", {
+        timeRangeFilter: {
+          operator: "between",
+          startTime: start.toISOString(),
+          endTime: end.toISOString(),
         },
-      ];
-    }, Promise.resolve([]));
+      });
+  
+    return dates.map((el) => ({
+      date: el.toISOString(),
+      value: result.reduce(
+        (value, step) =>
+          new Date(step?.startTime ?? "").toDateString() === el.toDateString()
+            ? value + (step?.count || 0)
+            : value,
+        0
+      ),
+    }));
   };
 
   const getAllSteps = async () => {
