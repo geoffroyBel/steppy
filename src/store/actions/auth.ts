@@ -31,8 +31,12 @@ export async function getUser(): Promise<User> {
 
 export async function updateMyself(user: User, changes: Partial<User>) {
   try {
-    // Route is to post /api/users/:id
-    return await api.post(`/users/${user.id}`, changes);
+    // Route is to post /api/users/:id with credentials
+    console.log("User info :", changes);
+    const { data } = await api.put(`/users/${user.id}`, changes, {
+      withCredentials: true,
+    });
+    return data;
   } catch (error: unknown) {
     console.log(error);
     throw new Error("Fail update User");

@@ -52,7 +52,7 @@ export default () => {
   const [title, settitle] = useState("");
   const [badge, setbadge] = useState(null);
   const user = useContext(AuthContext);
-  const [selectedAvatarId, setSelectedAvatarId] = useState(user.user?.avatarId);
+  const [selectedAvatarId, setSelectedAvatarId] = useState(0);
   useEffect(() => {
     // const fetchDataProfilBadge = async () => {
     //   try {
@@ -179,7 +179,7 @@ export default () => {
                   key={badgeItem.id}
                   quantity={badgeItem.quantity}
                   image={getBadges((index+1).toString())}
-                  title={(index+1).toString()}
+                  title={badgeItem.name}
                   description={badgeItem.description}
                   isStreak={badgeItem.isStreak}
                   totalSteps={totalSteps}

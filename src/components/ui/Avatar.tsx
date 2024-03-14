@@ -7,7 +7,7 @@ import { IAuthContext } from "../../Providers/AuthProvider";
 
 interface IAvatar {
     progress: number;
-    isSelected: boolean;
+    isSelected: number;
     image: string;
     user: IAuthContext;
     id: number;
@@ -15,7 +15,7 @@ interface IAvatar {
 }
 
 interface IAvatars {
-    avatars: Array<{ progress: number; isSelected: boolean; image: string; }>;
+    avatars: Array<{ progress: number; isSelected: number; image: string; }>;
 
 }
 const { width, height } = Dimensions.get('window');
@@ -76,7 +76,7 @@ export const Avatar = ({
 
     const getBackgroundColor = () => {
         let backgroundColor;
-
+        console.log("isSelected : ",isSelected);
         // if (progress === 1 ){
             if (id == isSelected) {
                 backgroundColor = "#005FAB";
