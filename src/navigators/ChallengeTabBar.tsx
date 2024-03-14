@@ -18,7 +18,7 @@ export default () => {
       <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <CustomTabBar {...props} />}>
         <Tab.Screen name="Challenge" component={Challenge} options={{ tabBarIcon: 'earth' }}/>
         <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: 'home' }}/>
-        <Tab.Screen name="Profile" component={Profile} options={{ image: getAvatar((user?.user!.avatarId).toString()) }}/>
+        <Tab.Screen name="Profile" component={Profile} options={{ image: user.user?.avatarId? (getAvatar((user?.user!.avatarId).toString())) : require("../../assets/avatar.png") }}/>
       </Tab.Navigator>
   );
 };

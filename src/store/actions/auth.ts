@@ -34,6 +34,7 @@ export async function updateMyself(user: User, changes: Partial<User>) {
     // Route is to post /api/users/:id
     return await api.post(`/users/${user.id}`, changes);
   } catch (error: unknown) {
+    console.log(error);
     throw new Error("Fail update User");
   }
 }
