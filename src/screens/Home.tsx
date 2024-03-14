@@ -3,7 +3,7 @@ import Graphs from "../components/ui/Graphs";
 import Podometer from "../podometer/Podometer";
 import { useContext, useEffect, useMemo } from "react";
 import { IStepContext, Steps } from "../types";
-import { useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 import ChallengeCard from "../components/ui/ChallengeCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
@@ -16,9 +16,9 @@ export default () => {
   const podometer = Podometer();
 
   useEffect(() => {
-    console.log("hhhh");
     const fetchDaily = async () => {
       if (!handleFetchDaily) return;
+
       await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
     };
     fetchDaily();
@@ -39,7 +39,7 @@ export default () => {
   useEffect(() => {
     transition.value = withTiming(1, { duration: 3000 });
   }, [podometer]);
-  useEffect(() => console.log(podometer), [podometer]);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={[StyleSheet.absoluteFillObject]}>
@@ -61,17 +61,20 @@ export default () => {
         snapToEnd={false}
         decelerationRate="fast"
       >
-        <View style={styles.header}>
-          <ChallengeCard
-            steps={currentWeekSteps}
-            messages={{
-              1: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
-              6: "Felicitations des petit pas c bien",
-              3: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
-            }}
-          />
-        </View>
+        <Animated.View>
+          <View style={styles.header}>
+            <ChallengeCard
+              steps={currentWeekSteps}
+              messages={{
+                1: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
+                6: "Felicitations des petit pas c bien",
+                3: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
+              }}
+            />
+          </View>
+        </Animated.View>
         {/*  */}
+
         {podometer && podometer.steps && <Graphs steps={podometer.steps} />}
 
         <ObjectifCard
