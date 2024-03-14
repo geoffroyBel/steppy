@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
         width: width - 20, 
         padding: 10,
         flexDirection: 'row',
+        marginBottom: 10, // Ajout de marge en bas pour séparer les badges
+    },
+    container: {
+        borderBottomWidth: 1, // Épaisseur de la bordure en bas
+        borderColor: 'gray', // Couleur de la bordure
     },
     image: {
         width: 100, 
@@ -41,6 +46,11 @@ const styles = StyleSheet.create({
         width: width * 0.7,
         height: height * 0.7,
     },
+    imageSucces:{
+        width: 40, 
+        height: 40, 
+        marginRight: 10, 
+    }
 });
 
 
@@ -65,20 +75,26 @@ export const Badge = ({
     
     return (
         <View style={styles.root}>
-            <Image
-                      source={require("../../../assets/badgePerso/badgePerso1.png")}
-                      style={styles.image}
-            /> 
-            <View style={styles.content}>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.description}>{description}</Text>
-                <HorizontalLoader
-                    width={width * 0.50}
-                    height={10}
-                    progress={displayProgress}
-                    // transition={transition} 
-                />
+                <Image
+                          source={require("../../../assets/badgePerso/badgePerso1.png")}
+                          style={styles.image}
+                /> 
+                <View style={styles.content}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.description}>{description}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <HorizontalLoader
+                            width={width * 0.50}
+                            height={10}
+                            progress={displayProgress}
+                        />
+                        <Image
+                            source={require("../../../assets/success.png")}
+                            style={styles.imageSucces}
+                        /> 
+                    </View>
+                </View>
             </View>
-        </View>
+        // <View style={styles.container}/>
     )
 }

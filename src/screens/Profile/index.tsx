@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState, useEffect,  useRef } from "react";
-import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedProps,
@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconButton from "./ui/IconButton";
 import { getProfilBadge } from "../../store/actions/profilData";
 import { Badge } from "../../components/ui/Badge";
+import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 
 const { height, width, scale } = Dimensions.get("screen");
@@ -111,6 +112,61 @@ export default () => {
         "created_at": "2024-03-13T09:31:05.000000Z",
         "updated_at": "2024-03-13T09:31:05.000000Z"
     },
+    {
+      "id": 5,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+      "id": 4,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
+  },
+  {
+    "id": 5,
+    "image": "placeholder.png",
+    "name": "Ashlynn Goyette",
+    "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+    "isStreak": true,
+    "quantity": 25,
+    "isGlobal": false,
+    "created_at": "2024-03-13T09:31:05.000000Z",
+    "updated_at": "2024-03-13T09:31:05.000000Z"
+  },
+  {
+    "id": 4,
+    "image": "placeholder.png",
+    "name": "Ashlynn Goyette",
+    "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+    "isStreak": true,
+    "quantity": 25,
+    "isGlobal": false,
+    "created_at": "2024-03-13T09:31:05.000000Z",
+    "updated_at": "2024-03-13T09:31:05.000000Z"
+},
+{
+  "id": 5,
+  "image": "placeholder.png",
+  "name": "Ashlynn Goyette",
+  "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+  "isStreak": true,
+  "quantity": 25,
+  "isGlobal": false,
+  "created_at": "2024-03-13T09:31:05.000000Z",
+  "updated_at": "2024-03-13T09:31:05.000000Z"
+},
     {
         "id": 5,
         "image": "placeholder.png",
@@ -239,20 +295,23 @@ export default () => {
           </Animated.View>
         </View>
       ) : (
-        <View style={styles.main}>
-          {badge.map((badgeItem) => (
-            badgeItem.isStreak ? (
-              <Badge
-                key={badgeItem.id}
-                progress={badgeItem.quantity}
-                image={badgeItem.image}
-                title={badgeItem.name}
-                description={badgeItem.description}
-                isStreak={badgeItem.isStreak}
-              />
-            ) : null
-          ))}
-        </View>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.main}>
+            {badge.map((badgeItem) => (
+              badgeItem.isStreak ? (
+                <Badge
+                  key={badgeItem.id}
+                  progress={badgeItem.quantity}
+                  image={badgeItem.image}
+                  title={badgeItem.name}
+                  description={badgeItem.description}
+                  isStreak={badgeItem.isStreak}
+                />
+              ) : null
+            ))}
+          </View>
+        </ScrollView>
+
 
       )}
 
@@ -283,6 +342,13 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: "auto",
     marginBottom: 100,
+    backgroundColor: "white",
+    borderRadius: 100,
+    height: height * 0.14,
+    width: height * 0.14,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
   },
   avatarContainer: {
     flexDirection: 'row',
@@ -316,5 +382,12 @@ const styles = StyleSheet.create({
   image:{
     height: height * 0.13,
     width: height * 0.13,
-  }
+    // backgroundColor: "white",
+    // borderRadius: 100,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    // marginTop: -0,
+    paddingTop: 100,
+  },
 });

@@ -27,6 +27,7 @@ import { StepContext } from "./src/Providers/StepProvider";
 import { IStepContext } from "./src/types";
 import { isTimeToUpdate } from "./src/utils/dateUtils";
 import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
+import { useFonts } from "expo-font"; 
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,7 +38,6 @@ function Root() {
     StepContext
   ) as IStepContext;
   useEffect(() => {
-    //logout();
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
