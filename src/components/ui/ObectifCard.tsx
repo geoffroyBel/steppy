@@ -40,8 +40,9 @@ export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
   const objectif = useMemo(() => {
     return Object.values(OBJECTIF).find((el) => `${el.id}` === `${id}`);
   }, [id]);
-
-  return (
+// Gg je fais le airtable
+// 🫡
+return (
     <View style={styles.root}>
       {/* <Canvas style={StyleSheet.absoluteFillObject}>
         <RoundedRect
@@ -71,8 +72,7 @@ export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
             <HorizontalLoader
               width={127}
               height={10}
-              progress={progress}
-              transition={transition}
+              progress={progress*100}
             />
             <Text style={styles.textProgress}>
               {(progress * 100).toFixed(0)}%
