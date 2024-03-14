@@ -143,7 +143,7 @@ export default ({
   }, [clip]);
 
   return (
-    <View style={{ width: w }}>
+    <View style={{ width: w, paddingBottom: 18}}>
       <Canvas
         style={{
           width: w,

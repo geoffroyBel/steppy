@@ -66,10 +66,8 @@ export const Badge = ({
     const [stepPersonal, setStepPersonal] = useState(totalSteps);
     const [stepGlobal, setStepGlobal] = useState(100000);
     const [transition, setTransition] = useState(1);
-    let displayQuantity = quantity;
     let percentage = Math.min((stepPersonal / quantity), 1);
     const percentageOutOf100 = (percentage * 100).toFixed(2);
-    displayQuantity = percentageOutOf100;
 
     const isBadgeUnlocked = quantity <= stepPersonal;
 
