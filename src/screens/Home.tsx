@@ -113,7 +113,6 @@ export default () => {
   useEffect(() => {
     transition.value = withTiming(1, { duration: 3000 });
   }, [podometer]);
-  // useEffect(() => console.log(podometer, "podometer"), [podometer]);
 
   return (
     <View style={{ flex: 1 }}>

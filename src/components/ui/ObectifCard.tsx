@@ -74,7 +74,9 @@ export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
               progress={progress}
               transition={transition}
             />
-            <Text style={styles.textProgress}>{progress * 100}%</Text>
+            <Text style={styles.textProgress}>
+              {(progress * 100).toFixed(0)}%
+            </Text>
           </View>
 
           <Text style={styles.description}>{objectif?.description}</Text>

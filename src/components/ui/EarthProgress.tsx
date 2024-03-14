@@ -36,7 +36,7 @@ export default ({ transition, progress = 0.6 }: IEarthProgress) => {
   )!;
 
   const text = useDerivedValue(() => {
-    return `${Math.round(transition.value * (progress * 100))}%`;
+    return `${Math.round(transition.value * (progress.value * 100))}%`;
   }, [transition]);
   const textX = useDerivedValue(() => {
     if (!font) return SIZE / 2;
@@ -44,7 +44,7 @@ export default ({ transition, progress = 0.6 }: IEarthProgress) => {
   }, [text, font]);
   const maskY = useDerivedValue(() => {
     return interpolate(
-      transition.value * progress,
+      transition.value * progress.value,
       [0, 1],
       [SIZE, STROKE_WIDTH / 2]
     );
