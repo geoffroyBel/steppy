@@ -53,13 +53,6 @@ export default () => {
     () => (totalSteps | 0) / OBJECTIF.terre.steps,
     [totalSteps]
   );
-  useEffect(() => {
-    transitionMsg.value = 0;
-    transitionMsg.value = withTiming(1, { duration: 2000 }, () => {
-      transition.value = 0;
-      transition.value = withTiming(1, { duration: 2000 });
-    });
-  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
