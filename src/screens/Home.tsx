@@ -140,9 +140,13 @@ export default () => {
             <ChallengeCard
               steps={currentWeekSteps}
               messages={{
-                1: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
-                6: "Felicitations des petit pas c bien",
-                3: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
+                1: "Dommage tu feras mieux demain",
+                2: "Dommage tu feras mieux demain",
+                3: "Dommage tu feras mieux demain",
+                4: "Dommage tu feras mieux demain",
+                5: "Dommage tu feras mieux demain",
+                // 6: "Felicitations des petit pas c bien",
+                // 7: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
               }}
             />
           </View>
