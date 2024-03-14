@@ -44,26 +44,19 @@ export default () => {
     // requestHealthPermission();
     // Check if the user has already granted the permission
     const checkPermission = async () => {
-      try {
-        const result = await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-        );
-        if (result) {
-          console.log('Permission is already granted');
-          return true
-        } else {
-          console.log('Permission is not granted');
-          return false
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    }
+      // Get the list of granted permissions
+      const grantedPermissions = await getGrantedPermissions();
+      // Check if the permission is in the list of granted permissions
+      // Considering the returned object looks like this: [{"accessType": "read", "recordType": "Steps"}] 
+      return grantedPermissions.some((permission) => permission.recordType === "Steps");
+    };
     let a = null;
     // Wait for the reply of the permission request to cast to a boolean
     (async function () {
       a = await checkPermission();
+      console.log(a, "a");
       if (!a) {
+        console.log("requesting permission", a);
         // Alert the user that the permission is not granted and that the must grant it in Health Connect with a pop-up
         Alert.alert(
           "Permission requise",
@@ -109,7 +102,7 @@ export default () => {
   useEffect(() => {
     transition.value = withTiming(1, { duration: 3000 });
   }, [podometer]);
-  useEffect(() => console.log(podometer, "podometer"), [podometer]);
+  // useEffect(() => console.log(podometer, "podometer"), [podometer]);
 
   return (
     <View style={{ flex: 1 }}>

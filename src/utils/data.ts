@@ -1,6 +1,5 @@
 import { curveBasis, line, scaleLinear, scaleTime } from "d3";
-import { getWeekDates } from "./dateUtils";
-import { lastDayOfMonth } from "./waveletUtils";
+import { getWeekDates, lastDayOfMonth } from "./dateUtils";
 import { Skia } from "@shopify/react-native-skia";
 const POINT_MAX = 31;
 export type DataPoint = {
