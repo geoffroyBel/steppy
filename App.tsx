@@ -32,7 +32,9 @@ import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
-  const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
+  const { authenticate, logout, user } = useContext(
+    AuthContext
+  ) as IAuthContext;
   const { handleFetchDaily, handleUpdateDaily, handleFetchStats } = useContext(
     StepContext
   ) as IStepContext;
@@ -45,8 +47,10 @@ function Root() {
       }
       setIsTryingLogin(false);
     };
-    fetchToken();
-  }, []);
+    if (!user) {
+      fetchToken();
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchDailySteps = async () => {
