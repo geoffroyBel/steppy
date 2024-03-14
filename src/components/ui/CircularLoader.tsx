@@ -64,7 +64,7 @@ export default ({
   radius,
   progress,
   caption = "Pas réalises",
-  steps = 8000,
+  steps = 10000,
 }: IProps) => {
   const t = useSharedValue(0.5);
   const w = radius * 2;
