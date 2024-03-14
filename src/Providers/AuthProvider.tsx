@@ -35,8 +35,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const _user = await getUser();
       setUser(_user);
-      console.log("USER IS OK");
-      console.log(_user);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
