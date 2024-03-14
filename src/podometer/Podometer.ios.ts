@@ -114,35 +114,35 @@ export default () => {
     setSteps(steps);
   };
 
-  const updateStep = async () => {
-    const { day, stepCount } = await getLastDailySteps();
-    const datesToUpdate = getDatesbyRange(
-      "2024/03/01",
-      new Date().toDateString()
-    );
-    //fffawait AsyncStorage.setItem("lastUpdateTime", `${new Date().getTime()}`);
-    const newSteps = await getStepsByDates(datesToUpdate);
-    newSteps.reduce(
-      async (promise: Promise<any>, step: { date: string; value: number }) => {
-        const data = await promise;
-        const dailyStep = {
-          day: dayjs(step.date).format("YYYY-MM-DD"),
-          stepCount: step.value,
-        };
-        await createDailySteps(dailyStep);
-        console.log("succesfull insert");
+  // const updateStep = async () => {
+  //   const { day, stepCount } = await getLastDailySteps();
+  //   const datesToUpdate = getDatesbyRange(
+  //     "2024/03/01",
+  //     new Date().toDateString()
+  //   );
+  //   //fffawait AsyncStorage.setItem("lastUpdateTime", `${new Date().getTime()}`);
+  //   const newSteps = await getStepsByDates(datesToUpdate);
+  //   newSteps.reduce(
+  //     async (promise: Promise<any>, step: { date: string; value: number }) => {
+  //       const data = await promise;
+  //       const dailyStep = {
+  //         day: dayjs(step.date).format("YYYY-MM-DD"),
+  //         stepCount: step.value,
+  //       };
+  //       await createDailySteps(dailyStep);
+  //       console.log("succesfull insert");
 
-        return data;
-      },
-      Promise.resolve([])
-    );
-    await AsyncStorage.setItem(
-      LAST_DAILY_STEP_TIMESTAMP,
-      `${new Date().getTime()}`
-    );
+  //       return data;
+  //     },
+  //     Promise.resolve([])
+  //   );
+  //   await AsyncStorage.setItem(
+  //     LAST_DAILY_STEP_TIMESTAMP,
+  //     `${new Date().getTime()}`
+  //   );
 
-    console.log(newSteps);
-  };
+  //   console.log(newSteps);
+  // };
 
   return { steps, getAllSteps, getSteps };
 };
