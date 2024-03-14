@@ -19,8 +19,6 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import { getAllAvatar } from "../../store/actions/avatarData";
 import { avatarImages, getAvatar, getBadges } from "../../../images";
 import { getAllBadgeIndividual } from "../../store/actions/badgeData";
-import * as SplashScreen from "expo-splash-screen";
-
 const { height, width, scale } = Dimensions.get("screen");
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const HEADER_HEIGHT = 0.4 * height;

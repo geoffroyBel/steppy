@@ -13,8 +13,6 @@ import { getGrantedPermissions, openHealthConnectDataManagement, requestPermissi
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../Providers/AuthProvider";
 import { getAllBadgeIndividual } from "../store/actions/badgeData";
-import * as SplashScreen from "expo-splash-screen";
-SplashScreen.preventAutoHideAsync();
 export default () => {
   const { handleFetchDaily } = useContext<IStepContext>(StepContext);
   const transition = useSharedValue(0);
@@ -161,9 +159,6 @@ export default () => {
     setStreakCount(streak);
   }, []);
 
-  useEffect(() => {
-    SplashScreen.hideAsync();
-  }, []);
 
   // Calculate user's streak
   const [streakCount, setStreakCount] = useState(0);

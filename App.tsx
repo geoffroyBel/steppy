@@ -32,7 +32,6 @@ function Root() {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
         authenticate(storedToken);
-        // await SplashScreen.hideAsync();
       }
       setIsTryingLogin(false);
     };
