@@ -80,7 +80,7 @@ export const Day = ({
       style={styles.root}
     >
       <View style={styles.header}>
-        {progress > 0.8 && (
+        {progress > 1 && (
           <Image
             source={require("../../../assets/icons/crown.png")}
             style={{

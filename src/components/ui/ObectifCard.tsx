@@ -9,6 +9,9 @@ import {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { OBJECTIF } from "../../utils/challenge";
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 
 const w = 273;
 const h = 88;
@@ -33,43 +36,17 @@ interface List {
   objectifs: Objectif[];
 }
 
-const OBJECTIFS = [
-  {
-    id: 1,
-    title: "Objectif Chu",
-    source: require("../../../assets/icons/objectif/1.png"),
-    description: "Badge: Premier pas",
-  },
-  {
-    id: 2,
-    title: "Objectif France",
-    source: require("../../../assets/icons/objectif/1.png"),
-    description: "1000 Kilometre parcourue",
-  },
-  {
-    id: 3,
-    title: "Objectif Europe",
-    source: require("../../../assets/icons/objectif/1.png"),
-    description: "15 000 Kilometre parcourue",
-  },
-  {
-    id: 4,
-    title: "Ojectif Planète",
-    source: require("../../../assets/icons/objectif/1.png"),
-    description: "40 000 Kilometre parcourue",
-  },
-];
-
 export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
   const objectif = useMemo(() => {
-    return OBJECTIFS.find((el) => `${el.id}` === `${id}`);
+    return Object.values(OBJECTIF).find((el) => `${el.id}` === `${id}`);
   }, [id]);
-
-  return (
+// Gg je fais le airtable
+// 🫡
+return (
     <View style={styles.root}>
       {/* <Canvas style={StyleSheet.absoluteFillObject}>
         <RoundedRect
-          x={x}
+          x={x}c
           y={y}
           height={h}
           width={w}
@@ -95,10 +72,11 @@ export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
             <HorizontalLoader
               width={127}
               height={10}
-              progress={progress}
-              transition={transition}
+              progress={progress*100}
             />
-            <Text style={styles.textProgress}>{progress * 100}%</Text>
+            <Text style={styles.textProgress}>
+              {(progress * 100).toFixed(0)}%
+            </Text>
           </View>
 
           <Text style={styles.description}>{objectif?.description}</Text>
@@ -113,6 +91,15 @@ export default ({ objectifs }: List) => {
   useEffect(() => {
     transition.value = withTiming(1, { duration: 3000 });
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      transition.value = 0;
+      transition.value = withTiming(1, { duration: 2000 });
+      () => {
+        transition.value = 0;
+      };
+    }, [])
+  );
   return (
     <View style={{ alignItems: "center", paddingVertical: 10, columnGap: 30 }}>
       {objectifs.map((el, index) => (

@@ -34,7 +34,6 @@ export default ({ transition, progress = 0.6 }: IEarthProgress) => {
     require("../../../assets/font/Montserrat-SemiBold.otf"),
     35
   )!;
-
   const text = useDerivedValue(() => {
     return `${Math.round(transition.value * (progress * 100))}%`;
   }, [transition]);
@@ -49,6 +48,7 @@ export default ({ transition, progress = 0.6 }: IEarthProgress) => {
       [SIZE, STROKE_WIDTH / 2]
     );
   }, [transition]);
+
   return (
     <Canvas
       style={{

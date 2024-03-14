@@ -59,6 +59,7 @@ export default function Navigation() {
   });
   return (
     <NavigationContainer>
+      {/* <ChallengeTabBar /> */}
       {isAuthenticated ? <ChallengeTabBar /> : <OnboardingStack />}
     </NavigationContainer>
   );

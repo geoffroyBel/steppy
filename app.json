@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "strappi",
-    "slug": "strappi",
+    "name": "Steppy",
+    "slug": "steppy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "strapi"
+      "bundleIdentifier": "steppy"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,11 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "steppie.cesi",
-      "permissions": [
-        "android.permission.health.READ_STEPS",
-        "android.permission.health.WRITE_STEPS",
-        "android.permission.health.READ_ACTIVE_CALORIES_BURNED"
-      ]
+      "permissions": ["android.permission.health.READ_STEPS", "android.permission.ACTIVITY_RECOGNITION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,7 +35,10 @@
     "plugins": [
       "react-native-health",
       "react-native-health-connect",
+      "expo-font",
+      "expo-splash-screen",
       "expo-build-properties",
+      "./plugins/health-connect-plugin",
       [
         "expo-build-properties",
         {
