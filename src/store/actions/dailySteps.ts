@@ -59,7 +59,7 @@ export const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
 };
 export const updateMissingDailySteps = (from: Date, to: Date) => {
   const { max, lastUpdatedate } = getMaxLastUpdateDate(
-    "2024-03-01",
+    "2024-03-14",
     to.toISOString()
   );
 
