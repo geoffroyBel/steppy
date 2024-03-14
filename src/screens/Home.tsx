@@ -11,7 +11,10 @@ import { StepContext } from "../Providers/StepProvider";
 import HomeCard from "../components/Home/HomeCard";
 import { getGrantedPermissions, openHealthConnectDataManagement, requestPermission } from "react-native-health-connect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { AuthContext } from "../Providers/AuthProvider";
+import { getAllBadgeIndividual } from "../store/actions/badgeData";
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
 export default () => {
   const { handleFetchDaily } = useContext<IStepContext>(StepContext);
   const transition = useSharedValue(0);
@@ -65,7 +68,6 @@ export default () => {
     // Wait for the reply of the permission request to cast to a boolean
     (async function () {
       a = await checkPermission();
-      console.log(a, "a");
       if (!a) {
         console.log("requesting permission", a);
         // Alert the user that the permission is not granted and that the must grant it in Health Connect with a pop-up
@@ -96,8 +98,7 @@ export default () => {
       await handleFetchDaily({ from: "2023-03-05", to: "2023-03-08" });
     };
     fetchDaily();
-    //getPodometerStep?.({ from: "2023-03-05", to: "2023-03-08" });
-  });
+  }, []);
   // const steps: Steps = podometer.steps;
   const currentWeekSteps = useMemo(() => {
     return podometer && podometer.steps && podometer.steps.week
@@ -114,6 +115,58 @@ export default () => {
     transition.value = withTiming(1, { duration: 3000 });
   }, [podometer]);
 
+  // Get the total amount of steps of the user walked in the last 7 days
+  let individualTotalSteps = 0;
+  if (podometer && podometer.steps && podometer.steps.week) {
+    individualTotalSteps = podometer.steps.week.reduce((acc, el) => acc + el.value, 0);
+  }
+  // Average it for 7 days with a Math.round to get a whole number
+  const averageSteps = Math.round(individualTotalSteps / 7);
+  const { totalSteps } = useContext(
+    StepContext
+  ) as IStepContext;
+
+  const user = useContext(AuthContext)
+  const [badgeCount, setBadgeCount] = useState(0);
+  // Get the users badges to get their total amount
+  useEffect(() => {
+    const fetchDataAllBadge = async () => {
+      try {
+        const data = await getAllBadgeIndividual();
+        // Make sure the user has all the badges before counting them
+        setBadgeCount(0);
+        data.forEach((badge) => {
+          const quantity = badge.quantity;
+          if (individualTotalSteps >= quantity) {
+            setBadgeCount((prev) => prev + 1);
+          }
+        })
+      } catch (error) {
+        console.error("Failed to fetch all badge data:", error);
+      }
+    };
+    fetchDataAllBadge();
+    const streak = 0
+    if (podometer && podometer.steps) {
+      const steps = podometer.steps.week;
+      let streak = 0;
+      for (let i = 0; i < steps.length; i++) {
+        if (steps[i].value >= 10000) {
+          streak++;
+        } else {
+          break;
+        }
+      }
+    }
+    setStreakCount(streak);
+  }, []);
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
+  // Calculate user's streak
+  const [streakCount, setStreakCount] = useState(0);
   return (
     <View style={{ flex: 1 }}>
       <View style={[StyleSheet.absoluteFillObject]}>
@@ -151,28 +204,21 @@ export default () => {
 
         {podometer && podometer.steps && <Graphs steps={podometer.steps} />}
 
-        {/* <ObjectifCard
-          objectifs={[
-            { id: 1, progress: 0.6 },
-            { id: 1, progress: 0.8 },
-          ]}
-        /> */}
-
         <View style={styles.homeCardContainer}>
           <HomeCard
             title="Nombre de pas total du CHU"
-            value={"1145000"} icon={require("../../assets/steps.png")} />
+            value={totalSteps.toString()} icon={require("../../assets/steps.png")} />
           <HomeCard
-            title="Ton classement actuel"
-            value={"1er !"} icon={require("../../assets/ranking.png")} />
+            title="Nombre de badges obtenus"
+            value={badgeCount.toString()}
+            icon={require("../../assets/ranking.png")} />
           <HomeCard
             title="Moyenne de tes pas cette semaine"
-            value={"10000"} icon={require("../../assets/average.png")} />
+            value={averageSteps.toString()} icon={require("../../assets/average.png")} />
           <HomeCard
             title="Jours consécutifs à plus de 10 000 pas"
             value={"1"} icon={require("../../assets/flame.png")} />
         </View>
-
       </ScrollView >
     </View >
   );

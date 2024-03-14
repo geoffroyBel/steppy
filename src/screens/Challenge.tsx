@@ -88,9 +88,6 @@ export default () => {
         <View style={{ gap: 20 }}>
           <ObjectifCard
             objectifs={[
-              { id: 2, progress: 0.6 },
-              { id: 3, progress: 0.8 },
-              { id: 4, progress: 0.8 },
               { id: 4, progress: totalSteps / OBJECTIF.terre.steps },
               { id: 3, progress: totalSteps / OBJECTIF.europe.steps },
               {

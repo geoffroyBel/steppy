@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: 130,
         height: 55,
-    }, 
+    },
     tabBarIn: {
         flexDirection: 'row',
         paddingBottom: 10,
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         backgroundColor: 'red',
         height: 50,
-        
+
     },
     indicator: {
         position: 'absolute',
         width: 130,
         height: 55,
-        backgroundColor: '#FFFFFF', 
+        backgroundColor: '#FFFFFF',
         borderRadius: 50,
     }
 });
@@ -54,9 +54,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     const moveIndicator = (index) => {
         Animated.timing(translateX, {
             toValue: index * 95,
-            duration: 300, 
-            easing: Easing.inOut(Easing.ease), 
-            useNativeDriver: true, 
+            duration: 300,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
         }).start();
     };
 
@@ -69,7 +69,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     }
 
     return (
-        <View style={[styles.tabBar, { paddingBottom: insets.bottom + 10 }, {zIndex: 20}]}>
+        <View style={[styles.tabBar, { paddingBottom: insets.bottom + 10 }, { zIndex: 20 }]}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
@@ -78,8 +78,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     options.tabBarLabel !== undefined
                         ? options.tabBarLabel
                         : options.title !== undefined
-                        ? options.title
-                        : route.name;
+                            ? options.title
+                            : route.name;
 
                 const onPress = () => {
                     const event = navigation.emit({
@@ -101,52 +101,52 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 };
                 return (
                     <>
-                    <View style={[StyleSheet.absoluteFillObject, {zIndex: 0}]}>
-                        <Canvas style={{ flex: 1 }}>
-                        <Fill>
-                            <LinearGradient
-                            start={vec(0, 0)}
-                            end={vec(390, 0)}
-                            colors={["rgba(57, 143, 199, 1)", "rgba(1, 96, 172, 1)"]}
-                            />
-                        </Fill>
-                        </Canvas>
-                    </View>  
-                    <Animated.View style={[styles.tabBarIn, {zIndex: 20}]}>
-                        <TouchableOpacity
-                            accessibilityRole="button"
-                            accessibilityState={isFocused ? { selected: true } : {}}
-                            accessibilityLabel={options.tabBarAccessibilityLabel}
-                            testID={options.tabBarTestID}
-                            onPress={onPress}
-                            onLongPress={onLongPress}
-                            style={{ flex: 1, alignItems: 'center', justifyContent: 'center', zIndex: 20 }}
-                            key={route.name}
-                        >
-                            <View style={[styles.tabContent
-                            , isFocused  && { backgroundColor: "#FFFFFF", borderRadius: 50 }
+                        <View key={index} style={[StyleSheet.absoluteFillObject, { zIndex: 0 }]}>
+                            <Canvas style={{ flex: 1 }}>
+                                <Fill>
+                                    <LinearGradient
+                                        start={vec(0, 0)}
+                                        end={vec(390, 0)}
+                                        colors={["rgba(57, 143, 199, 1)", "rgba(1, 96, 172, 1)"]}
+                                    />
+                                </Fill>
+                            </Canvas>
+                        </View>
+                        <Animated.View style={[styles.tabBarIn, { zIndex: 20 }]}>
+                            <TouchableOpacity
+                                accessibilityRole="button"
+                                accessibilityState={isFocused ? { selected: true } : {}}
+                                accessibilityLabel={options.tabBarAccessibilityLabel}
+                                testID={options.tabBarTestID}
+                                onPress={onPress}
+                                onLongPress={onLongPress}
+                                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', zIndex: 20 }}
+                                key={route.name}
+                            >
+                                <View style={[styles.tabContent
+                                    , isFocused && { backgroundColor: "#FFFFFF", borderRadius: 50 }
                                 ]}>
-                                {options.tabBarIcon ? (
-                                    <Ionicons
-                                        name={options.tabBarIcon}
-                                        size={48}
-                                        color={isFocused ? '#007AFF' : '#FFFFFF'}
-                                    />
-                                ) : (
-                                    <Image
-                                        source={options.image}
-                                        style={styles.image}
-                                    />
-                                )}
+                                    {options.tabBarIcon ? (
+                                        <Ionicons
+                                            name={options.tabBarIcon}
+                                            size={48}
+                                            color={isFocused ? '#007AFF' : '#FFFFFF'}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={options.image}
+                                            style={styles.image}
+                                        />
+                                    )}
 
-                                {isFocused && (
-                                    <Text style={{ color: '#007AFF', marginLeft: 5 }}>
-                                        {label}
-                                    </Text>
-                                )}
-                            </View>
-                        </TouchableOpacity>
-                    </Animated.View>
+                                    {isFocused && (
+                                        <Text style={{ color: '#007AFF', marginLeft: 5 }}>
+                                            {label}
+                                        </Text>
+                                    )}
+                                </View>
+                            </TouchableOpacity>
+                        </Animated.View>
 
                     </>
                 );

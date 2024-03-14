@@ -1,27 +1,18 @@
-import { StatusBar } from "expo-status-bar";
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { Canvas, Path, Skia } from "@shopify/react-native-skia";
-import Animated from "react-native-reanimated";
-import Podometer from "./src/podometer/Podometer";
-import { NavigationContainer } from "@react-navigation/native";
 import {
   SafeAreaProvider,
-  useSafeAreaInsets,
 } from "react-native-safe-area-context";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import ChallengeTabBar from "./src/navigators/ChallengeTabBar";
-import OnboardingStack from "./src/navigators/OnboardingStack";
-import AuthProvider, {
+import {
   AuthContext,
   IAuthContext,
 } from "./src/Providers/AuthProvider";
 import Navigation from "./src/navigators/Navigation";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SplashScreen from "expo-splash-screen";
 import { TOKEN } from "./src/store/actions/auth";
-import { getLastDailySteps } from "./src/store/actions/dailySteps";
 import Providers from "./src/Providers";
 import { StepContext } from "./src/Providers/StepProvider";
 import { IStepContext } from "./src/types";
@@ -29,10 +20,9 @@ import { isTimeToUpdate } from "./src/utils/dateUtils";
 import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
 import { useFonts } from "expo-font";
 
-
 function Root() {
-  const [isTryingLogin, setIsTryingLogin] = useState(true);
-  const { authenticate, logout, user } = useContext(
+  const [, setIsTryingLogin] = useState(true);
+  const { authenticate, user } = useContext(
     AuthContext
   ) as IAuthContext;
   const { handleFetchDaily, handleUpdateDaily, handleFetchStats } = useContext(

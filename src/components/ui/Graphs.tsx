@@ -175,7 +175,7 @@ const Indicator = withParentSize(
               ]}
             >
               {timeData.map((d: string, i: number) => (
-                <Text style={styles.scaleTimeLabel}>{d}</Text>
+                <Text key={i} style={styles.scaleTimeLabel}>{d}</Text>
               ))}
             </Animated.View>
           );
@@ -229,6 +229,7 @@ export default ({ steps }: { steps: Steps }) => {
               (stepNumber: string, index) => {
                 return (
                   <Text
+                    key={index}
                     style={{
                       fontSize: 9,
                       height: "30%",

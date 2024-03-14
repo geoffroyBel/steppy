@@ -15,10 +15,10 @@ export default () => {
   const user = useContext(AuthContext);
   const insets = useSafeAreaInsets();
   return (
-      <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <CustomTabBar {...props} />}>
-        <Tab.Screen name="Challenge" component={Challenge} options={{ tabBarIcon: 'earth' }}/>
-        <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: 'home' }}/>
-        <Tab.Screen name="Profile" component={Profile} options={{ image: user.user?.avatarId? (getAvatar((user?.user!.avatarId).toString())) : require("../../assets/avatar.png") }}/>
-      </Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <CustomTabBar {...props} />} initialRouteName="Home">
+      <Tab.Screen name="Challenge" component={Challenge} options={{ tabBarIcon: 'earth' }} />
+      <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: 'home' }} />
+      <Tab.Screen name="Profile" component={Profile} options={{ image: user.user?.avatarId ? (getAvatar((user?.user!.avatarId).toString())) : require("../../assets/avatar.png") }} />
+    </Tab.Navigator>
   );
 };

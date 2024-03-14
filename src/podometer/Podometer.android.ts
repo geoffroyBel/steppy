@@ -57,6 +57,9 @@ export default () => {
     return newSteps;
   };
   const getStepsByDates = async (dates: Date[]) => {
+    if (dates.length === 0) {
+      return [];
+    }
     var start = new Date(dates[0].toISOString());
     start.setHours(1);
     var end = new Date(dates[dates.length - 1].toISOString());

@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ecee04a0-b608-4112-9ff9-0800d1bb8d64" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugins/health-connect-plugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/health-connect-plugin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/ChallengeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/ChallengeCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/Badge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Badge.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/CustomTabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/CustomTabBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/EarthProgress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/EarthProgress.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/GraphChallenge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/GraphChallenge.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigators/ChallengeTabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigators/ChallengeTabBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/podometer/Podometer.android.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/podometer/Podometer.android.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Challenge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Challenge.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Profile/index.tsx" afterDir="false" />
     </list>
@@ -34,17 +41,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Dev-Macthioussee"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Dev-Macthioussee&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

@@ -54,17 +54,6 @@ export default () => {
   const user = useContext(AuthContext);
   const [selectedAvatarId, setSelectedAvatarId] = useState(0);
   useEffect(() => {
-    // const fetchDataProfilBadge = async () => {
-    //   try {
-    //     const data = await getProfilBadge();
-    //     setProfilAvatarData(data);
-    //   } catch (error) {
-    //     console.error("Failed to fetch profile badge data:", error);
-    //   }
-    // };
-
-    // fetchDataProfilBadge();
-
     const fetchDataAllAvatars = async () => {
       try {
         const data = await getAllAvatar();

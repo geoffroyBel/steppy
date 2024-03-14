@@ -70,10 +70,9 @@ export const Badge = ({
     let percentage = Math.min((stepPersonal / quantity), 1);
     const percentageOutOf100 = (percentage * 100).toFixed(2);
     displayQuantity = percentageOutOf100;
-    console.log(percentageOutOf100, "percentage out of 100")
 
     const isBadgeUnlocked = quantity <= stepPersonal;
-    
+
 
     return (
         <View style={styles.root}>
@@ -99,8 +98,8 @@ export const Badge = ({
                         : null
                     }
                 </View>
-                {!isBadgeUnlocked ? <Text>{stepPersonal}/{quantity}</Text> : null }
-           </View>
+                {!isBadgeUnlocked ? <Text>{stepPersonal}/{quantity}</Text> : null}
+            </View>
         </View>
     )
 }

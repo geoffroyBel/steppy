@@ -173,6 +173,7 @@ const Indicator = withParentSize(
           });
           return (
             <Animated.View
+              key={index}
               style={[
                 StyleSheet.absoluteFillObject,
                 {
@@ -184,7 +185,7 @@ const Indicator = withParentSize(
               ]}
             >
               {timeData.map((d: string, i: number) => (
-                <Text style={styles.scaleTimeLabel}>{d}</Text>
+                <Text key={i} style={styles.scaleTimeLabel}>{d}</Text>
               ))}
             </Animated.View>
           );
@@ -236,10 +237,11 @@ export default ({ steps }: { steps?: Steps }) => {
       <View style={styles.container}>
         <View style={styles.steps}>
           <View style={{ paddingVertical: 0, flex: 1 }}>
-            {["40 0000 km", "30 000km", "20 000km", "0"].map(
+            {["40 0000", "30 000", "20 000", "0"].map(
               (stepNumber: string, index) => {
                 return (
                   <Text
+                    key={index}
                     style={{
                       fontSize: 9,
                       height: "30%",
