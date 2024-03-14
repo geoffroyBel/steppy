@@ -49,6 +49,7 @@ export default ({ transition, progress = 0.6 }: IEarthProgress) => {
       [SIZE, STROKE_WIDTH / 2]
     );
   }, [transition]);
+
   return (
     <Canvas
       style={{

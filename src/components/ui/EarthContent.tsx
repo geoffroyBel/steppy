@@ -1,5 +1,5 @@
 import { Canvas, Text as SKText, useFont } from "@shopify/react-native-skia";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Animated, {
   SharedValue,
@@ -12,6 +12,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Message from "./Message";
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 const { width } = Dimensions.get("screen");
 interface IEartContent {
   totalStep: number;
@@ -44,6 +46,22 @@ export default ({ totalStep, objectif, message, transition }: IEartContent) => {
         });
       }
     }
+  );
+  useEffect(() => {
+    return () => {
+      setShow(false);
+    };
+  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      transition.value = 0;
+      transition.value = withTiming(1, {
+        duration: 2000,
+      });
+      return () => {
+        setShow(false);
+      };
+    }, [])
   );
   const styleTotal = useAnimatedStyle(() => {
     const opacity = interpolate(transition.value, [0, 0.5], [0, 1]);

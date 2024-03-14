@@ -41,7 +41,16 @@ const getCurrenWeekDates = () => {
 
   return dates;
 };
+const getMonthBound = (): { start: Date; end: Date } => {
+  const dates: Date[] = [];
+  const start = new Date();
+  start.setDate(1);
+  // dateActuelle.setHours(23);
+  const annee = start.getFullYear();
+  const mois = start.getMonth();
 
+  return { start: start, end: new Date(annee, mois + 1, 0, 23) };
+};
 function getCurrentMontDates() {
   const dates: Date[] = [];
   const dateActuelle = new Date();
@@ -121,11 +130,9 @@ const getDatesbyRange = (start: string, end: string) => {
   const dates = [];
   for (let i = 0; i <= diff; i++) {
     let day;
-    if (i < diff) {
-      day = startDate.add(i, "day").add(23, "hours").toDate();
-    } else {
-      day = dayjs().toDate();
-    }
+
+    day = startDate.add(i, "day").add(23, "hours").toDate();
+
     dates.push(day);
   }
   return dates;
@@ -136,7 +143,10 @@ const isTimeToUpdate = (lastUpdateTime: string) => {
 
   return maintenant - lastUpdateTimestamp >= 60 * 60 * 1000;
 };
+const lastDayOfMonth = () =>
+  new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
 export {
+  lastDayOfMonth,
   getWeekDates,
   formatedDate,
   spliceByDateRange,
@@ -146,4 +156,5 @@ export {
   getCurrentYearDates,
   getDatesbyRange,
   isTimeToUpdate,
+  getMonthBound,
 };

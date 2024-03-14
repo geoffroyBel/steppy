@@ -5,6 +5,7 @@ import { updateDailySteps } from "../store/actions/dailySteps";
 import { getStats } from "../store/actions/stats";
 
 export const StepContext = createContext<IStepContext>({
+  stats: undefined,
   totalSteps: 0,
   isLoading: true,
   handleUpdateDaily: undefined,
@@ -62,7 +63,14 @@ const StepProvider: React.FC<{ children: React.ReactNode }> = ({
       handleFetchDaily,
       handleFetchStats,
     }),
-    [isLoading, handleUpdateDaily, handleFetchDaily, totalSteps]
+    [
+      stats,
+      isLoading,
+      handleUpdateDaily,
+      handleFetchDaily,
+      totalSteps,
+      handleFetchStats,
+    ]
   );
   return <StepContext.Provider value={value}>{children}</StepContext.Provider>;
 };

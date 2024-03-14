@@ -17,9 +17,11 @@ export interface Credentials {
 export interface DailySteps {
   stepCount: number;
   day: string;
+  id?: number;
 }
 
 export interface IStepContext {
+  stats?: IChallenge;
   totalSteps: number;
   isLoading: boolean;
   handleUpdateDaily?: () => Promise<any>;
