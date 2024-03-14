@@ -44,11 +44,16 @@ export default () => {
     fetchStats();
   }, []);
 
+  const [target, setTarget] = useState([
+    { id: 4, progress: 0 },
+    { id: 3, progress: 0 },
+    { id: 2, progress: 0 },
+  ]);
+
   useEffect(() => {
     if (stats) {
       const week = getCurrentWeekDailySteps(stats.weekSteps as DailySteps[]);
       const month = getCurrentMonthDailySteps(stats.monthSteps as DailySteps[]);
-
       setSteps({ week, month });
     }
   }, [stats]);
@@ -86,6 +91,15 @@ export default () => {
               { id: 2, progress: 0.6 },
               { id: 3, progress: 0.8 },
               { id: 4, progress: 0.8 },
+              { id: 4, progress: totalSteps / OBJECTIF.terre.steps },
+              { id: 3, progress: totalSteps / OBJECTIF.europe.steps },
+              {
+                id: 2,
+                progress:
+                  totalSteps / OBJECTIF.france.steps > 1
+                    ? 1
+                    : totalSteps / OBJECTIF.france.steps,
+              },
             ]}
           />
           <Graphs steps={steps as Steps} />
@@ -97,7 +111,7 @@ export default () => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 500,
+    height: 600,
     width: "100%",
   },
 });

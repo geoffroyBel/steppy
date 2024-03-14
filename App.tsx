@@ -27,14 +27,14 @@ import { StepContext } from "./src/Providers/StepProvider";
 import { IStepContext } from "./src/types";
 import { isTimeToUpdate } from "./src/utils/dateUtils";
 import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
-import { useFonts } from "expo-font"; 
+import { useFonts } from "expo-font";
 
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
   const { authenticate, logout, user } = useContext(
     AuthContext
-  ) as IAuthContext;  
+  ) as IAuthContext;
   const { handleFetchDaily, handleUpdateDaily, handleFetchStats } = useContext(
     StepContext
   ) as IStepContext;
@@ -53,7 +53,6 @@ function Root() {
     }
   }, [user]);
 
-
   useEffect(() => {
     const fetchDailySteps = async () => {
       if (!handleFetchDaily) return;
@@ -65,7 +64,13 @@ function Root() {
     };
     fetchDailySteps();
   }, [handleFetchDaily]);
+  useEffect(() => {
+    const fetchStats = async () => {
+      await handleFetchStats();
+    };
 
+    fetchStats();
+  }, []);
   useEffect(() => {
     const saveDailySteps = async () => {
       if (!handleUpdateDaily || !handleFetchDaily) return;

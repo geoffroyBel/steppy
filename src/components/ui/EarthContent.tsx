@@ -41,7 +41,7 @@ export default ({ totalStep, objectif, message, transition }: IEartContent) => {
     () => transition.value, // La dépendance à surveiller
     (newValue, prevValue) => {
       if (newValue === 1) {
-        scale.value = withTiming(1, { duration: 1000 }, () => {
+        scale.value = withTiming(1, { duration: 500 }, () => {
           runOnJS(setShow)(true);
         });
       }
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   textContainer: {
     display: "flex",
     flexDirection: "column",
-    rowGap: 10,
+    gap: 20,
   },
   static: {
     fontFamily: "Montserrat",
