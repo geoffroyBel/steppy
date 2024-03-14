@@ -31,21 +31,15 @@ export default ({ width, height, progress, transition }: Iprops) => {
     m.scale(transition!.value * progress);
     return m;
   }, [transition]);
+  const progressFloat = progress/100;
   return (
     <Canvas style={{ width, height }}>
       <Group clip={roundedRect}>
         <Fill color={"rgba(217, 217, 217, 1)"} />
-        {/* <Rect x={0} y={0} width={width} height={height} color={"black"}>
-          <LinearGradient
-            start={vec(0, 0)}
-            end={vec(width, 0)}
-            colors={["rgba(0, 95, 171, 1)", "rgba(27, 184, 235, 1)"]}
-          />
-        </Rect> */}
         <RoundedRect
           x={0}
           y={0}
-          width={width}
+          width={width * progressFloat} 
           height={height}
           r={height / 2}
           matrix={matrix}

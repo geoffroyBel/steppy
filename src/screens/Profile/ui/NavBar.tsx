@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 
 export default ({ titre, setShowAvatarDetails, showAvatarDetails }) => {
-
+  const { logout } = useContext(AuthContext);
   // const [showAvatarDetails, setShowAvatarDetails] = useState(false);
   // const handleAvatarNav = (boolean: boolean) => {
   //   setShowAvatarDetails(boolean);
@@ -25,7 +25,7 @@ export default ({ titre, setShowAvatarDetails, showAvatarDetails }) => {
         <Text style={styles.title}>{titre}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <IconButton icon="log-out" color={"white"} size={45} />
+        <IconButton onPress={logout}  icon="log-out" color={"white"} size={45} />
       </View>
     </View>
   );
