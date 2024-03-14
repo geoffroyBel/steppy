@@ -9,6 +9,6 @@ export async function getStats(): Promise<IChallenge> {
   } catch (error: unknown) {
     console.log(error);
 
-    throw new Error("Fail create User");
+    throw new Error("Get Stat");
   }
 }

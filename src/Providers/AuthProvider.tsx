@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, FC, useEffect, useMemo, useState } from "react";
+import { createContext, FC, useEffect, useMemo, useState, useContext } from "react";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
 import { getUser, TOKEN } from "../store/actions/auth";
 import { User } from "../types";

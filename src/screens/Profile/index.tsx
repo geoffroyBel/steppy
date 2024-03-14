@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState, useEffect,  useRef } from "react";
+import { useCallback, useState, useEffect,  useRef, useContext } from "react";
 import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import Animated, {
   useSharedValue,
@@ -15,6 +15,9 @@ import IconButton from "./ui/IconButton";
 import { getProfilBadge } from "../../store/actions/profilData";
 import { Badge } from "../../components/ui/Badge";
 import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { getAllAvatar } from "../../store/actions/avatarData";
+import { avatarImages, getAvatar, getBadges } from "../../../images";
 
 
 const { height, width, scale } = Dimensions.get("screen");
@@ -28,23 +31,44 @@ const c2 = { x: 0.9 * width, y: 0.3 * HEADER_HEIGHT };
 const FROM_COLOR = "rgb(23, 99, 174)";
 const TO_COLOR = "rgb(34,121,190)";
 export default () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  if (!isAuthenticated) {
+    return (
+      <View>
+        <Text>Veuillez vous connecter pour accéder à votre profil.</Text>
+      </View>
+    );
+  }
+
   const radius = useSharedValue(HEADER_HEIGHT);
   const scale = useSharedValue(0);
   const insets = useSafeAreaInsets();
   const [showAvatarDetails, setShowAvatarDetails] = useState(false);
   const [profilAvatarData, setProfilAvatarData] = useState(null);
-
+  const [avatars, setAvatars] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataProfilBadge = async () => {
       try {
         const data = await getProfilBadge();
         setProfilAvatarData(data);
       } catch (error) {
-        console.error("Failed to fetch profile avatar data:", error);
+        console.error("Failed to fetch profile badge data:", error);
       }
     };
 
-    fetchData();
+    fetchDataProfilBadge();
+
+    const fetchDataAllAvatars = async () => {
+      try {
+        const data = await getAllAvatar();
+        setAvatars(data);
+      } catch (error) {
+        console.error("Failed to fetch profile badge data:", error);
+      }
+    };
+
+    fetchDataAllAvatars();
   }, []);
 
   // Console log the profile avatar data
@@ -52,17 +76,7 @@ export default () => {
     console.log("Profile Avatar Data:", profilAvatarData);
   }, [profilAvatarData]);
   
-  const [avatars, setAvatars] = useState([
-    { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar1.png") },
-    { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatar2.png") },
-    { id: 3,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar3.png") },
-    { id: 4,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar4.png") },
-    { id: 5,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar5.png") },
-    { id: 6,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar6.png") },
-    { id: 7,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar7.png") },
-    { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar8.png") },
-    { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar9.png") },
-  ]);
+  
 
   const [stepPersonal, setstapPersonal] = useState(10000);
   const [stepGlobal, setstapGlobal] = useState(100000);
@@ -184,39 +198,6 @@ export default () => {
     setShowAvatarDetails(boolean);
   };
 
-  const handleChangeAvatar = () => {
-    const selectedIndex = avatars.findIndex((avatar) => avatar.isSelected);
-    if (selectedIndex !== -1) {
-      const selectedAvatarId = avatars[selectedIndex].id;
-      console.log("ID de l'avatar sélectionné :", selectedAvatarId);
-      
-      setAvatars((prevAvatars) =>
-        prevAvatars.map((avatar, index) => ({
-          ...avatar,
-          userSelect: index === selectedIndex ? true : false,
-        }))
-      );
-    }
-  };
-  
-
-  const handleAvatarPress = (index: number, progress: number) => {
-    setAvatars((prevAvatars) => {
-      const newAvatars = [...prevAvatars];
-      if (progress == 1){
-        newAvatars.forEach((avatar, i) => {
-          if (i === index) {
-            avatar.isSelected = true;
-          } else {
-            avatar.isSelected = false;
-          }
-        });
-      }
-      return newAvatars;
-    });
-  };
-  
-
   useFocusEffect(
     useCallback(() => {
       scale.value = 0;
@@ -227,8 +208,6 @@ export default () => {
     }, [])
   );
   const animatedProps = useAnimatedProps(() => {
-    console.log(insets.top);
-
     const gap = 0;
     const path = `
       M ${p1.x}, ${p1.y + gap}
@@ -245,6 +224,28 @@ export default () => {
       transform: [{ scale: scale.value }],
     };
   }, []);
+
+  const renderAvatars = () => {
+    if (avatars) {
+      return avatars.map((avatar, index: number) => {
+        // const images = require.context('../../../assets/avatar', true, /\.png$/);
+        // const imageSources = images.keys().map((index) => images(index));
+        const imageSources = avatarImages[`avatar${index}`];
+        return (
+          <Avatar
+            key={index}
+            progress={1}
+            isSelected={avatar.isSelected}
+            image={getAvatar((index+1).toString())}
+            // onPress={() => handleAvatarPress(index, avatar.progress)}
+          />
+        );
+      });
+    } else {
+      return null;
+    }
+  };
+  
   return (
     <View style={styles.root}>
       <View style={styles.header}>
@@ -261,11 +262,11 @@ export default () => {
         <NavBar  titre={"Votre titre"} setShowAvatarDetails={setShowAvatarDetails} showAvatarDetails={showAvatarDetails} />
         <TouchableOpacity onPress={() => handleAvatarNav(true)}>
           <Animated.View style={[styles.avatar, styleScale]} >
-            {avatars.map((avatar, index) => {
+            {/* {avatars.map((avatar, index) => {
               if (avatar.userSelect) {
                 return <Image key={index} style={styles.image} source={avatar.image} />;
               }
-            })}
+            })} */}
           </Animated.View>
       </TouchableOpacity>
         
@@ -273,21 +274,13 @@ export default () => {
       {showAvatarDetails ? (
         <View style={styles.main}>
           <Animated.View style={[styleScale]}>
-            <View style={styles.avatarContainer}>
-              {avatars.map((avatar, index) => (
-                <Avatar
-                  key={index}
-                  progress={avatar.progress}
-                  isSelected={avatar.isSelected}
-                  image={avatar.image}
-                  onPress={() => handleAvatarPress(index, avatar.progress)}
-                />
-              ))}
-            </View>
+          <View style={styles.main}>
+            {renderAvatars()}
+          </View>
             <View style={styles.footer}>
               <TouchableOpacity
                 style={styles.changeAvatarButton}
-                onPress={handleChangeAvatar}
+                // onPress={handleChangeAvatar}
               >
                 <Text style={styles.changeAvatarButtonText}>Changer d'avatar</Text>
               </TouchableOpacity>
@@ -302,7 +295,7 @@ export default () => {
                 <Badge
                   key={badgeItem.id}
                   progress={badgeItem.quantity}
-                  image={badgeItem.image}
+                  image={getBadges(badgeItem.id.toString())}
                   title={badgeItem.name}
                   description={badgeItem.description}
                   isStreak={badgeItem.isStreak}

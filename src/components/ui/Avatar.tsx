@@ -7,7 +7,7 @@ interface IAvatar {
     progress: number;
     isSelected: boolean;
     image: string;
-    onPress: () => void;
+    // onPress: () => void;
 }
 
 interface IAvatars {
@@ -59,7 +59,7 @@ export const Avatar = ({
     progress,
     isSelected,
     image,
-    onPress,
+    // onPress,
 }: IAvatar) => {
 
     const getBackgroundColor = () => {
@@ -79,17 +79,15 @@ export const Avatar = ({
     };
     const opacity = progress !== 1 ? 0.5 : 1;
     const backgroundColor = getBackgroundColor();
-
     return (
         <View style={styles.root}>
-            <Pressable onPress={onPress}>
+            {/* <Pressable onPress={onPress}> */}
                 <View style={[styles.header, { backgroundColor }] }>
                     <Image
-                        source={image}
                         style={[styles.avatar, { opacity }]}
+                        source={image}
                     />
                 </View>
-            </Pressable>
         </View>
     );
 }
