@@ -51,3 +51,36 @@ export const makeGraph = (
     curve,
   };
 };
+
+export const makeGraph2 = (
+  dimensions: { width: number; height: number },
+  steps: DataPoint[]
+): GraphData => {
+  const { width, height } = dimensions;
+  const data = populateMissingSteps(steps);
+  const min = Math.min(...data.map((v) => v.value / 13000));
+  const max = Math.max(...data.map((v) => v.value / 13000));
+
+  const start = new Date(steps[0].date);
+  const end = new Date(steps[steps.length - 1].date);
+
+  const getYAxis = scaleLinear()
+    .domain([0, 130000])
+    .range([height + 35, 0]);
+  const getXAxis = scaleTime()
+    .domain([start, end])
+    .range([0, width - 10]);
+
+  const curvedLine = line<DataPoint>()
+    .x((d) => getXAxis(new Date(d.date)))
+    .y((d) => getYAxis(d.value))
+    .curve(curveBasis)(data);
+  // data.map((d, i) => console.log(getXAxis.invert(100)));
+  const curve = Skia.Path.MakeFromSVGString(curvedLine!)!;
+
+  return {
+    min,
+    max,
+    curve,
+  };
+};

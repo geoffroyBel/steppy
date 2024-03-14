@@ -32,7 +32,7 @@ import Animated, {
 import ButtonGroup from "./ButtonGroup";
 import Button from "./Button";
 import { Steps } from "../../types";
-import { makeGraph } from "../../utils/graph";
+import { makeGraph, makeGraph2 } from "../../utils/graph";
 import { lastDayOfMonth } from "../../utils/dateUtils";
 type GraphState = { next: number; current: number; steps?: GraphData[] };
 const GRAPHS: Array<any> = [
@@ -213,8 +213,8 @@ export default ({ steps }: { steps?: Steps }) => {
     state.value = {
       ...state.value,
       steps: [
-        makeGraph(GRAPH_SIZE, steps.week),
-        makeGraph(GRAPH_SIZE, steps.month),
+        makeGraph2(GRAPH_SIZE, steps.week),
+        makeGraph2(GRAPH_SIZE, steps.month),
       ],
     };
   }, [steps]);
