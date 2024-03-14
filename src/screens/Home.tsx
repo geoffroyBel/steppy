@@ -151,12 +151,12 @@ export default () => {
 
         {podometer && podometer.steps && <Graphs steps={podometer.steps} />}
 
-        <ObjectifCard
+        {/* <ObjectifCard
           objectifs={[
             { id: 1, progress: 0.6 },
             { id: 1, progress: 0.8 },
           ]}
-        />
+        /> */}
 
         <View style={styles.homeCardContainer}>
           <HomeCard
