@@ -2,16 +2,20 @@ import { View, StyleSheet, Image, Pressable, Dimensions } from "react-native";
 import { useEffect, useMemo, useState } from "react";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; // Importer les icônes depuis Expo
+import { User } from "../../types";
+import { IAuthContext } from "../../Providers/AuthProvider";
 
 interface IAvatar {
     progress: number;
-    isSelected: boolean;
+    isSelected: number;
     image: string;
+    user: IAuthContext;
+    id: number;
     onPress: () => void;
 }
 
 interface IAvatars {
-    avatars: Array<{ progress: number; isSelected: boolean; image: string; }>;
+    avatars: Array<{ progress: number; isSelected: number; image: string; }>;
 
 }
 const { width, height } = Dimensions.get('window');
@@ -59,34 +63,42 @@ export const Avatar = ({
     progress,
     isSelected,
     image,
+    user,
     onPress,
+    id,
 }: IAvatar) => {
+    // console.log("user : ", user);
+    // Extraire les informations de l'utilisateur
+    // const { avatarId } = user.user;
+
+    // console.log("Avatar ID: ", avatarId);
+    // console.log("Challenges: ", challenges);
 
     const getBackgroundColor = () => {
         let backgroundColor;
-
-        if (progress === 1 ){
-            if (isSelected) {
+        console.log("isSelected : ",isSelected);
+        // if (progress === 1 ){
+            if (id == isSelected) {
                 backgroundColor = "#005FAB";
             } else {
                 backgroundColor = "lightblue";
             }
-        } else {
-            backgroundColor = "gray";
-        }
+        // } 
+        // else {
+        //     backgroundColor = "gray";
+        // }
 
         return backgroundColor;
     };
     const opacity = progress !== 1 ? 0.5 : 1;
     const backgroundColor = getBackgroundColor();
-
     return (
         <View style={styles.root}>
             <Pressable onPress={onPress}>
                 <View style={[styles.header, { backgroundColor }] }>
                     <Image
-                        source={image}
                         style={[styles.avatar, { opacity }]}
+                        source={image}
                     />
                 </View>
             </Pressable>

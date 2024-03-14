@@ -29,25 +29,30 @@ import { isTimeToUpdate } from "./src/utils/dateUtils";
 import { LAST_DAILY_STEP_TIMESTAMP } from "./src/config";
 import { useFonts } from "expo-font"; 
 
-SplashScreen.preventAutoHideAsync();
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
-  const { authenticate, logout } = useContext(AuthContext) as IAuthContext;
-  const { handleFetchDaily, handleUpdateDaily } = useContext(
+  const { authenticate, logout, user } = useContext(
+    AuthContext
+  ) as IAuthContext;  
+  const { handleFetchDaily, handleUpdateDaily, handleFetchStats } = useContext(
     StepContext
   ) as IStepContext;
+
   useEffect(() => {
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
         authenticate(storedToken);
+        // await SplashScreen.hideAsync();
       }
       setIsTryingLogin(false);
-      await SplashScreen.hideAsync();
     };
-    fetchToken();
-  }, []);
+    if (!user) {
+      fetchToken();
+    }
+  }, [user]);
+
 
   useEffect(() => {
     const fetchDailySteps = async () => {
