@@ -1,5 +1,3 @@
-import * as SplashScreen from "expo-splash-screen";
-SplashScreen.preventAutoHideAsync();
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import {
   SafeAreaProvider,
