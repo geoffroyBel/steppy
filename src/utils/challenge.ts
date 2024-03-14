@@ -73,7 +73,7 @@ export const getCurrentMonthDailySteps = (
     {}
   );
 
-  return currentMonthDates.map((date) => {
+  return currentMonthDates.map((date, i) => {
     const day = dayjs(date).format("YYYY-MM-DD");
     return { value: monthSteps[day] || 0, date: date.toISOString() };
   });
@@ -97,7 +97,7 @@ export const getCurrentWeekDailySteps = (
     {}
   );
 
-  return currentWeekDates.map((date) => {
+  return currentWeekDates.map((date, i) => {
     const day = dayjs(date).format("YYYY-MM-DD");
     return { value: weekSteps[day] || 0, date: date.toISOString() };
   });

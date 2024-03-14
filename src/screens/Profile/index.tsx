@@ -164,7 +164,7 @@ export default () => {
     if (badge) {
       try {
         const userSteps = user.user.daily_steps;
-        const totalSteps = userSteps.map((item) => parseInt(item.stepCount)).reduce((prev, next) => prev + next, 0);
+        const totalSteps = userSteps.map((item, i) => parseInt(item.stepCount)).reduce((prev, next) => prev + next, 0);
         return (
           <View style={styles.main}>
             {badge.map((badgeItem, index: number) => (

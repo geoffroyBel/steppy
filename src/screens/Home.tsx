@@ -101,7 +101,7 @@ export default () => {
   // const steps: Steps = podometer.steps;
   const currentWeekSteps = useMemo(() => {
     return podometer && podometer.steps && podometer.steps.week
-      ? podometer.steps.week.map((el) => {
+      ? podometer.steps.week.map((el, i) => {
         return {
           ...el,
           date: new Date(el.date),

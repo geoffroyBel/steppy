@@ -58,7 +58,7 @@ export default ({ messages, x, currentIndex }: IMessages) => {
 
   return (
     <View onLayout={onLayout} style={{ ...styles.root, height }}>
-      {messages.map((msg) => {
+      {messages.map((msg, i) => {
         const { index, message: content } = msg;
         const style = useAnimatedStyle(() => {
           return {

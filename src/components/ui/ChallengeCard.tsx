@@ -37,7 +37,7 @@ export default ({ steps, messages }: IChallenge) => {
   useEffect(() => {
     state.value = {
       ...state.value,
-      daysProgress: steps.map((el) => el.progress),
+      daysProgress: steps.map((el, i) => el.progress),
     };
     transition.value = 0;
     transition.value = withTiming(1, { duration: 2000 });
