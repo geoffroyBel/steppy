@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 import Days from "./Day";
 import CircularLoader from "./CircularLoader";
 import Slides from "./Slides";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   interpolate,
   useDerivedValue,
@@ -17,6 +17,9 @@ import EarthProgress from "./EarthProgress";
 import EarthContent from "./EarthContent";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
+import { StepContext } from "../../Providers/StepProvider";
+import { IStepContext } from "../../types";
+import { OBJECTIF } from "../../utils/challenge";
 const { width } = Dimensions.get("screen");
 interface IChallenge {
   steps: Array<Step>;
@@ -32,21 +35,23 @@ export interface IChallengeMessage {
 export default () => {
   const insets = useSafeAreaInsets();
   const transition = useSharedValue(0);
+  const { totalSteps } = useContext(StepContext) as IStepContext;
   const state = useSharedValue({
     daysProgress: [0, 0, 0, 0, 0, 0, 0],
   });
   const input = new Array(7).fill(0).map((l, i) => i * width);
   useEffect(() => {
-    console.log("kkkkkkkkalloc");
-
     transition.value = 0;
     transition.value = withTiming(1, { duration: 2000 });
   }, []);
   useFocusEffect(
     React.useCallback(() => {
+      const progress = totalSteps / OBJECTIF.terre.steps;
       transition.value = 0;
-      transition.value = withTiming(1, { duration: 2000 });
-    }, [])
+      transition.value = withTiming(progress < 0.1 ? 0.1 : 0.2, {
+        duration: 2000,
+      });
+    }, [totalSteps])
   );
   return (
     <View style={styles.background}>

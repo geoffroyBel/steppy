@@ -13,23 +13,27 @@ import {
   PathOp,
   Circle,
   Path,
-  mix,
+  mix
 } from "@shopify/react-native-skia";
 import { useEffect, useMemo } from "react";
+// import { image } from "d3";
 
-interface ICircleLoader {
+interface ICircleLockLoader {
   width: number;
   progress: number;
   strokeWidth: number;
-  transition: SharedValue<number>;
+  // transition: SharedValue<number>;
+  // image: string;
+  isSelect: boolean;
 }
 /// props={ value: 1}
 export default ({
   strokeWidth,
   progress,
-  transition,
+  // transition,
   width = 100,
-}: ICircleLoader) => {
+  isSelect,
+}: ICircleLockLoader) => {
   // size will be updated as the canvas size changes
 
   const center = useMemo(() => ({ x: width / 2, y: width / 2 }), [width]);
@@ -53,19 +57,24 @@ export default ({
   useEffect(() => {
     p.value = progress;
   });
-  const end = useDerivedValue(() => {
-    return mix(transition.value, 0, p.value);
-  }, [transition, p]);
+  let strokeColor = "rgba(128, 128, 128, 1)"; // Default gray color
+
+  if (isSelect) {
+    strokeColor = "rgba(0, 0, 128, 1)"; // Dark blue color when selected
+  } else {
+    if (progress === 1) {
+      strokeColor = "rgba(173, 216, 230, 1)"; // Light blue color when progress is 1
+    }
+  }
 
   return (
     <Canvas style={{ flex: 1 }}>
       <Group clip={clip}>
         <Fill color="rgba(0, 95, 171, 0.3)" />
-        
         <Path
           origin={center}
           start={0}
-          end={end}
+          // end={end}
           path={path}
           strokeWidth={strokeWidth}
           style={"stroke"}

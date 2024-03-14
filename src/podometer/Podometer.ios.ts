@@ -36,7 +36,7 @@ export default () => {
   useEffect(() => {
     appleHealthKit.initHealthKit(permissions, (err) => {
       if (err) {
-        console.log("error getting permissions");
+        // console.log("error getting permissions");
         return;
       }
       setHasPermissions(true);
@@ -60,9 +60,9 @@ export default () => {
           return;
         }
 
-        console.log(options);
+        // console.log(options);
 
-        console.log(results);
+        // console.log(results);
       }
     );
   }, [hasPermissions]);
@@ -97,8 +97,6 @@ export default () => {
   }): Promise<DataPoint[]> => {
     const datesToUpdate = getDatesbyRange(from, to);
     const newSteps = await getStepsByDates(datesToUpdate);
-    console.log("allllllo------------");
-    console.log(newSteps);
 
     return newSteps;
   };

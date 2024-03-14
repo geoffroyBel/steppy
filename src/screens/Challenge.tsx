@@ -1,24 +1,34 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Graphs from "../components/ui/Graphs";
 import Podometer from "../podometer/Podometer";
-import { useEffect, useMemo } from "react";
-import { Steps } from "../types";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { IChallenge, IStepContext, Steps } from "../types";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import ChallengeCard from "../components/ui/ChallengeCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
 import ObjectifCard from "../components/ui/ObectifCard";
 import ChallengeChuCard from "../components/ui/ChallengeChuCard";
+import { getStats } from "../store/actions/stats";
+import { OBJECTIF } from "../utils/challenge";
+import StepProvider, { StepContext } from "../Providers/StepProvider";
 
 export default () => {
   const transition = useSharedValue(0);
   const podometer = Podometer();
+  const [stats, setStats] = useState<IChallenge>();
+  const { totalSteps } = useContext(StepContext) as IStepContext;
 
-  useEffect(() => {
-    transition.value = withTiming(1, { duration: 3000 });
-  }, [podometer]);
   useEffect(() => console.log(podometer), [podometer]);
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     const _stats = await getStats();
+  //     setTotalSteps(_stats.totalSteps / OBJECTIF.terre.steps);
+  //     console.log(_stats.totalSteps);
+  //   };
 
+  //   fetchStats();
+  // }, []);
   return (
     <View style={{ flex: 1 }}>
       <View style={[StyleSheet.absoluteFillObject]}>

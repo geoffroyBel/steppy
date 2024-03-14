@@ -130,6 +130,12 @@ const getDatesbyRange = (start: string, end: string) => {
   }
   return dates;
 };
+const isTimeToUpdate = (lastUpdateTime: string) => {
+  const lastUpdateTimestamp = parseInt(lastUpdateTime, 10);
+  const maintenant = new Date().getTime();
+
+  return maintenant - lastUpdateTimestamp >= 60 * 60 * 1000;
+};
 export {
   getWeekDates,
   formatedDate,
@@ -139,4 +145,5 @@ export {
   getCurrentMontDates,
   getCurrentYearDates,
   getDatesbyRange,
+  isTimeToUpdate,
 };
