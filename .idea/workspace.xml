@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="ecee04a0-b608-4112-9ff9-0800d1bb8d64" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/health-connect-plugin.js" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/health-connect-plugin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/ChallengeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/ChallengeCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Profile/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +42,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "dev-2"
+    "git-widget-placeholder": "Dev-Macthioussee"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

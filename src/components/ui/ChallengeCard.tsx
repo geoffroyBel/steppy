@@ -79,12 +79,7 @@ export default ({ steps, messages }: IChallenge) => {
         days={steps}
       />
 
-      <View
-        style={{
-          justifyContent: "space-between",
-          gap: 20,
-        }}
-      >
+      <View>
         <View
           style={{
             width: "100%",
@@ -110,6 +105,7 @@ export default ({ steps, messages }: IChallenge) => {
                 width,
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
+                marginTop: 20,
               }}
             >
               {messages[i + 1] && (
@@ -126,7 +122,6 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     position: "relative",
-
     gap: 20,
     paddingBottom: 105,
   },

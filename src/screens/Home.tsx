@@ -1,47 +1,58 @@
-import { View, Text, StyleSheet, ScrollView, Alert, Linking } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, Linking, ActivityIndicator } from "react-native";
 import Graphs from "../components/ui/Graphs";
 import Podometer from "../podometer/Podometer";
-import { useContext, useEffect, useMemo } from "react";
-import { IStepContext, Steps } from "../types";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { DataPoint, IStepContext, Steps } from "../types";
 import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 import ChallengeCard from "../components/ui/ChallengeCard";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
 import ObjectifCard from "../components/ui/ObectifCard";
 import { StepContext } from "../Providers/StepProvider";
-
-import { PermissionsAndroid } from 'react-native';
 import HomeCard from "../components/Home/HomeCard";
 import { getGrantedPermissions, openHealthConnectDataManagement, requestPermission } from "react-native-health-connect";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default () => {
   const { handleFetchDaily } = useContext<IStepContext>(StepContext);
   const transition = useSharedValue(0);
   const podometer = Podometer();
-  useEffect(() => {
-    // async function requestHealthPermission() {
-    //   try {
-    //     const granted = await PermissionsAndroid.request(
-    //       PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-    //       {
-    //         title: 'Health Data Access',
-    //         message: 'App needs access to your steps data.',
-    //         buttonNeutral: 'Ask Me Later',
-    //         buttonNegative: 'Cancel',
-    //         buttonPositive: 'OK',
-    //       },
-    //     );
-    //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //       console.log('You can access the steps data');
-    //     } else {
-    //       console.log('Permission denied');
-    //     }
-    //   } catch (err) {
-    //     console.warn(err);
-    //   }
-    // }
+  const [isLoading, setIsLoading] = useState(true);
+  const [podometerData, setPodometerData] = useState<DataPoint[] | null>(null);
 
-    // requestHealthPermission();
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('podometerData');
+        if (storedData) {
+          setPodometerData(JSON.parse(storedData));
+        }
+      } catch (error) {
+        console.error('Failed to load data', error);
+      }
+      setIsLoading(false);
+    };
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const fetchAndStoreData = async () => {
+      if (!handleFetchDaily) return;
+      const data = await handleFetchDaily({ from: '2023-03-05', to: '2023-03-08' });
+      try {
+        await AsyncStorage.setItem('podometerData', JSON.stringify(data));
+        if (data !== null) {
+          setPodometerData(data);
+        }
+      } catch (error) {
+        console.error('Failed to save data', error);
+      }
+    };
+
+    if (isLoading) {
+      fetchAndStoreData();
+    }
+  }, [isLoading, handleFetchDaily]);
+  useEffect(() => {
     // Check if the user has already granted the permission
     const checkPermission = async () => {
       // Get the list of granted permissions
@@ -170,7 +181,7 @@ export default () => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 500,
+    // height: 500,
     width: "100%",
   },
   homeCardContainer: {

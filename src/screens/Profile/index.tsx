@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState, useEffect,  useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import Animated, {
   useSharedValue,
@@ -18,7 +18,6 @@ import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 
 const { height, width, scale } = Dimensions.get("screen");
-console.log("scale : ",scale);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const HEADER_HEIGHT = 0.4 * height;
 const p1 = { x: 0 - 50, y: 0.3 * HEADER_HEIGHT };
@@ -49,19 +48,19 @@ export default () => {
 
   // Console log the profile avatar data
   useEffect(() => {
-    console.log("Profile Avatar Data:", profilAvatarData);
+    // console.log("Profile Avatar Data:", profilAvatarData);
   }, [profilAvatarData]);
-  
+
   const [avatars, setAvatars] = useState([
     { id: 1, progress: 1, isSelected: false, userSelect: false, image: require("../../../assets/avatar1.png") },
-    { id: 2,progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatar2.png") },
-    { id: 3,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar3.png") },
-    { id: 4,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar4.png") },
-    { id: 5,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar5.png") },
-    { id: 6,progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar6.png") },
-    { id: 7,progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar7.png") },
-    { id: 8,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar8.png") },
-    { id: 9,progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar9.png") },
+    { id: 2, progress: 1, isSelected: true, userSelect: true, image: require("../../../assets/avatar2.png") },
+    { id: 3, progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar3.png") },
+    { id: 4, progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar4.png") },
+    { id: 5, progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar5.png") },
+    { id: 6, progress: 0.8, isSelected: false, userSelect: false, image: require("../../../assets/avatar6.png") },
+    { id: 7, progress: 0.6, isSelected: false, userSelect: false, image: require("../../../assets/avatar7.png") },
+    { id: 8, progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar8.png") },
+    { id: 9, progress: 0.4, isSelected: false, userSelect: false, image: require("../../../assets/avatar9.png") },
   ]);
 
   const [stepPersonal, setstapPersonal] = useState(10000);
@@ -69,48 +68,48 @@ export default () => {
 
   const [badge, setbadge] = useState([
     {
-        "id": 1,
-        "image": "placeholder.png",
-        "name": "Dr. Cathryn Schaefer",
-        "description": "Commodi autem modi iusto et.",
-        "isStreak": false,
-        "quantity": 23034,
-        "isGlobal": false,
-        "created_at": "2024-03-13T09:31:05.000000Z",
-        "updated_at": "2024-03-13T09:31:05.000000Z"
+      "id": 1,
+      "image": "placeholder.png",
+      "name": "Dr. Cathryn Schaefer",
+      "description": "Commodi autem modi iusto et.",
+      "isStreak": false,
+      "quantity": 23034,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
     },
     {
-        "id": 2,
-        "image": "placeholder.png",
-        "name": "Tess Effertz PhD",
-        "description": "Labore dolor molestias est harum nisi rem quo.",
-        "isStreak": false,
-        "quantity": 12615,
-        "isGlobal": false,
-        "created_at": "2024-03-13T09:31:05.000000Z",
-        "updated_at": "2024-03-13T09:31:05.000000Z"
+      "id": 2,
+      "image": "placeholder.png",
+      "name": "Tess Effertz PhD",
+      "description": "Labore dolor molestias est harum nisi rem quo.",
+      "isStreak": false,
+      "quantity": 12615,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
     },
     {
-        "id": 3,
-        "image": "placeholder.png",
-        "name": "Katlynn Bogan",
-        "description": "Facere nihil beatae ut tenetur similique mollitia.",
-        "isStreak": false,
-        "quantity": 19897,
-        "isGlobal": false,
-        "created_at": "2024-03-13T09:31:05.000000Z",
-        "updated_at": "2024-03-13T09:31:05.000000Z"
+      "id": 3,
+      "image": "placeholder.png",
+      "name": "Katlynn Bogan",
+      "description": "Facere nihil beatae ut tenetur similique mollitia.",
+      "isStreak": false,
+      "quantity": 19897,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
     },
     {
-        "id": 4,
-        "image": "placeholder.png",
-        "name": "Ashlynn Goyette",
-        "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
-        "isStreak": true,
-        "quantity": 25,
-        "isGlobal": false,
-        "created_at": "2024-03-13T09:31:05.000000Z",
-        "updated_at": "2024-03-13T09:31:05.000000Z"
+      "id": 4,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
     },
     {
       "id": 5,
@@ -133,53 +132,53 @@ export default () => {
       "isGlobal": false,
       "created_at": "2024-03-13T09:31:05.000000Z",
       "updated_at": "2024-03-13T09:31:05.000000Z"
-  },
-  {
-    "id": 5,
-    "image": "placeholder.png",
-    "name": "Ashlynn Goyette",
-    "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
-    "isStreak": true,
-    "quantity": 25,
-    "isGlobal": false,
-    "created_at": "2024-03-13T09:31:05.000000Z",
-    "updated_at": "2024-03-13T09:31:05.000000Z"
-  },
-  {
-    "id": 4,
-    "image": "placeholder.png",
-    "name": "Ashlynn Goyette",
-    "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
-    "isStreak": true,
-    "quantity": 25,
-    "isGlobal": false,
-    "created_at": "2024-03-13T09:31:05.000000Z",
-    "updated_at": "2024-03-13T09:31:05.000000Z"
-},
-{
-  "id": 5,
-  "image": "placeholder.png",
-  "name": "Ashlynn Goyette",
-  "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
-  "isStreak": true,
-  "quantity": 25,
-  "isGlobal": false,
-  "created_at": "2024-03-13T09:31:05.000000Z",
-  "updated_at": "2024-03-13T09:31:05.000000Z"
-},
+    },
     {
-        "id": 5,
-        "image": "placeholder.png",
-        "name": "Halle Anderson PhD",
-        "description": "Facilis libero voluptas maxime labore.",
-        "isStreak": false,
-        "quantity": 23056,
-        "isGlobal": false,
-        "created_at": "2024-03-13T09:31:05.000000Z",
-        "updated_at": "2024-03-13T09:31:05.000000Z"
+      "id": 5,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+      "id": 4,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+      "id": 5,
+      "image": "placeholder.png",
+      "name": "Ashlynn Goyette",
+      "description": "Deleniti ipsum voluptas odit dicta harum dolores.",
+      "isStreak": true,
+      "quantity": 25,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
+    },
+    {
+      "id": 5,
+      "image": "placeholder.png",
+      "name": "Halle Anderson PhD",
+      "description": "Facilis libero voluptas maxime labore.",
+      "isStreak": false,
+      "quantity": 23056,
+      "isGlobal": false,
+      "created_at": "2024-03-13T09:31:05.000000Z",
+      "updated_at": "2024-03-13T09:31:05.000000Z"
     }
-]);
-  
+  ]);
+
   const handleAvatarNav = (boolean: boolean) => {
     setShowAvatarDetails(boolean);
   };
@@ -189,7 +188,7 @@ export default () => {
     if (selectedIndex !== -1) {
       const selectedAvatarId = avatars[selectedIndex].id;
       console.log("ID de l'avatar sélectionné :", selectedAvatarId);
-      
+
       setAvatars((prevAvatars) =>
         prevAvatars.map((avatar, index) => ({
           ...avatar,
@@ -198,12 +197,12 @@ export default () => {
       );
     }
   };
-  
+
 
   const handleAvatarPress = (index: number, progress: number) => {
     setAvatars((prevAvatars) => {
       const newAvatars = [...prevAvatars];
-      if (progress == 1){
+      if (progress == 1) {
         newAvatars.forEach((avatar, i) => {
           if (i === index) {
             avatar.isSelected = true;
@@ -215,7 +214,7 @@ export default () => {
       return newAvatars;
     });
   };
-  
+
 
   useFocusEffect(
     useCallback(() => {
@@ -227,14 +226,11 @@ export default () => {
     }, [])
   );
   const animatedProps = useAnimatedProps(() => {
-    console.log(insets.top);
-
     const gap = 0;
     const path = `
       M ${p1.x}, ${p1.y + gap}
-      C ${c1.x}, ${radius.value} ${c2.x}, ${radius.value} ${p2.x}, ${
-      p2.y + gap
-    } L ${width} ${0} L 0,0 Z
+      C ${c1.x}, ${radius.value} ${c2.x}, ${radius.value} ${p2.x}, ${p2.y + gap
+      } L ${width} ${0} L 0,0 Z
       `;
     return {
       d: path,
@@ -258,7 +254,7 @@ export default () => {
           <AnimatedPath animatedProps={animatedProps} fill="url(#grad)" />
         </Svg>
         <View style={{ marginTop: insets.top }} />
-        <NavBar  titre={"Votre titre"} setShowAvatarDetails={setShowAvatarDetails} showAvatarDetails={showAvatarDetails} />
+        <NavBar titre={"Votre titre"} setShowAvatarDetails={setShowAvatarDetails} showAvatarDetails={showAvatarDetails} />
         <TouchableOpacity onPress={() => handleAvatarNav(true)}>
           <Animated.View style={[styles.avatar, styleScale]} >
             {avatars.map((avatar, index) => {
@@ -267,8 +263,8 @@ export default () => {
               }
             })}
           </Animated.View>
-      </TouchableOpacity>
-        
+        </TouchableOpacity>
+
       </View>
       {showAvatarDetails ? (
         <View style={styles.main}>
@@ -316,7 +312,7 @@ export default () => {
       )}
 
 
-      </View>
+    </View>
   );
 };
 
@@ -325,7 +321,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: HEADER_HEIGHT,
+    zIndex: 0,
   },
   main: {
     flex: 1,
@@ -358,7 +354,7 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
     paddingVertical: 20,
 
   },
@@ -379,7 +375,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  image:{
+  image: {
     height: height * 0.13,
     width: height * 0.13,
     // backgroundColor: "white",
@@ -388,6 +384,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     // marginTop: -0,
-    paddingTop: 100,
+    paddingTop: 0,
+    zIndex: 10,
   },
 });

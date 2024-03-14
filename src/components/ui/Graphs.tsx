@@ -197,8 +197,6 @@ export default ({ steps }: { steps: Steps }) => {
 
   useEffect(() => {
     if (!steps || !steps.week || !steps.month || !steps.year) return;
-    console.log(steps.month, "steps.month");
-
     state.value = {
       ...state.value,
       steps: [
@@ -218,7 +216,7 @@ export default ({ steps }: { steps: Steps }) => {
   };
 
   return (
-    <View style={{ height: 250, width: "100%", gap: 10 }}>
+    <View style={{ height: 250, width: "100%", gap: 10, marginTop: 50 }}>
       <ButtonGroup selectIndex={0}>
         <Button label={"Semaine"} onPress={() => onPress(0)} />
         <Button label={"Mois"} onPress={() => onPress(1)} />
