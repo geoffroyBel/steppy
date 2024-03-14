@@ -45,7 +45,7 @@ const StepProvider: React.FC<{ children: React.ReactNode }> = ({
       const data = await getStats();
       setStats(data);
       setTotalSteps(data.totalSteps);
-      console.log(data.totalSteps, "data.totalSteps");
+      // console.log(data.totalSteps, "data.totalSteps");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

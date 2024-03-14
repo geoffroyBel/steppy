@@ -207,10 +207,6 @@ export default ({ steps }: { steps?: Steps }) => {
 
   useEffect(() => {
     if (!steps) return;
-    console.log("alors cette semaine");
-
-    console.log(steps.week);
-
     state.value = {
       ...state.value,
       steps: [

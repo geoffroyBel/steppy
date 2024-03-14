@@ -115,7 +115,7 @@ const Dots = ({ x, total }: DotsProps) => {
     >
       {new Array(total).fill(0).map((k, index) => {
         const color = useDerivedValue(() => {
-          console.log(x.value);
+          // console.log(x.value);
 
           const d = interpolateColor(
             x.value,
@@ -131,7 +131,7 @@ const Dots = ({ x, total }: DotsProps) => {
           return [d, d2];
         });
         const style = useAnimatedStyle(() => {
-          console.log(x.value);
+          // console.log(x.value);
 
           const d = interpolate(
             x.value,
@@ -184,7 +184,7 @@ const Slide = ({ title, content }: SlideProps) => {
           padding={6}
           active={true}
           onPress={function (): void {
-            console.log("gggg");
+            // console.log("gggg");
           }}
         />
       </View>
@@ -251,9 +251,8 @@ export default () => {
     const c2 = vec(0.5 * width + 20, (1 / 4) * height);
     const p1 = vec(0, 0);
     const p2 = vec(width, (3 / 4) * height);
-    const str = `M 0 0 L ${p1.x} ${p1.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${
-      p2.x
-    } ${p2.y} L ${width} ${height} L ${0} ${height} Z`;
+    const str = `M 0 0 L ${p1.x} ${p1.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${p2.x
+      } ${p2.y} L ${width} ${height} L ${0} ${height} Z`;
     return Skia.Path.MakeFromSVGString(str)!;
   }, []);
   return (

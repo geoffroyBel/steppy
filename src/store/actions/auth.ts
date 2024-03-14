@@ -32,7 +32,7 @@ export async function getUser(): Promise<User> {
 export async function updateMyself(user: User, changes: Partial<User>) {
   try {
     // Route is to post /api/users/:id with credentials
-    console.log("User info :", changes);
+    // console.log("User info :", changes);
     const { data } = await api.put(`/users/${user.id}`, changes, {
       withCredentials: true,
     });

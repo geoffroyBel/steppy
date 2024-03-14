@@ -44,10 +44,10 @@ export const updateDailySteps = async (getPodometerSteps: GetPodemeterStep) => {
         day: dayjs(step.date).format("YYYY-MM-DD"),
         stepCount: step.value,
       });
-      console.log("ohllllllll");
-      console.log("leplus important");
+      // console.log("ohllllllll");
+      // console.log("leplus important");
 
-      console.log(result.data);
+      // console.log(result.data);
       return data;
     },
     Promise.resolve([])

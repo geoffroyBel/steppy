@@ -11,7 +11,7 @@ export type IAuthContext = {
   logout: () => void;
   user?: User;
   error?: string;
-  changeAvatarId: (avatarId: number|undefined) => void;
+  changeAvatarId: (avatarId: number | undefined) => void;
 };
 
 export const AuthContext = createContext<IAuthContext>({
@@ -56,7 +56,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (user) {
       setUser({ ...user, avatarId });
       const updatedUser = updateMyself(user, { avatarId });
-      console.log("Updated user from API: ", updatedUser);
+      // console.log("Updated user from API: ", updatedUser);
     }
   };
   // Store user in async storage

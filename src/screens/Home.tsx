@@ -69,7 +69,7 @@ export default () => {
     (async function () {
       a = await checkPermission();
       if (!a) {
-        console.log("requesting permission", a);
+        // console.log("requesting permission", a);
         // Alert the user that the permission is not granted and that the must grant it in Health Connect with a pop-up
         Alert.alert(
           "Permission requise",

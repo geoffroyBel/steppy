@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecee04a0-b608-4112-9ff9-0800d1bb8d64" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Badge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Badge.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/CustomTabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/CustomTabBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/EarthProgress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/EarthProgress.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/GraphChallenge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/GraphChallenge.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Graphs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigators/ChallengeTabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigators/ChallengeTabBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/podometer/Podometer.android.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/podometer/Podometer.android.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Challenge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Challenge.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Profile/index.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="ecee04a0-b608-4112-9ff9-0800d1bb8d64" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
