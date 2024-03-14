@@ -19,29 +19,6 @@ export default () => {
   const transition = useSharedValue(0);
   const podometer = Podometer();
   useEffect(() => {
-    // async function requestHealthPermission() {
-    //   try {
-    //     const granted = await PermissionsAndroid.request(
-    //       PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-    //       {
-    //         title: 'Health Data Access',
-    //         message: 'App needs access to your steps data.',
-    //         buttonNeutral: 'Ask Me Later',
-    //         buttonNegative: 'Cancel',
-    //         buttonPositive: 'OK',
-    //       },
-    //     );
-    //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //       console.log('You can access the steps data');
-    //     } else {
-    //       console.log('Permission denied');
-    //     }
-    //   } catch (err) {
-    //     console.warn(err);
-    //   }
-    // }
-
-    // requestHealthPermission();
     // Check if the user has already granted the permission
     const checkPermission = async () => {
       try {

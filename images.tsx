@@ -59,7 +59,7 @@ export const getAvatar = (id: string) => {
             return require('./assets/avatar9.png');
 
         default:
-            return require('./assets/avatar1.png');
+            console.log("Error: Avatar not found");
     }
 }
 

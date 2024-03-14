@@ -28,3 +28,12 @@ export async function getUser(): Promise<User> {
     throw new Error("Fail retrieve User");
   }
 }
+
+export async function updateMyself(user: User, changes: Partial<User>) {
+  try {
+    // Route is to post /api/users/:id
+    return await api.post(`/users/${user.id}`, changes);
+  } catch (error: unknown) {
+    throw new Error("Fail update User");
+  }
+}

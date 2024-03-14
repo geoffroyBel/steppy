@@ -49,7 +49,7 @@ export interface IChallenge {
 
 export type User = {
   id: string;
-  avartId: number;
+  avatarId: number;
   code: string;
   challenges: Array<any>;
   daily_steps: Array<any>;
