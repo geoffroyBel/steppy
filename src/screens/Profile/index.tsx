@@ -230,9 +230,11 @@ export default () => {
             </Animated.View>
           </View>
         ) : (
-          <ScrollView contentContainerStyle={styles.scrollContainer}>
-            {renderBadges()}
-          </ScrollView>
+          <View style={styles.main}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+              {renderBadges()}
+            </ScrollView>
+          </View>
 
         )
       }
@@ -310,7 +312,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    marginTop: scale * -30,
+    marginTop: scale * -1,
     paddingTop: 100,
   },
   avatarsContainer: {
