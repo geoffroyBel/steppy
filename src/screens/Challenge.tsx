@@ -1,34 +1,58 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Graphs from "../components/ui/Graphs";
+import Graphs from "../components/ui/GraphChallenge";
 import Podometer from "../podometer/Podometer";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { IChallenge, IStepContext, Steps } from "../types";
-import { useSharedValue, withTiming } from "react-native-reanimated";
+import {
+  DailySteps,
+  DataPoint,
+  IChallenge,
+  IStepContext,
+  Steps,
+} from "../types";
+import Animated, {
+  useSharedValue,
+  FadeIn,
+  FadeOut,
+} from "react-native-reanimated";
 import ChallengeCard from "../components/ui/ChallengeCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
 import ObjectifCard from "../components/ui/ObectifCard";
 import ChallengeChuCard from "../components/ui/ChallengeChuCard";
 import { getStats } from "../store/actions/stats";
-import { OBJECTIF } from "../utils/challenge";
+import {
+  OBJECTIF,
+  getCurrentMonthDailySteps,
+  getCurrentWeekDailySteps,
+} from "../utils/challenge";
 import StepProvider, { StepContext } from "../Providers/StepProvider";
+import { getDatesbyRange, getMonthBound } from "../utils/dateUtils";
+import dayjs from "dayjs";
 
 export default () => {
   const transition = useSharedValue(0);
   const podometer = Podometer();
-  const [stats, setStats] = useState<IChallenge>();
-  const { totalSteps } = useContext(StepContext) as IStepContext;
+  const { totalSteps, handleFetchStats, stats } = useContext(
+    StepContext
+  ) as IStepContext;
+  const [steps, setSteps] = useState<Partial<Steps>>();
+  useEffect(() => {
+    const fetchStats = async () => {
+      await handleFetchStats();
+    };
 
-  useEffect(() => console.log(podometer), [podometer]);
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     const _stats = await getStats();
-  //     setTotalSteps(_stats.totalSteps / OBJECTIF.terre.steps);
-  //     console.log(_stats.totalSteps);
-  //   };
+    fetchStats();
+  }, []);
 
-  //   fetchStats();
-  // }, []);
+  useEffect(() => {
+    if (stats) {
+      const week = getCurrentWeekDailySteps(stats.weekSteps as DailySteps[]);
+      const month = getCurrentMonthDailySteps(stats.monthSteps as DailySteps[]);
+
+      setSteps({ week, month });
+    }
+  }, [stats]);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={[StyleSheet.absoluteFillObject]}>
@@ -50,17 +74,22 @@ export default () => {
         snapToEnd={false}
         decelerationRate="fast"
       >
-        <View style={styles.header}>
-          <ChallengeChuCard />
-        </View>
+        <Animated.View>
+          <View style={styles.header}>
+            <ChallengeChuCard />
+          </View>
+        </Animated.View>
         {/*  */}
-
-        <ObjectifCard
-          objectifs={[
-            { id: 1, progress: 0.6 },
-            { id: 1, progress: 0.8 },
-          ]}
-        />
+        <View style={{ gap: 20 }}>
+          <ObjectifCard
+            objectifs={[
+              { id: 2, progress: 0.6 },
+              { id: 3, progress: 0.8 },
+              { id: 4, progress: 0.8 },
+            ]}
+          />
+          <Graphs steps={steps as Steps} />
+        </View>
       </ScrollView>
     </View>
   );

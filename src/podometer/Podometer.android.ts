@@ -72,6 +72,8 @@ export default () => {
             endTime: end.toISOString(),
           },
         });
+      // console.log("--------week");
+      // console.log(result);
 
       return [
         ...data,
@@ -84,6 +86,7 @@ export default () => {
   };
 
   const getAllSteps = async () => {
+    console.log("--------week");
     const currentWeekDates = getCurrenWeekDates();
     const currentMonthDates = getCurrentMontDates();
     const currentYearDates = getCurrentYearDates();
@@ -94,6 +97,8 @@ export default () => {
     const year = await getStepsByDates(currentYearDates);
 
     const steps = { today, week, month, year };
+
+    console.log(steps.week);
 
     setSteps(steps);
   };

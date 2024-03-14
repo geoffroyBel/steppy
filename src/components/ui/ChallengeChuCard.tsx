@@ -2,9 +2,17 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 import Days from "./Day";
 import CircularLoader from "./CircularLoader";
 import Slides from "./Slides";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import Animated, {
   interpolate,
+  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
@@ -19,7 +27,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import { StepContext } from "../../Providers/StepProvider";
 import { IStepContext } from "../../types";
-import { OBJECTIF } from "../../utils/challenge";
+import { OBJECTIF, getObjectifByStep } from "../../utils/challenge";
 const { width } = Dimensions.get("screen");
 interface IChallenge {
   steps: Array<Step>;
@@ -34,44 +42,59 @@ export interface IChallengeMessage {
 }
 export default () => {
   const insets = useSafeAreaInsets();
+  const transitionMsg = useSharedValue(0);
   const transition = useSharedValue(0);
   const { totalSteps } = useContext(StepContext) as IStepContext;
   const state = useSharedValue({
     daysProgress: [0, 0, 0, 0, 0, 0, 0],
   });
   const input = new Array(7).fill(0).map((l, i) => i * width);
-  useEffect(() => {
-    transition.value = 0;
-    transition.value = withTiming(1, { duration: 2000 });
-  }, []);
+  const progress = useMemo(
+    () => (totalSteps | 0) / OBJECTIF.terre.steps,
+    [totalSteps]
+  );
+
   useFocusEffect(
     React.useCallback(() => {
-      const progress = totalSteps / OBJECTIF.terre.steps;
       transition.value = 0;
-      transition.value = withTiming(progress < 0.1 ? 0.1 : 0.2, {
-        duration: 2000,
+      transitionMsg.value = 0;
+      transitionMsg.value = withTiming(1, { duration: 1000 }, () => {
+        transition.value = withTiming(1, { duration: 2000 });
       });
+      () => {
+        transition.value = 0;
+        transitionMsg.value = 0;
+      };
     }, [totalSteps])
   );
+  const style = useAnimatedStyle(() => {
+    const scale = interpolate(transitionMsg.value, [0, 1], [0, 1]);
+    return {
+      transform: [{ scale: scale }],
+    };
+  });
   return (
     <View style={styles.background}>
       <View style={styles.container} />
       <View style={{ height: insets.top }} />
       <EarthHeader caption={"Objectif"} title={"Planète Terre"} />
-      <View
-        style={{
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+      <Animated.View
+        style={[
+          {
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          style,
+        ]}
       >
-        <EarthProgress progress={0.8} transition={transition} />
-      </View>
+        <EarthProgress progress={progress} transition={transition} />
+      </Animated.View>
 
       <EarthContent
-        totalStep={500000}
-        objectif={1000000}
-        message={"Bravo vouz avez atteint tokyo"}
+        totalStep={totalSteps}
+        objectif={OBJECTIF.terre.steps}
+        message={getObjectifByStep(totalSteps).message}
         transition={transition}
       />
     </View>

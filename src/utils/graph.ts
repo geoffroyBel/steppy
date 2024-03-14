@@ -34,7 +34,9 @@ export const makeGraph = (
   const getYAxis = scaleLinear()
     .domain([0, 15000])
     .range([height + 35, 0]);
-  const getXAxis = scaleTime().domain([start, end]).range([0, width]);
+  const getXAxis = scaleTime()
+    .domain([start, end])
+    .range([0, width - 10]);
 
   const curvedLine = line<DataPoint>()
     .x((d) => getXAxis(new Date(d.date)))

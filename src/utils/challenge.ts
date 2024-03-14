@@ -1,23 +1,45 @@
+import dayjs from "dayjs";
+import { DailySteps, DataPoint } from "../types";
+import {
+  getCurrenWeekDates,
+  getCurrentMontDates,
+  getDatesbyRange,
+  getMonthBound,
+} from "./dateUtils";
+
 export const OBJECTIF = {
   terre: {
-    label: "Objectifs Terre",
+    id: 4,
+    message: "Bravo!",
+    title: "Objectifs Terre",
+    source: require("../../assets/icons/objectif/1.png"),
     steps: 12000000,
-    content: "40 000 Kilomètre parcourue",
+    description: "40 000 Kilomètre parcourue",
   },
   europe: {
-    label: "Objectifs Europe",
+    id: 3,
+    message: "Bravo! bientot le tour du monde 12000000 pas",
+    title: "Objectifs Europe",
+    source: require("../../assets/icons/objectif/1.png"),
     steps: 5000000,
-    content: "4 000 kilomètres",
+    description: "4 000 kilomètres",
   },
   france: {
-    label: "Objectifs France",
+    id: 2,
+    message: "Bravo! vous avez traverser la France",
+    title: "Objectifs France",
+    source: require("../../assets/icons/objectif/1.png"),
     steps: 733333,
-    content: "1 000 Kilomètre parcourue",
+    description: "1 000 Kilomètre parcourue",
   },
   begin: {
-    label: "Objectifs",
+    id: 1,
+    message:
+      "Bravo vous avez fait vos premiers, des petits a plusieurs un grand pas pour le CHU",
+    title: "Objectifs",
+    source: require("../../assets/icons/objectif/1.png"),
     steps: 1000,
-    content: "1 000 Kilomètre parcourue",
+    description: "1 000 Kilomètre parcourue",
   },
 };
 
@@ -31,4 +53,52 @@ export const getObjectifByStep = (nombreDePas: number) => {
   } else {
     return OBJECTIF.begin;
   }
+};
+
+export const getCurrentMonthDailySteps = (
+  dailySteps: DailySteps[]
+): DataPoint[] => {
+  const currentMonthDates = getCurrentMontDates();
+  const { start, end } = getMonthBound();
+  const monthSteps = dailySteps.reduce(
+    (acc: { [key: string]: number }, dailySteps) => {
+      const day = dayjs(dailySteps.day).format("YYYY-MM-DD");
+      if (!acc[day]) {
+        acc[day] = dailySteps.stepCount || 0;
+      } else {
+        acc[day] = acc[day] + (dailySteps.stepCount || 0);
+      }
+      return acc;
+    },
+    {}
+  );
+
+  return currentMonthDates.map((date) => {
+    const day = dayjs(date).format("YYYY-MM-DD");
+    return { value: monthSteps[day] || 0, date: date.toISOString() };
+  });
+};
+
+export const getCurrentWeekDailySteps = (
+  dailySteps: DailySteps[]
+): DataPoint[] => {
+  const currentWeekDates = getCurrenWeekDates();
+  const { start, end } = getMonthBound();
+  const weekSteps = dailySteps.reduce(
+    (acc: { [key: string]: number }, dailySteps) => {
+      const day = dayjs(dailySteps.day).format("YYYY-MM-DD");
+      if (!acc[day]) {
+        acc[day] = dailySteps.stepCount || 0;
+      } else {
+        acc[day] = acc[day] + (dailySteps.stepCount || 0);
+      }
+      return acc;
+    },
+    {}
+  );
+
+  return currentWeekDates.map((date) => {
+    const day = dayjs(date).format("YYYY-MM-DD");
+    return { value: weekSteps[day] || 0, date: date.toISOString() };
+  });
 };
