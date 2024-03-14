@@ -45,28 +45,31 @@ export default () => {
   const transitionMsg = useSharedValue(0);
   const transition = useSharedValue(0);
   const { totalSteps } = useContext(StepContext) as IStepContext;
-  const state = useSharedValue({
-    daysProgress: [0, 0, 0, 0, 0, 0, 0],
-  });
-  const input = new Array(7).fill(0).map((l, i) => i * width);
-  const progress = useMemo(
-    () => (totalSteps | 0) / OBJECTIF.terre.steps,
-    [totalSteps]
-  );
+  const progress = useSharedValue(0);
 
+  useEffect(() => {
+    if (totalSteps > 0) {
+      progress.value = totalSteps / OBJECTIF.terre.steps;
+    }
+  }, [totalSteps]);
   useFocusEffect(
     React.useCallback(() => {
-      transition.value = 0;
-      transitionMsg.value = 0;
-      transitionMsg.value = withTiming(1, { duration: 1000 }, () => {
-        transition.value = withTiming(1, { duration: 2000 });
-      });
+      if (totalSteps > 0) {
+        progress.value = totalSteps / OBJECTIF.terre.steps;
+        transition.value = 0;
+        transitionMsg.value = 0;
+        transitionMsg.value = withTiming(1, { duration: 1000 }, () => {
+          transition.value = withTiming(1, { duration: 1000 });
+        });
+      }
+
       () => {
         transition.value = 0;
         transitionMsg.value = 0;
       };
     }, [totalSteps])
   );
+
   const style = useAnimatedStyle(() => {
     const scale = interpolate(transitionMsg.value, [0, 1], [0, 1]);
     return {

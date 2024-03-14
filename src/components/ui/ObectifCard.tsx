@@ -36,7 +36,7 @@ interface List {
   objectifs: Objectif[];
 }
 
-export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
+export const ObjectifCard = ({ progress, id, transition }: Objectif) => {
   const objectif = useMemo(() => {
     return Object.values(OBJECTIF).find((el) => `${el.id}` === `${id}`);
   }, [id]);
@@ -74,7 +74,9 @@ export const ObjectifCard = ({ progress = 0.5, id, transition }: Objectif) => {
               progress={progress}
               transition={transition}
             />
-            <Text style={styles.textProgress}>{progress * 100}%</Text>
+            <Text style={styles.textProgress}>
+              {(progress * 100).toFixed(0)}%
+            </Text>
           </View>
 
           <Text style={styles.description}>{objectif?.description}</Text>
@@ -88,7 +90,7 @@ export default ({ objectifs }: List) => {
   const transition = useSharedValue(0);
   useEffect(() => {
     transition.value = withTiming(1, { duration: 3000 });
-  }, []);
+  });
   useFocusEffect(
     React.useCallback(() => {
       transition.value = 0;
