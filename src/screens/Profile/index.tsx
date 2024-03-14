@@ -231,9 +231,11 @@ export default () => {
           </View>
         ) : (
           <View style={styles.main}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-              {renderBadges()}
-            </ScrollView>
+            <Animated.View style={[styleScale]}>
+              <ScrollView contentContainerStyle={styles.scrollContainer}>
+                {renderBadges()}
+              </ScrollView>
+            </Animated.View>
           </View>
 
         )
