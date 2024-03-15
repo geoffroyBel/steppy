@@ -5,6 +5,6 @@
   },
   "files": [
     "./withReactNativeHealthConnect.ts"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }
-
