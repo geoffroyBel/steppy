@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "strappi",
-    "slug": "strappi",
+    "name": "Steppy",
+    "slug": "steppy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "strapi"
+      "bundleIdentifier": "steppy"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,20 +22,28 @@
         "backgroundColor": "#ffffff"
       },
       "package": "steppie.cesi",
-      "permissions": ["android.permission.health.READ_STEPS"]
+      "permissions": ["android.permission.health.READ_STEPS", "android.permission.ACTIVITY_RECOGNITION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "37492824-5f96-49f3-89c3-ef91e556d99d"
+        "projectId": "c9f89f66-7ca4-480a-a4a3-916c1a1b1706"
       }
     },
     "plugins": [
       "react-native-health",
       "react-native-health-connect",
+      "expo-font",
+      "expo-splash-screen",
       "expo-build-properties",
+      [
+        "./withReactNativeHealthConnect",
+        {
+          "permissionsRationaleActivityPath": "./PermissionsRationaleActivity.kt"
+        }
+      ],
       [
         "expo-build-properties",
         {
@@ -46,6 +54,7 @@
           }
         }
       ]
-    ]
+    ],
+    "owner": "mathioussee",
   }
 }

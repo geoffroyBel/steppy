@@ -63,8 +63,8 @@ const TOTAL_STEPS = 10000;
 export default ({
   radius,
   progress,
-  caption = "Pas réalises",
-  steps = 8000,
+  caption = "Pas réalisés",
+  steps,
 }: IProps) => {
   const t = useSharedValue(0.5);
   const w = radius * 2;
@@ -141,9 +141,10 @@ export default ({
 
     return m;
   }, [clip]);
-
+  
+  
   return (
-    <View style={{ width: w }}>
+    <View style={{ width: w, paddingBottom: 18}}>
       <Canvas
         style={{
           width: w,

@@ -1,0 +1,173 @@
+Index: android/app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\" />\r\n    <uses-permission android:name=\"android.permission.VIBRATE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.health.READ_STEPS\" />\r\n    <queries>\r\n        <intent>\r\n            <action android:name=\"android.intent.action.VIEW\" />\r\n            <category android:name=\"android.intent.category.BROWSABLE\" />\r\n            <data android:scheme=\"https\" />\r\n        </intent>\r\n    </queries>\r\n    <application android:name=\".MainApplication\" android:label=\"@string/app_name\" android:icon=\"@mipmap/ic_launcher\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\" android:allowBackup=\"true\" android:theme=\"@style/AppTheme\">\r\n        <meta-data android:name=\"expo.modules.updates.ENABLED\" android:value=\"false\" />\r\n        <meta-data android:name=\"expo.modules.updates.EXPO_SDK_VERSION\" android:value=\"50.0.0\" />\r\n        <meta-data android:name=\"expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH\" android:value=\"ALWAYS\" />\r\n        <meta-data android:name=\"expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS\" android:value=\"0\" />\r\n        <activity android:name=\".MainActivity\"\r\n            android:configChanges=\"keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode\"\r\n            android:launchMode=\"singleTask\" android:windowSoftInputMode=\"adjustResize\"\r\n            android:theme=\"@style/Theme.App.SplashScreen\" android:exported=\"true\" android:screenOrientation=\"portrait\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.VIEW\" />\r\n                <category android:name=\"android.intent.category.DEFAULT\" />\r\n                <category android:name=\"android.intent.category.BROWSABLE\" />\r\n                <data android:scheme=\"steppie.cesi\" />\r\n                <data android:scheme=\"exp+steppy\" />\r\n            </intent-filter>\r\n            <intent-filter>\r\n                <action android:name=\"androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\"com.facebook.react.devsupport.DevSettingsActivity\" android:exported=\"false\" />\r\n        <activity android:name=\".PermissionsRationaleActivity\" android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE\" />\r\n            </intent-filter>\r\n        </activity>\r\n\r\n        <!-- For versions starting Android 14, create an activity alias to show the rationale\r\n       of Health Connect permissions once users click the privacy policy link. -->\r\n        <activity-alias android:name=\"ViewPermissionUsageActivity\" android:exported=\"true\"\r\n            android:targetActivity=\".PermissionsRationaleActivity\"\r\n            android:permission=\"android.permission.START_VIEW_PERMISSION_USAGE\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.VIEW_PERMISSION_USAGE\" />\r\n                <category android:name=\"android.intent.category.HEALTH_PERMISSIONS\" />\r\n            </intent-filter>\r\n        </activity-alias>\r\n\r\n\r\n    </application>\r\n</manifest>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/android/app/src/main/AndroidManifest.xml b/android/app/src/main/AndroidManifest.xml
+--- a/android/app/src/main/AndroidManifest.xml	
++++ b/android/app/src/main/AndroidManifest.xml	
+@@ -44,8 +44,6 @@
+             </intent-filter>
+         </activity>
+ 
+-        <!-- For versions starting Android 14, create an activity alias to show the rationale
+-       of Health Connect permissions once users click the privacy policy link. -->
+         <activity-alias android:name="ViewPermissionUsageActivity" android:exported="true"
+             android:targetActivity=".PermissionsRationaleActivity"
+             android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+Index: src/components/ui/CircularLoader.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {\r\n  Canvas,\r\n  Fill,\r\n  Group,\r\n  Path,\r\n  PathOp,\r\n  Rect,\r\n  Shadow,\r\n  SkPoint,\r\n  Skia,\r\n  SweepGradient,\r\n  useFont,\r\n  vec,\r\n  Text,\r\n} from \"@shopify/react-native-skia\";\r\nimport { useEffect, useMemo } from \"react\";\r\nimport {\r\n  SharedValue,\r\n  useDerivedValue,\r\n  useSharedValue,\r\n  withTiming,\r\n} from \"react-native-reanimated\";\r\nimport { View, Text as RNText } from \"react-native\";\r\n\r\ninterface IProps {\r\n  radius: number;\r\n  steps: number;\r\n  progress: SharedValue<number>;\r\n  caption: string;\r\n  trim: SharedValue<number>;\r\n}\r\n\r\nconst getArcPath = (\r\n  center: SkPoint,\r\n  r: number,\r\n  start: number,\r\n  end: number,\r\n  close = true\r\n) => {\r\n  const { x1, y1, x2, y2 } = calcArcPoint(center, r, start, 0);\r\n  const { x2: x4, y2: y4 } = calcArcPoint(center, r, 0, Math.PI);\r\n  const { x2: x6, y2: y6 } = calcArcPoint(center, r, 0, end);\r\n  const p1 = `M ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} A ${r} ${r} 0 0 1 ${x4} ${y4} A ${r} ${r} 0 0 1 ${x6} ${y6}`;\r\n\r\n  return Skia.Path.MakeFromSVGString(close ? `${p1} Z` : p1)!;\r\n};\r\n\r\nconst calcArcPoint = (\r\n  center: SkPoint,\r\n  r: number,\r\n  start: number,\r\n  end: number\r\n) => {\r\n  const x1 = center.x - r * Math.cos(start);\r\n  const y1 = -r * Math.sin(start) + center.y;\r\n  const x2 = center.x - r * Math.cos(end);\r\n  const y2 = -r * Math.sin(end) + center.y;\r\n  return { x1, y1, x2, y2 };\r\n};\r\nconst FONT_SIZE_BOLD = 47;\r\nconst FONT_SIZE_REGULAR = 14;\r\nconst TOTAL_STEPS = 10000;\r\nexport default ({\r\n  radius,\r\n  progress,\r\n  caption = \"Pas réalises\",\r\n  steps,\r\n}: IProps) => {\r\n  const t = useSharedValue(0.5);\r\n  const w = radius * 2;\r\n  const h = radius + radius / 3;\r\n  const fontBold = useFont(\r\n    require(\"../../../assets/font/Montserrat-SemiBold.otf\"),\r\n    FONT_SIZE_BOLD\r\n  )!;\r\n  const fontRegular = useFont(\r\n    require(\"../../../assets/font/Montserrat-Regular.otf\"),\r\n    FONT_SIZE_REGULAR\r\n  )!;\r\n\r\n  const text = useDerivedValue(() => {\r\n    const str = Math.round(progress.value * 10000);\r\n    // return `${Array(5 - `${p}`.length)\r\n    //   .fill(\"0\")\r\n    //   .join(\"\")}${p}`;\r\n    return `${str}`;\r\n  }, [progress]);\r\n  const positionBold = useDerivedValue(() => {\r\n    const m = Skia.Matrix();\r\n    if (!fontBold) return m;\r\n    const progressString = `${Math.round(progress.value * 10000)}`;\r\n    const x = (w - fontBold.getTextWidth(progressString)) / 2;\r\n    const y = (w + FONT_SIZE_BOLD / 2) / 2;\r\n\r\n    m.translate(x, y);\r\n    return m;\r\n    // return { x, y };\r\n  }, [fontBold, w, progress]);\r\n\r\n  const positionCaption = useMemo(() => {\r\n    if (!fontRegular) return { x: radius / 2, y: radius / 2 };\r\n    const x = (w - fontRegular.getTextWidth(caption)) / 2;\r\n    const y = (w - FONT_SIZE_REGULAR) / 2 - FONT_SIZE_BOLD / 2;\r\n    return { x, y };\r\n  }, [fontRegular, w]);\r\n\r\n  //   useEffect(() => {\r\n  //     trim.value = withTiming(progress, { duration: 2000 });\r\n  //   }, [trim]);\r\n\r\n  const clip = useMemo(() => {\r\n    const center = vec(radius, radius);\r\n    const r = radius;\r\n\r\n    let start = Math.atan2(-radius / 3, -radius * -1);\r\n    let end = Math.atan2(-radius / 3, radius * -1);\r\n\r\n    const outerPath = getArcPath(center, r, start, end);\r\n    const innerPath = getArcPath(center, r - 20, start - 0.5, end + 0.5);\r\n    return Skia.Path.MakeFromOp(outerPath, innerPath, PathOp.Difference)!;\r\n  }, []);\r\n\r\n  const path = useMemo(() => {\r\n    const strokeWidth = 20;\r\n\r\n    const center = vec(radius, radius);\r\n    const r = radius;\r\n\r\n    let start = Math.atan2(-radius / 2, -radius * -1);\r\n    let end = Math.atan2(-radius / 2, radius * -1);\r\n\r\n    const innerPath = getArcPath(center, r - 10, start, end, false);\r\n    return innerPath;\r\n  }, []);\r\n\r\n  const matrix = useMemo(() => {\r\n    const m = Skia.Matrix();\r\n    const angle = Math.PI;\r\n\r\n    m.rotate(angle);\r\n\r\n    return m;\r\n  }, [clip]);\r\n  \r\n  \r\n  return (\r\n    <View style={{ width: w, paddingBottom: 18}}>\r\n      <Canvas\r\n        style={{\r\n          width: w,\r\n          height: h,\r\n        }}\r\n      >\r\n        <Group clip={clip}>\r\n          <Rect x={0} y={0} width={w} height={w} color={\"black\"}>\r\n            <SweepGradient\r\n              origin={vec(radius, radius)}\r\n              colors={[\r\n                \"rgba(0, 95, 171, 0.2)\",\r\n                \"rgba(0, 95, 171, 0.5)\",\r\n                \"rgba(0, 95, 171, 0.2)\",\r\n              ]}\r\n              start={0}\r\n              end={180}\r\n              c={vec(radius, radius - radius / 2 + 5)}\r\n              matrix={matrix}\r\n            />\r\n          </Rect>\r\n\r\n          <Path\r\n            path={path}\r\n            start={0}\r\n            end={progress}\r\n            style={\"stroke\"}\r\n            strokeWidth={20}\r\n          >\r\n            <SweepGradient\r\n              origin={vec(radius, radius)}\r\n              colors={[\r\n                \"rgba(0, 95, 171, 0.5)\",\r\n                \"rgba(0, 95, 171, 0.7)\",\r\n                \"rgba(0, 95, 171, 1)\",\r\n              ]}\r\n              start={0}\r\n              end={180}\r\n              c={vec(radius, radius - radius / 2 + 5)}\r\n              matrix={matrix}\r\n            />\r\n          </Path>\r\n        </Group>\r\n        <Group>\r\n          <Shadow dx={1} dy={1} blur={1} color={\"black\"} />\r\n          <Text\r\n            x={positionCaption.x}\r\n            y={positionCaption.y}\r\n            text={caption}\r\n            font={fontRegular}\r\n            color={\"rgba(4, 47, 82, 1)\"}\r\n          />\r\n          <Text\r\n            matrix={positionBold!}\r\n            // x={positionBold.x}\r\n            // y={positionBold.y}\r\n            text={text}\r\n            font={fontBold}\r\n            color={\"rgba(0, 95, 171, 1)\"}\r\n          />\r\n        </Group>\r\n      </Canvas>\r\n      <RNText\r\n        style={{\r\n          fontFamily: \"Montserrat\",\r\n          fontWeight: \"800\",\r\n          fontSize: 18,\r\n          textAlign: \"center\",\r\n          lineHeight: 21,\r\n          color: \"rgba(0, 95, 171, 1)\",\r\n        }}\r\n      >\r\n        {Math.floor(TOTAL_STEPS - (progress.value * 10000))}{\" \"}\r\n        <RNText\r\n          style={{\r\n            fontFamily: \"Montserrat\",\r\n            fontWeight: \"600\",\r\n            fontSize: 18,\r\n            textAlign: \"center\",\r\n            lineHeight: 21,\r\n            color: \"rgba(4, 47, 82, 1)\",\r\n          }}\r\n        >\r\n          pas restants\r\n        </RNText>\r\n      </RNText>\r\n    </View>\r\n  );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/ui/CircularLoader.tsx b/src/components/ui/CircularLoader.tsx
+--- a/src/components/ui/CircularLoader.tsx	
++++ b/src/components/ui/CircularLoader.tsx	
+@@ -63,7 +63,7 @@
+ export default ({
+   radius,
+   progress,
+-  caption = "Pas réalises",
++  caption = "Pas réalisés",
+   steps,
+ }: IProps) => {
+   const t = useSharedValue(0.5);
+@@ -141,10 +141,10 @@
+ 
+     return m;
+   }, [clip]);
+-  
+-  
++
++
+   return (
+-    <View style={{ width: w, paddingBottom: 18}}>
++    <View style={{ width: w, paddingBottom: 18 }}>
+       <Canvas
+         style={{
+           width: w,
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.gradle b/settings.gradle
+new file mode 100644
+--- /dev/null	
++++ b/settings.gradle	
+@@ -0,0 +1,2 @@
++project(':app').projectDir = new File(rootDir, 'android/app/')
++include ':app'
+Index: tsconfig.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"extends\": \"expo/tsconfig.base\",\r\n  \"compilerOptions\": {\r\n    \"strict\": true\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tsconfig.json b/tsconfig.json
+--- a/tsconfig.json	
++++ b/tsconfig.json	
+@@ -1,6 +1,10 @@
+ {
+-  "extends": "expo/tsconfig.base",
+   "compilerOptions": {
+-    "strict": true
+-  }
++    "strict": false,
++    "esModuleInterop": true
++  },
++  "files": [
++    "./withReactNativeHealthConnect.ts"
++  ]
+ }
++
+Index: src/screens/Home.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { View, Text, StyleSheet, ScrollView, Alert, Linking, ActivityIndicator } from \"react-native\";\r\nimport Graphs from \"../components/ui/Graphs\";\r\nimport Podometer from \"../podometer/Podometer\";\r\nimport { useContext, useEffect, useMemo, useState } from \"react\";\r\nimport { DataPoint, IStepContext, Steps } from \"../types\";\r\nimport Animated, { useSharedValue, withTiming } from \"react-native-reanimated\";\r\nimport ChallengeCard from \"../components/ui/ChallengeCard\";\r\nimport { Canvas, Fill, LinearGradient, vec } from \"@shopify/react-native-skia\";\r\nimport ObjectifCard from \"../components/ui/ObectifCard\";\r\nimport { StepContext } from \"../Providers/StepProvider\";\r\nimport HomeCard from \"../components/Home/HomeCard\";\r\nimport { getGrantedPermissions, openHealthConnectDataManagement, requestPermission } from \"react-native-health-connect\";\r\nimport AsyncStorage from \"@react-native-async-storage/async-storage\";\r\nimport { AuthContext } from \"../Providers/AuthProvider\";\r\nimport { getAllBadgeIndividual } from \"../store/actions/badgeData\";\r\nexport default () => {\r\n  const { handleFetchDaily } = useContext<IStepContext>(StepContext);\r\n  const transition = useSharedValue(0);\r\n  const podometer = Podometer();\r\n  const [isLoading, setIsLoading] = useState(true);\r\n  const [podometerData, setPodometerData] = useState<DataPoint[] | null>(null);\r\n\r\n  useEffect(() => {\r\n    const loadData = async () => {\r\n      try {\r\n        const storedData = await AsyncStorage.getItem('podometerData');\r\n        if (storedData) {\r\n          setPodometerData(JSON.parse(storedData));\r\n        }\r\n      } catch (error) {\r\n        console.error('Failed to load data', error);\r\n      }\r\n      setIsLoading(false);\r\n    };\r\n    loadData();\r\n  }, []);\r\n\r\n  useEffect(() => {\r\n    const fetchAndStoreData = async () => {\r\n      if (!handleFetchDaily) return;\r\n      const data = await handleFetchDaily({ from: '2023-03-05', to: '2023-03-08' });\r\n      try {\r\n        await AsyncStorage.setItem('podometerData', JSON.stringify(data));\r\n        if (data !== null) {\r\n          setPodometerData(data);\r\n        }\r\n      } catch (error) {\r\n        console.error('Failed to save data', error);\r\n      }\r\n    };\r\n\r\n    if (isLoading) {\r\n      fetchAndStoreData();\r\n    }\r\n  }, [isLoading, handleFetchDaily]);\r\n  useEffect(() => {\r\n    // Check if the user has already granted the permission\r\n    const checkPermission = async () => {\r\n      // Get the list of granted permissions\r\n      const grantedPermissions = await getGrantedPermissions();\r\n      // Check if the permission is in the list of granted permissions\r\n      // Considering the returned object looks like this: [{\"accessType\": \"read\", \"recordType\": \"Steps\"}] \r\n      return grantedPermissions.some((permission) => permission.recordType === \"Steps\");\r\n    };\r\n    let a = null;\r\n    // Wait for the reply of the permission request to cast to a boolean\r\n    (async function () {\r\n      a = await checkPermission();\r\n      if (!a) {\r\n        // console.log(\"requesting permission\", a);\r\n        // Alert the user that the permission is not granted and that the must grant it in Health Connect with a pop-up\r\n        Alert.alert(\r\n          \"Permission requise\",\r\n          \"Pour accéder à vos données de podomètre, vous devez autoriser l'accès à la santé dans les paramètres de votre téléphone.\",\r\n          [\r\n            {\r\n              text: \"Voir les paramètres\",\r\n              onPress: () => {\r\n                // Send the user to the settings of the phone to change the permission:\r\n                Linking.openSettings();\r\n              },\r\n            },\r\n            {\r\n              text: \"Ok\",\r\n              style: \"cancel\",\r\n            },\r\n          ]\r\n        );\r\n      }\r\n\r\n    }\r\n    )();\r\n    const fetchDaily = async () => {\r\n      if (!handleFetchDaily) return;\r\n\r\n      await handleFetchDaily({ from: \"2023-03-05\", to: \"2023-03-08\" });\r\n    };\r\n    fetchDaily();\r\n  }, []);\r\n  // const steps: Steps = podometer.steps;\r\n  const currentWeekSteps = useMemo(() => {\r\n    return podometer && podometer.steps && podometer.steps.week\r\n      ? podometer.steps.week.map((el, i) => {\r\n        return {\r\n          ...el,\r\n          date: new Date(el.date),\r\n          progress: el.value > 10000 ? 1 : el.value / 10000,\r\n        };\r\n      })\r\n      : [];\r\n  }, [podometer]);\r\n  useEffect(() => {\r\n    transition.value = withTiming(1, { duration: 3000 });\r\n  }, [podometer]);\r\n\r\n  // Get the total amount of steps of the user walked in the last 7 days\r\n  let individualTotalSteps = 0;\r\n  if (podometer && podometer.steps && podometer.steps.week) {\r\n    individualTotalSteps = podometer.steps.week.reduce((acc, el) => acc + el.value, 0);\r\n  }\r\n  // Average it for 7 days with a Math.round to get a whole number\r\n  const averageSteps = Math.round(individualTotalSteps / 7);\r\n  const { totalSteps } = useContext(\r\n    StepContext\r\n  ) as IStepContext;\r\n\r\n  const user = useContext(AuthContext)\r\n  const [badgeCount, setBadgeCount] = useState(0);\r\n  // Get the users badges to get their total amount\r\n  useEffect(() => {\r\n    const fetchDataAllBadge = async () => {\r\n      try {\r\n        const data = await getAllBadgeIndividual();\r\n        // Make sure the user has all the badges before counting them\r\n        setBadgeCount(0);\r\n        data.forEach((badge) => {\r\n          const quantity = badge.quantity;\r\n          if (individualTotalSteps >= quantity) {\r\n            setBadgeCount((prev) => prev + 1);\r\n          }\r\n        })\r\n      } catch (error) {\r\n        console.error(\"Failed to fetch all badge data:\", error);\r\n      }\r\n    };\r\n    fetchDataAllBadge();\r\n    const streak = 0\r\n    if (podometer && podometer.steps) {\r\n      const steps = podometer.steps.week;\r\n      let streak = 0;\r\n      for (let i = 0; i < steps.length; i++) {\r\n        if (steps[i].value >= 10000) {\r\n          streak++;\r\n        } else {\r\n          break;\r\n        }\r\n      }\r\n    }\r\n    setStreakCount(streak);\r\n  }, []);\r\n\r\n\r\n  // Calculate user's streak\r\n  const [streakCount, setStreakCount] = useState(0);\r\n  return (\r\n    <View style={{ flex: 1 }}>\r\n      <View style={[StyleSheet.absoluteFillObject]}>\r\n        <Canvas style={{ flex: 1 }}>\r\n          <Fill>\r\n            <LinearGradient\r\n              start={vec(0, 0)}\r\n              end={vec(390, 0)}\r\n              colors={[\"rgba(57, 143, 199, 1)\", \"rgba(1, 96, 172, 1)\"]}\r\n            />\r\n          </Fill>\r\n        </Canvas>\r\n      </View>\r\n\r\n      <ScrollView\r\n        bounces={true}\r\n        showsVerticalScrollIndicator={true}\r\n        snapToOffsets={[0, 500]}\r\n        snapToEnd={false}\r\n        decelerationRate=\"fast\"\r\n      >\r\n        <Animated.View>\r\n          <View style={styles.header}>\r\n            <ChallengeCard\r\n              steps={currentWeekSteps}\r\n              messages={{\r\n                1: \"Dommage tu feras mieux aujourd'hui\",\r\n                2: \"Dommage tu feras mieux aujourd'hui\",\r\n                3: \"Dommage tu feras mieux aujourd'hui\",\r\n                4: \"Dommage tu feras mieux aujourd'hui\",\r\n                5: \"Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif\",\r\n                // 6: \"Felicitations des petit pas c bien\",\r\n                // 7: \"Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif\",\r\n              }}\r\n            />\r\n          </View>\r\n        </Animated.View>\r\n        {/*  */}\r\n\r\n        {podometer && podometer.steps && <Graphs steps={podometer.steps} />}\r\n\r\n        <View style={styles.homeCardContainer}>\r\n          <HomeCard\r\n            title=\"Nombre de pas total du CHU\"\r\n            value={totalSteps.toString()} icon={require(\"../../assets/steps.png\")} />\r\n          <HomeCard\r\n            title=\"Nombre de badges obtenus\"\r\n            value={badgeCount.toString()}\r\n            icon={require(\"../../assets/ranking.png\")} />\r\n          <HomeCard\r\n            title=\"Moyenne de tes pas cette semaine\"\r\n            value={averageSteps.toString()} icon={require(\"../../assets/average.png\")} />\r\n          <HomeCard\r\n            title=\"Jours consécutifs à plus de 10 000 pas\"\r\n            value={\"1\"} icon={require(\"../../assets/flame.png\")} />\r\n        </View>\r\n      </ScrollView >\r\n    </View >\r\n  );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  header: {\r\n    // height: 500,\r\n    width: \"100%\",\r\n  },\r\n  homeCardContainer: {\r\n    flexDirection: \"row\",\r\n    justifyContent: \"space-around\",\r\n    marginTop: 20,\r\n    flexWrap: \"wrap\",\r\n    paddingBottom: 50,\r\n  },\r\n});\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/screens/Home.tsx b/src/screens/Home.tsx
+--- a/src/screens/Home.tsx	
++++ b/src/screens/Home.tsx	
+@@ -188,10 +188,10 @@
+             <ChallengeCard
+               steps={currentWeekSteps}
+               messages={{
+-                1: "Dommage tu feras mieux aujourd'hui",
+-                2: "Dommage tu feras mieux aujourd'hui",
+-                3: "Dommage tu feras mieux aujourd'hui",
+-                4: "Dommage tu feras mieux aujourd'hui",
++                1: "Marchons ensemble vers notre objectif !",
++                2: "Marchons ensemble vers notre objectif !",
++                3: "Marchons ensemble vers notre objectif !",
++                4: "Marchons ensemble vers notre objectif !",
+                 5: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
+                 // 6: "Felicitations des petit pas c bien",
+                 // 7: "Les 10 000 pas ne sont peut-être pas encore là, mais chaque pas te rapproche de ton objectif",
+Index: app.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"expo\": {\r\n    \"name\": \"Steppy\",\r\n    \"slug\": \"steppy\",\r\n    \"version\": \"1.0.0\",\r\n    \"orientation\": \"portrait\",\r\n    \"icon\": \"./assets/icon.png\",\r\n    \"userInterfaceStyle\": \"light\",\r\n    \"splash\": {\r\n      \"image\": \"./assets/splash.png\",\r\n      \"resizeMode\": \"contain\",\r\n      \"backgroundColor\": \"#ffffff\"\r\n    },\r\n    \"assetBundlePatterns\": [\"**/*\"],\r\n    \"ios\": {\r\n      \"supportsTablet\": true,\r\n      \"bundleIdentifier\": \"steppy\"\r\n    },\r\n    \"android\": {\r\n      \"adaptiveIcon\": {\r\n        \"foregroundImage\": \"./assets/adaptive-icon.png\",\r\n        \"backgroundColor\": \"#ffffff\"\r\n      },\r\n      \"package\": \"steppie.cesi\",\r\n      \"permissions\": [\"android.permission.health.READ_STEPS\", \"android.permission.ACTIVITY_RECOGNITION\"]\r\n    },\r\n    \"web\": {\r\n      \"favicon\": \"./assets/favicon.png\"\r\n    },\r\n    \"extra\": {\r\n      \"eas\": {\r\n        \"projectId\": \"37492824-5f96-49f3-89c3-ef91e556d99d\"\r\n      }\r\n    },\r\n    \"plugins\": [\r\n      \"react-native-health\",\r\n      \"react-native-health-connect\",\r\n      \"expo-font\",\r\n      \"expo-splash-screen\",\r\n      \"expo-build-properties\",\r\n      \"./plugins/health-connect-plugin\",\r\n      [\r\n        \"expo-build-properties\",\r\n        {\r\n          \"android\": {\r\n            \"compileSdkVersion\": 34,\r\n            \"targetSdkVersion\": 34,\r\n            \"minSdkVersion\": 26\r\n          }\r\n        }\r\n      ]\r\n    ]\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.json b/app.json
+--- a/app.json	
++++ b/app.json	
+@@ -11,7 +11,9 @@
+       "resizeMode": "contain",
+       "backgroundColor": "#ffffff"
+     },
+-    "assetBundlePatterns": ["**/*"],
++    "assetBundlePatterns": [
++      "**/*"
++    ],
+     "ios": {
+       "supportsTablet": true,
+       "bundleIdentifier": "steppy"
+@@ -22,14 +24,18 @@
+         "backgroundColor": "#ffffff"
+       },
+       "package": "steppie.cesi",
+-      "permissions": ["android.permission.health.READ_STEPS", "android.permission.ACTIVITY_RECOGNITION"]
++      "permissions": [
++        "android.permission.health.READ_STEPS",
++        "android.permission.ACTIVITY_RECOGNITION"
++      ],
++      "permissionsRationaleActivityPath": "./PermissionsRationaleActivity.kt"
+     },
+     "web": {
+       "favicon": "./assets/favicon.png"
+     },
+     "extra": {
+       "eas": {
+-        "projectId": "37492824-5f96-49f3-89c3-ef91e556d99d"
++        "projectId": "c9f89f66-7ca4-480a-a4a3-916c1a1b1706"
+       }
+     },
+     "plugins": [
+@@ -38,7 +44,7 @@
+       "expo-font",
+       "expo-splash-screen",
+       "expo-build-properties",
+-      "./plugins/health-connect-plugin",
++      "./withReactNativeHealthConnect",
+       [
+         "expo-build-properties",
+         {
+@@ -49,6 +55,7 @@
+           }
+         }
+       ]
+-    ]
++    ],
++    "owner": "mathioussee"
+   }
+ }
