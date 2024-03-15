@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator<AuthRoutes>();
 export default () => {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="Onboarding"
       screenOptions={{
         headerShown: false,
       }}

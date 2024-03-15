@@ -7,7 +7,7 @@ import {
   Skia,
   vec,
 } from "@shopify/react-native-skia";
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -26,6 +26,7 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import Button from "../../components/ui/Button";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("screen");
 const height = 210;
@@ -178,16 +179,6 @@ const Slide = ({ title, content }: SlideProps) => {
     >
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
-      <View style={{}}>
-        <Button
-          label={"Next"}
-          padding={6}
-          active={true}
-          onPress={function (): void {
-            // console.log("gggg");
-          }}
-        />
-      </View>
     </View>
   );
 };
@@ -235,6 +226,9 @@ const SlideImages = ({ slides, x }: ImagesProps) => {
   );
 };
 export default () => {
+  const navigation = useNavigation();
+  const scroll = useRef();
+  const [page, setPage] = useState(0);
   const x = useSharedValue(0);
   const side = useSharedValue(0);
   const path1 = useMemo(() => {
@@ -251,8 +245,9 @@ export default () => {
     const c2 = vec(0.5 * width + 20, (1 / 4) * height);
     const p1 = vec(0, 0);
     const p2 = vec(width, (3 / 4) * height);
-    const str = `M 0 0 L ${p1.x} ${p1.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${p2.x
-      } ${p2.y} L ${width} ${height} L ${0} ${height} Z`;
+    const str = `M 0 0 L ${p1.x} ${p1.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${
+      p2.x
+    } ${p2.y} L ${width} ${height} L ${0} ${height} Z`;
     return Skia.Path.MakeFromSVGString(str)!;
   }, []);
   return (
@@ -299,11 +294,44 @@ export default () => {
           </Path>
         </Canvas>
       </View>
-      <Slides style={{}} x={x} side={side} contentWidth={SLIDES.length * width}>
+      <Slides
+        ref={scroll}
+        style={{}}
+        x={x}
+        side={side}
+        contentWidth={SLIDES.length * width}
+      >
         {SLIDES.map((el, index) => (
           <Slide key={index} {...el} />
         ))}
       </Slides>
+      <View
+        style={{
+          position: "absolute",
+          height: 200,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          label={"Next"}
+          padding={6}
+          active={true}
+          onPress={function (): void {
+            if (page < 5) {
+              scroll.current.scrollTo(page * width);
+              setPage(page + 1);
+            } else {
+              setPage(0);
+              navigation.navigate("Login");
+            }
+            // console.log("gggg");
+          }}
+        />
+      </View>
     </View>
   );
 };

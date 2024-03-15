@@ -1,12 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import {
-  SafeAreaProvider,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import {
-  AuthContext,
-  IAuthContext,
-} from "./src/Providers/AuthProvider";
+import { AuthContext, IAuthContext } from "./src/Providers/AuthProvider";
 import Navigation from "./src/navigators/Navigation";
 import { useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,7 +15,7 @@ import { useFonts } from "expo-font";
 
 function Root() {
   const [, setIsTryingLogin] = useState(true);
-  const { authenticate, user } = useContext(
+  const { authenticate, user, logout } = useContext(
     AuthContext
   ) as IAuthContext;
   const { handleFetchDaily, handleUpdateDaily, handleFetchStats } = useContext(
@@ -28,6 +23,7 @@ function Root() {
   ) as IStepContext;
 
   useEffect(() => {
+    logout();
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(TOKEN);
       if (storedToken) {
