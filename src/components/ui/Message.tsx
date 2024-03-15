@@ -13,11 +13,7 @@ interface Iprops {
 export default ({ content, isSelected }: Iprops) => {
   const translateX = useSharedValue(100);
   const scaleY = useSharedValue(0);
-  useEffect(() => {
-    console.log("j ai un content ?");
 
-    console.log(content);
-  }, [content]);
   useEffect(() => {
     let x = isSelected ? 0 : 100;
     const scale = isSelected ? 1 : 0;

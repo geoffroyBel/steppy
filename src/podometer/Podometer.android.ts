@@ -5,36 +5,19 @@ import {
   readRecords,
 } from "react-native-health-connect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Steps } from "../types";
+import { DataPoint, Steps } from "../types";
 import {
   getCurrenWeekDates,
   getCurrentMontDates,
   getCurrentYearDates,
+  getDatesbyRange,
 } from "../utils/dateUtils";
+
 
 export default () => {
   const [hasPermissions, setHasPermissions] = useState(false);
   const [steps, setSteps] = useState<Steps>();
 
-  const readSampleData = async () => {
-    // initialize the client
-    const isInitialized = await initialize();
-
-    // request permissions
-    const grantedPermissions = await requestPermission([
-      { accessType: "read", recordType: "Steps" },
-    ]);
-
-    // check if granted
-
-    const result = await readRecords("Steps", {
-      timeRangeFilter: {
-        operator: "between",
-        startTime: "2024-03-04T08:00:00.405Z",
-        endTime: "2024-03-09T23:53:15.405Z",
-      },
-    });
-  };
   const initIalize = async () => {
     try {
       const isInitialized = await initialize();
@@ -47,45 +30,60 @@ export default () => {
     }
   };
   useEffect(() => {
-    try {
-      initIalize();
+    initIalize().then((e) => {
       setHasPermissions(true);
-    } catch (error) {
+    }).catch((error) => {
+      console.error("Initialization error:", error);
       setHasPermissions(false);
-    }
+    });
   }, []);
+  
   useEffect(() => {
     if (!hasPermissions) {
       return;
     }
-    getAllSteps();
+     getAllSteps();
   }, [hasPermissions]);
+  const getSteps = async ({
+    from,
+    to,
+  }: {
+    from: string;
+    to: string;
+  }): Promise<DataPoint[]> => {
+    const datesToUpdate = getDatesbyRange(from, to);
+    const newSteps = await getStepsByDates(datesToUpdate);
 
-  const getStepsByDates = (dates: Date[]) => {
-    return dates.reduce(async (a: Promise<any>, el) => {
-      var end = new Date(el.toISOString());
-      end.setHours(23, 55);
-      var start = new Date(el.toISOString());
-      start.setHours(1);
-
-      const data = await a;
-      const result: Partial<Array<{ count: number; startTime: string }>> =
-        await readRecords("Steps", {
-          timeRangeFilter: {
-            operator: "between",
-            startTime: start.toISOString(),
-            endTime: end.toISOString(),
-          },
-        });
-
-      return [
-        ...data,
-        {
-          date: el.toISOString(),
-          value: result.reduce((value, step) => value + (step?.count || 0), 0),
+    return newSteps;
+  };
+  const getStepsByDates = async (dates: Date[]) => {
+    if (dates.length === 0) {
+      return [];
+    }
+    var start = new Date(dates[0].toISOString());
+    start.setHours(1);
+    var end = new Date(dates[dates.length - 1].toISOString());
+    end.setHours(23, 55);
+  
+    const result: Partial<Array<{ count: number; startTime: string }>> =
+      await readRecords("Steps", {
+        timeRangeFilter: {
+          operator: "between",
+          startTime: start.toISOString(),
+          endTime: end.toISOString(),
         },
-      ];
-    }, Promise.resolve([]));
+      });
+  
+    return dates.map((el) => ({
+      date: el.toISOString(),
+      value: result.reduce(
+        (value, step) =>
+          new Date(step?.startTime ?? "").toDateString() === el.toDateString()
+            ? value + (step?.count || 0)
+            : value,
+        0
+      ),
+    }));
   };
 
   const getAllSteps = async () => {
@@ -97,54 +95,11 @@ export default () => {
     const week = await getStepsByDates(currentWeekDates);
     const month = await getStepsByDates(currentMonthDates);
     const year = await getStepsByDates(currentYearDates);
-    await update({ today, week, month, year });
 
     const steps = { today, week, month, year };
 
     setSteps(steps);
   };
 
-  const update = async (steps: Steps) => {
-    try {
-      const isElaspsed = await isTimeElasped();
-      if (isElaspsed) {
-        console.log("elapsed");
-
-        await AsyncStorage.setItem("lastUpdateTime", `${new Date().getTime()}`);
-        // call axios vers endpoint back
-      }
-    } catch (e) {
-      throw new Error("Fail store updatetime");
-    }
-  };
-
-  const isTimeElasped = async () => {
-    try {
-      // Récupérer le dernier timestamp enregistré
-      const lastUpdateTime = await AsyncStorage.getItem("lastUpdateTime");
-      if (lastUpdateTime === null) {
-        // S'il n'y a pas de timestamp enregistré, considérez que 24 heures se sont écoulées
-        return true;
-      }
-
-      // Convertir la chaîne en nombre
-      const lastUpdateTimestamp = parseInt(lastUpdateTime, 10);
-
-      // Obtenir le timestamp actuel
-      const maintenant = Date.now();
-
-      // Vérifier si 24 heures se sont écoulées//24 * 60 * 60 *
-      return maintenant - lastUpdateTimestamp >= 60 * 60 * 1000;
-    } catch (error) {
-      // Gérer les erreurs de récupération de données AsyncStorage
-      console.error(
-        "Erreur lors de la récupération du dernier timestamp :",
-        error
-      );
-      // Considérez qu'il s'est écoulé 24 heures pour éviter de ne pas effectuer d'action
-      return true;
-    }
-  };
-
-  return { steps };
+  return { steps, getSteps };
 };

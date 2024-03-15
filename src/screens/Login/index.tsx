@@ -15,6 +15,10 @@ import {
   Text,
   ImageURISource,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Slides from "../../components/ui/Slides";
 import Animated, {
@@ -32,6 +36,7 @@ import { createuser, signin } from "../../store/actions/auth";
 import LoadingOverlay from "./ui/LoadingOverlay";
 import { AuthContext, IAuthContext } from "../../Providers/AuthProvider";
 import { Credentials } from "../../types";
+import { useFonts } from "expo-font"; // Add this import statement
 
 const mockCredentials = {
   code: "123456789",
@@ -74,7 +79,7 @@ export default ({ navigation }: AuthNavigationProps<"Login">) => {
     setIsAuthenticated(true);
 
     try {
-      const token = await signin(mockCredentials);
+      const token = await signin({ code, password });
       authenticate(token);
     } catch (error) {
       Alert.alert(
@@ -85,46 +90,94 @@ export default ({ navigation }: AuthNavigationProps<"Login">) => {
     }
   };
 
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={StyleSheet.absoluteFill}>
-        <View style={{ height: height, width: "100%" }}>
-          <Canvas style={StyleSheet.absoluteFillObject}>
-            <Path path={path1} style={"fill"}>
-              <LinearGradient
-                transform={[{ rotate: Math.PI / 2 }]}
-                start={vec(0, 0)}
-                end={vec(290, 0)}
-                colors={["rgba(0, 95, 171, 1)", "rgba(27, 184, 235, 1)"]}
-              />
-            </Path>
-          </Canvas>
-        </View>
-        {isAuthenticating ? (
-          <LoadingOverlay message={"Chargement du profile"} />
-        ) : (
-          <AuthContent isLogin={true} onAuthenticate={signinHandler} />
-        )}
-      </View>
-    </View>
-  );
+  const [fontsLoaded] = useFonts({
+    MontserratRegular: require("../../../assets/font/Montserrat-Regular.otf"),
+    MontserratSemiBold: require("../../../assets/font/Montserrat-SemiBold.otf"),
+  });
+
+  if (!fontsLoaded) {
+    return <LoadingOverlay message={"Chargement des polices..."} />;
+  } else {
+    return (
+      <KeyboardAvoidingView style={{ flex: 1, backgroundColor: "white" }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}    >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1 }}>
+            <View>
+              <View style={{ height: height, width: "100%" }}>
+                <Canvas style={StyleSheet.absoluteFillObject}>
+                  <Path path={path1} style={"fill"}>
+                    <LinearGradient
+                      transform={[{ rotate: Math.PI / 2 }]}
+                      start={vec(0, 0)}
+                      end={vec(290, 0)}
+                      colors={["rgba(0, 95, 171, 1)", "rgba(27, 184, 235, 1)"]}
+                    />
+                  </Path>
+                </Canvas>
+              </View>
+              <View style={styles.authLogoContainer}>
+                <Text style={styles.title}>Bienvenue !</Text>
+                <Text style={styles.content}>
+                  Connectes-toi pour pouvoir accèder à Steppy
+                </Text>
+                <Image style={styles.authLogo} source={require("../../../assets/turtle.png")} />
+              </View>
+              {isAuthenticating ? (
+                <LoadingOverlay message={"Chargement du profil"} />
+              ) : (
+                <AuthContent isLogin={true} onAuthenticate={signinHandler} />
+              )}
+              <View style={styles.logos}>
+                <Image source={require("../../../assets/cesi.png")} />
+                <Image source={require("../../../assets/chu.png")} />
+              </View>
+            </View>
+            {/* hide if keyboard is open: */}
+
+            <View style={styles.bottomBlue}></View>
+
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
   title: {
-    fontFamily: "Montserrat",
-    fontWeight: "900",
+    fontFamily: "MontserratSemiBold",
     fontSize: 35,
     lineHeight: 42,
     color: "background: rgba(0, 95, 171, 1)",
     textAlign: "center",
   },
   content: {
-    fontFamily: "Montserrat",
+    fontFamily: "MontserratRegular",
     fontWeight: "600",
     fontSize: 14,
     lineHeight: 17,
     color: "background: rgba(0, 95, 171, 1)",
     textAlign: "center",
+  },
+  authLogoContainer: {
+    marginTop: -32,
+    alignItems: "center",
+  },
+  authLogo: {
+    width: 150,
+    height: 150,
+  },
+  logos: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 100,
+  },
+  bottomBlue: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 60,
+    backgroundColor: "rgba(0, 95, 171, 1)",
   },
 });

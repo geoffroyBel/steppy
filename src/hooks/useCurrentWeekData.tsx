@@ -15,7 +15,7 @@ export default (
     const weekStep = spliceByDateRange(start, end, steps);
 
     const t = weekStep
-      .map((el) => ({
+      .map((el, i) => ({
         ...el,
         date: new Date(el.date),
         progress: el.value / 10000,
@@ -23,7 +23,7 @@ export default (
       .sort((a, b) => a.date.getTime() - b.date.getTime());
 
     return weekStep
-      .map((el) => ({
+      .map((el, i) => ({
         ...el,
         date: new Date(el.date),
         progress: el.value / 10000,

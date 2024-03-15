@@ -1,6 +1,5 @@
 import { curveBasis, line, scaleLinear, scaleTime } from "d3";
-import { getWeekDates } from "./dateUtils";
-import { lastDayOfMonth } from "./waveletUtils";
+import { getWeekDates, lastDayOfMonth } from "./dateUtils";
 import { Skia } from "@shopify/react-native-skia";
 const POINT_MAX = 31;
 export type DataPoint = {
@@ -12,8 +11,8 @@ export interface DataStep {
   value: number;
 }
 export const makeGraph = (data: DataPoint[], width: number, height: number) => {
-  const min = Math.min(...data.map((v) => v.value));
-  const max = Math.max(...data.map((v) => v.value));
+  const min = Math.min(...data.map((v, i) => v.value));
+  const max = Math.max(...data.map((v, i) => v.value));
 
   const getYAxis = scaleLinear().domain([0, max]).range([height, 0]);
   const getXAxis = scaleTime()

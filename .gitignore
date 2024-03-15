@@ -33,3 +33,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# build it yourself
+android/
+ios/
+.idea/
+.idea/workspace.xml

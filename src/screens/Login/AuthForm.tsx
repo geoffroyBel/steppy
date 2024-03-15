@@ -43,7 +43,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           isInvalid={codeIsInvalid}
         />
         <Input
-          label="Password"
+          label="Mot de passe"
           onUpdateValue={updateInputValueHandler.bind(this, "password")}
           secure
           value={enteredPassword}
@@ -51,7 +51,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         />
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
-            {isLogin ? "Log In" : "Sign Up"}
+            {isLogin ? "Connexion" : "Sign Up"}
           </Button>
         </View>
       </View>
@@ -64,5 +64,8 @@ export default AuthForm;
 const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -63,7 +63,7 @@ const TOTAL_STEPS = 10000;
 export default ({
   radius,
   progress,
-  caption = "Pas réalisés",
+  caption = "Pas réalises",
   steps,
 }: IProps) => {
   const t = useSharedValue(0.5);
@@ -141,10 +141,10 @@ export default ({
 
     return m;
   }, [clip]);
-  
-  
+
+
   return (
-    <View style={{ width: w, paddingBottom: 18}}>
+    <View style={{ width: w, paddingBottom: 18 }}>
       <Canvas
         style={{
           width: w,
@@ -217,7 +217,7 @@ export default ({
           color: "rgba(0, 95, 171, 1)",
         }}
       >
-        {TOTAL_STEPS - steps}{" "}
+        {Math.floor(TOTAL_STEPS - (progress.value * 10000))}{" "}
         <RNText
           style={{
             fontFamily: "Montserrat",

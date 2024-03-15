@@ -49,11 +49,6 @@ function AuthContent({ isLogin, onAuthenticate }: IProps) {
         onSubmit={submitHandler}
         credentialsInvalid={credentialsInvalid}
       />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? "Create a new user" : "Log in instead"}
-        </FlatButton>
-      </View>
     </View>
   );
 }
@@ -62,7 +57,7 @@ export default AuthContent;
 
 const styles = StyleSheet.create({
   authContent: {
-    marginTop: 64,
+    marginTop: 0,
     marginHorizontal: 32,
     padding: 16,
     borderRadius: 8,

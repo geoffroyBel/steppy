@@ -23,6 +23,7 @@ interface ICircleLoader {
   strokeWidth: number;
   transition: SharedValue<number>;
 }
+/// props={ value: 1}
 export default ({
   strokeWidth,
   progress,
@@ -60,6 +61,7 @@ export default ({
     <Canvas style={{ flex: 1 }}>
       <Group clip={clip}>
         <Fill color="rgba(0, 95, 171, 0.3)" />
+        
         <Path
           origin={center}
           start={0}
