@@ -58,14 +58,14 @@ export const makeGraph2 = (
 ): GraphData => {
   const { width, height } = dimensions;
   const data = populateMissingSteps(steps);
-  const min = Math.min(...data.map((v, i) => v.value / 13000));
-  const max = Math.max(...data.map((v, i) => v.value / 13000));
+  const min = Math.min(...data.map((v, i) => v.value));
+  const max = Math.max(...data.map((v, i) => v.value));
 
   const start = new Date(steps[0].date);
   const end = new Date(steps[steps.length - 1].date);
 
   const getYAxis = scaleLinear()
-    .domain([0, 130000])
+    .domain([0, 9000000])
     .range([height + 35, 0]);
   const getXAxis = scaleTime()
     .domain([start, end])
