@@ -33,7 +33,10 @@ export default ({ steps, messages }: IChallenge) => {
     daysProgress: [0, 0, 0, 0, 0, 0, 0],
   });
   const input = new Array(7).fill(0).map((l, i) => i * width);
-
+  useEffect(() => {
+    const jour = new Date().getDay() === 0 ? 5 : new Date().getDay() - 1;
+    x.value = jour * width;
+  });
   useEffect(() => {
     state.value = {
       ...state.value,
